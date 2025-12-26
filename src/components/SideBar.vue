@@ -67,17 +67,20 @@ export default {
 </script>
 
 <style scoped>
+/* Sidebar inside AppSidebar.vue */
 .sidebar {
-    width: 250px;
-    background: #fff;
-    padding-top: 20px;
-    border-right: 1px solid #f0f0f0;
-    transition: transform 0.3s ease;
+  width: 250px;
+  background: #fff;
+  padding-top: 20px;
+  border-right: 1px solid #f0f0f0;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(0);
 }
 
-.hidden {
-    transform: translateX(-100%);
+.sidebar.hidden {
+  transform: translateX(-100%);
 }
+
 
 .menu {
     list-style: none;

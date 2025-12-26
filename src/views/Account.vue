@@ -1,67 +1,95 @@
 <template>
+
+
+
+
+
+
+
+
+<!-- NEED TWEAKSSSS -->
+
+
+
+
+
+
+
+
+
+
   <div class="app-container">
-    <!-- TOP BAR -->
+    <!-- guys this is top bar / header, this is content -->
     <AppHeader @toggle-sidebar="toggleSidebar" />
 
-    <!-- BODY -->
-    <div class="dashboard-layout">
-      <!-- LEFT SIDEBAR -->
-      <AppSidebar :visible="isSidebarVisible" />
+    <!-- guys this is main dashboard body -->
+    <div class="dashboard-body">
+      <!-- guys this is sidebar, this is content -->
+      <AppSidebar v-if="isSidebarVisible" />
 
-      <!-- MAIN CONTENT -->
-      <main class="content">
-      <div class="profile-settings-page">
-    <header class="settings-header">
-      <button class="back-btn" @click="$emit('back')">
-        <i class="fas fa-arrow-left"></i>
-      </button>
-      <div class="header-text">
-        <h1>Profile Settings</h1>
-        <p>Manage your account information and preferences</p>
-      </div>
-    </header>
+      <!-- guys this is main content area, this is content -->
+      <main class="main-content" :class="{ 'full-width': !isSidebarVisible }">
+        <!-- guys this is center wrapper for centering page content -->
+        <div class="center-wrapper">
+          <!-- guys this is profile settings page, this is content -->
+          <div class="profile-settings-page">
+            <!-- guys this is header of profile settings -->
+            <header class="settings-header">
+              <button class="back-btn" @click="$emit('back')">
+                <i class="fas fa-arrow-left"></i>
+              </button>
+              <div class="header-text">
+                <h1>Profile Settings</h1>
+                <p>Manage your account information and preferences</p>
+              </div>
+            </header>
 
-    <div class="profile-card">
-      <div class="profile-main">
-        <div class="avatar-container">
-          <i class="fas fa-user-circle"></i>
-        </div>
-        
-        <div class="user-identity">
-          <h2>Kian Estenzo</h2>
-          <p class="role">President</p>
-          <p class="org">Student Council</p>
-        </div>
-      </div>
+            <!-- guys this is profile card, this is content -->
+            <div class="profile-card">
+              <!-- guys this is main profile info -->
+              <div class="profile-main">
+                <div class="avatar-container">
+                  <i class="fas fa-user-circle"></i>
+                </div>
+                
+                <div class="user-identity">
+                  <h2>Kian Estenzo</h2>
+                  <p class="role">President</p>
+                  <p class="org">Student Council</p>
+                </div>
+              </div>
 
-      <ul class="detail-list">
-        <li>
-          <i class="fas fa-envelope"></i>
-          <span>kian.estenzo@msunaawan.edu.ph</span>
-        </li>
-        <li>
-          <i class="fas fa-id-card"></i>
-          <span>2021-12345</span>
-        </li>
-        <li>
-          <i class="fas fa-university"></i>
-          <span>College of Business and Information Technology</span>
-        </li>
-        <li>
-          <i class="fas fa-calendar-alt"></i>
-          <span>Joined August 2025</span>
-        </li>
-      </ul>
+              <!-- guys this is user details list -->
+              <ul class="detail-list">
+                <li>
+                  <i class="fas fa-envelope"></i>
+                  <span>kian.estenzo@msunaawan.edu.ph</span>
+                </li>
+                <li>
+                  <i class="fas fa-id-card"></i>
+                  <span>2021-12345</span>
+                </li>
+                <li>
+                  <i class="fas fa-university"></i>
+                  <span>College of Business and Information Technology</span>
+                </li>
+                <li>
+                  <i class="fas fa-calendar-alt"></i>
+                  <span>Joined August 2025</span>
+                </li>
+              </ul>
 
-      <div class="action-buttons">
-        <button class="btn btn-primary">Edit Profile</button>
-        <button class="btn btn-danger">Deleted Account</button>
-      </div>
-    </div>
-  </div>
+              <!-- guys these are action buttons, this is content -->
+              <div class="action-buttons">
+                <button class="btn btn-primary">Edit Profile</button>
+                <button class="btn btn-danger">Deleted Account</button>
+              </div>
+            </div>
+          </div> <!-- guys end profile-settings-page -->
+        </div> <!-- guys end center-wrapper -->
       </main>
-    </div>
-  </div>
+    </div> <!-- guys end dashboard-body -->
+  </div> <!-- guys end app-container -->
 </template>
 
 <script>
@@ -71,16 +99,17 @@ import AppSidebar from '/src/components/SideBar.vue'
 export default {
   name: 'DashboardLayout',
   components: {
-    AppHeader,
-    AppSidebar
+    AppHeader,  // guys top header component
+    AppSidebar  // guys left sidebar component
   },
   data() {
     return {
-      isSidebarVisible: false // sidebar is invisible by default
+      isSidebarVisible: false // guys sidebar is hidden by default
     }
   },
   methods: {
     toggleSidebar() {
+      // guys toggle sidebar visibility, this is content
       this.isSidebarVisible = !this.isSidebarVisible
     }
   }
@@ -88,7 +117,7 @@ export default {
 </script>
 
 <style scoped>
-/* Base Layout */
+/* guys base layout */
 .app-container {
   display: flex;
   flex-direction: column;
@@ -96,39 +125,45 @@ export default {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Dashboard layout */
-.dashboard-layout {
+/* guys main dashboard body */
+.dashboard-body {
   display: flex;
   flex: 1;
+  height: 100%;
   overflow: hidden;
 }
 
-/* Main Content */
-.content {
+/* guys main content area */
+.main-content {
   flex: 1;
-  padding: 40px;
   overflow-y: auto;
+  transition: all 0.3s ease;
   background-color: #fff;
+  padding: 40px;
   display: flex;
-  justify-content: center; /* horizontally center content */
-  align-items: flex-start; /* top align the content */
-  transition: margin-left 0.3s ease; /* smooth transition when sidebar toggles */
+  justify-content: center; /* guys always center inner content */
 }
 
-/* Optional: adjust content margin if sidebar is visible */
-.sidebar + .content {
-  margin-left: 0; /* no extra margin needed if using flex */
+/* guys full width when sidebar hidden */
+.main-content.full-width {
+  width: 100vw;
+  padding: 40px 20px;
 }
 
+/* guys center wrapper */
+.center-wrapper {
+  max-width: 500px;
+  width: 100%;
+}
 
+/* guys profile settings page */
 .profile-settings-page {
   max-width: 500px;
-  margin: 0 auto;
+  width: 100%;
   padding: 20px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Header Styling */
+/* guys header styling */
 .settings-header {
   display: flex;
   align-items: flex-start;
@@ -145,7 +180,7 @@ export default {
 }
 
 .header-text h1 {
-  font-family: serif; /* Matches reference image 4 */
+  font-family: serif;
   font-size: 1.8rem;
   margin: 0;
   font-weight: 700;
@@ -157,25 +192,26 @@ export default {
   margin: 5px 0 0 0;
 }
 
-/* Card Styling */
+/* guys profile card styling */
 .profile-card {
   background: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
-  padding: 40px 30px;
+  padding: 10px 30px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* guys profile main info */
 .profile-main {
   text-align: center;
   margin-bottom: 30px;
 }
 
 .avatar-container {
-  font-size: 100px; /* Large user icon */
+  font-size: 100px;
   color: #000;
   line-height: 1;
   margin-bottom: 15px;
@@ -187,19 +223,14 @@ export default {
   margin: 0;
 }
 
-.user-identity .role {
-  color: #666;
-  margin: 5px 0 0 0;
-  font-size: 0.95rem;
-}
-
+.user-identity .role,
 .user-identity .org {
   color: #666;
   margin: 0;
   font-size: 0.95rem;
 }
 
-/* Detail List Styling */
+/* guys detail list styling */
 .detail-list {
   list-style: none;
   padding: 0;
@@ -223,7 +254,7 @@ export default {
   color: #000;
 }
 
-/* Button Styling */
+/* guys action buttons styling */
 .action-buttons {
   width: 100%;
   display: flex;
@@ -248,12 +279,12 @@ export default {
 }
 
 .btn-primary {
-  background-color: #0a21c0; /* Deep blue from image 4 */
+  background-color: #0a21c0;
   color: white;
 }
 
 .btn-danger {
-  background-color: #d32f2f; /* Red from image 4 */
+  background-color: #d32f2f;
   color: white;
 }
 </style>

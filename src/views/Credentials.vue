@@ -1,6 +1,24 @@
 <template>
     <div>
 
+
+
+
+
+
+
+<!-- UNFINISHEDDDDDDDDDDD -->
+
+
+
+
+
+
+
+
+
+
+
         <!-- Kian this Nav naay nav sa vue-->
         <nav class="nav">
             <div class="logo">

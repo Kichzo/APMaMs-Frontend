@@ -1,92 +1,96 @@
 <template>
-  <div class="dashboard-body">
-    <div class="main-column">
-      <section class="panel activities-panel">
-        <div class="panel-header">
-          <h2>Recent Activities</h2>
-          <a href="#" class="view-all-link">View All →</a>
-        </div>
+  <div class="dashboard-grid">
+    <section class="panel recent-activities">
+      <div class="panel-header">
+        <h2>Recent Activities</h2>
+        <a href="#" class="view-all">View All →</a>
+      </div>
 
-        <div class="activity-cards-container">
-          <div v-for="item in activities" :key="item.id" class="activity-card">
-            <div class="card-top-row">
-              <div class="title-group">
-                <h3>{{ item.title }}</h3>
-                <span class="organization-label">{{ item.org }}</span>
-              </div>
-              <span :class="['status-chip', item.status.toLowerCase()]">
-                {{ item.status }}
-              </span>
+      <div class="activity-list">
+        <div v-for="item in activities" :key="item.id" class="activity-card">
+          <div class="card-top">
+            <div class="info">
+              <h3>{{ item.title }}</h3>
+              <p class="org">{{ item.org }}</p>
             </div>
+            <span :class="['status-badge', item.status.toLowerCase()]">
+              {{ item.status }}
+            </span>
+          </div>
 
-            <div class="meta-info-row">
-              <span><i class="far fa-calendar-alt"></i> {{ item.date }}</span>
-              <span><i class="fas fa-wallet"></i> ₱{{ item.budget.toLocaleString() }}</span>
+          <div class="card-meta">
+            <span><i class="far fa-calendar"></i> {{ item.date }}</span>
+            <span><i class="fas fa-coins"></i> ₱{{ item.budget.toLocaleString() }}</span>
+          </div>
+
+          <div v-if="item.progress !== null" class="progress-section">
+            <div class="progress-labels">
+              <span>Progress</span>
+              <span>{{ item.progress }}%</span>
             </div>
-
-            <div v-if="item.progress !== null" class="progress-container">
-              <div class="progress-text">
-                <span>Progress</span>
-                <span>{{ item.progress }}%</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" :style="{ width: item.progress + '%' }"></div>
-              </div>
+            <div class="progress-bar">
+              <div class="progress-fill" :style="{ width: item.progress + '%' }"></div>
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
 
-    <aside class="side-column">
-      <section class="panel events-panel">
-        <div class="panel-header">
-          <h2>Upcoming Events</h2>
-          <a href="#" class="view-all-link">View All →</a>
-        </div>
+    <section class="panel upcoming-events">
+      <div class="panel-header">
+        <h2>Upcoming Events</h2>
+        <a href="#" class="view-all">View All →</a>
+      </div>
 
-        <div class="events-list">
-          <div v-for="event in events" :key="event.id" class="event-card">
-            <div class="event-indicator"></div>
-            <div class="event-details">
-              <h4>{{ event.title }}</h4>
-              <p><i class="far fa-calendar"></i> {{ event.date }}</p>
-              <p><i class="far fa-clock"></i> {{ event.time }}</p>
-              <p><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
-            </div>
+      <div class="event-list">
+        <div v-for="event in events" :key="event.id" class="event-item">
+          <div class="event-accent"></div>
+          <div class="event-content">
+            <h4>{{ event.title }}</h4>
+            <p><i class="far fa-calendar"></i> {{ event.date }}</p>
+            <p><i class="far fa-clock"></i> {{ event.time }}</p>
+            <p><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
           </div>
         </div>
-      </section>
-    </aside>
+      </div>
+    </section>
   </div>
 </template>
 
+<script>
+export default {
+  name: 'ActivityDashboard',
+  data() {
+    return {
+      activities: [
+        { id: 1, title: 'Leadership Training Workshop', org: 'Student Council', date: '18/11/2025', budget: 23000, status: 'Approved', progress: 75 },
+        { id: 2, title: 'Environmental Awareness Campaign', org: 'CELS College', date: '02/20/2025', budget: 18000, status: 'Pending', progress: null },
+        { id: 3, title: 'Academic Excellence Seminar', org: 'Student Council', date: '02/12/2025', budget: 30000, status: 'Ongoing', progress: 45 },
+        { id: 4, title: 'Sports Festival 2025', org: 'Student Council', date: '18/11/2025', budget: 75000, status: 'Approved', progress: 20 }
+      ],
+      events: [
+        { id: 1, title: 'Budget Planning Meeting', date: '20/12/2025', time: '2:00 pm', location: 'TSAC SSC Office' },
+        { id: 2, title: 'Activity Proposal Review', date: '25/12/2025', time: '10:00 pm', location: 'TSAC SSC Office' },
+        { id: 3, title: 'Strategic Planning Meeting', date: '30/12/2025', time: '7:00 pm', location: 'Function Hall' }
+      ]
+    }
+  }
+}
+</script>
+
 <style scoped>
-/* Layout Container */
-.dashboard-body {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  padding: 10px;
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  background: transparent;
 }
 
-.main-column {
-  flex: 2.5; /* Takes up most of the width */
-}
-
-.side-column {
-  flex: 1; /* Narrower column for events */
-  position: sticky;
-  top: 20px;
-}
-
-/* Shared Panel Styling */
 .panel {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .panel-header {
@@ -97,88 +101,89 @@
 }
 
 .panel-header h2 {
-  font-family: serif; /* Matches Dashboard title style */
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-family: serif;
+  font-size: 1.5rem;
 }
 
-.view-all-link {
-  color: #2563eb;
-  font-size: 0.85rem;
-  font-weight: 600;
+.view-all {
+  color: #0047bb;
   text-decoration: none;
-}
-
-/* Activity Cards */
-.activity-card {
-  border: 1px solid #f1f5f9;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-}
-
-.card-top-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.title-group h3 { font-size: 1.05rem; margin-bottom: 2px; }
-.organization-label { color: #64748b; font-size: 0.85rem; }
-
-.status-chip {
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   font-weight: 500;
 }
-.status-chip.approved { background: #dcfce7; color: #166534; }
-.status-chip.pending { background: #fef9c3; color: #854d0e; }
-.status-chip.ongoing { background: #dbeafe; color: #1e40af; }
 
-.meta-info-row {
-  display: flex;
-  gap: 24px;
-  font-size: 0.85rem;
-  color: #475569;
+/* Activity Card Styles */
+.activity-card {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 20px;
   margin-bottom: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
 }
 
-/* Progress Section */
-.progress-track {
-  height: 6px;
-  background: #e2e8f0;
-  border-radius: 3px;
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.info h3 { font-size: 1.1rem; margin-bottom: 4px; }
+.org { color: #777; font-size: 0.9rem; }
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+.status-badge.approved { background: #e8f5e9; color: #2e7d32; }
+.status-badge.pending { background: #fffde7; color: #f9a825; }
+.status-badge.ongoing { background: #e3f2fd; color: #1976d2; }
+
+.card-meta {
+  margin: 15px 0;
+  display: flex;
+  gap: 20px;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Progress Bar */
+.progress-section { margin-top: 15px; }
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+.progress-bar {
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
   overflow: hidden;
-  margin-top: 8px;
 }
 .progress-fill {
   height: 100%;
-  background: #1d4ed8; /* Matching the blue in the reference */
-  transition: width 0.4s ease;
+  background: #0033cc;
+  transition: width 0.3s ease;
 }
 
-/* Event Cards */
-.event-card {
+/* Event Styles */
+.event-item {
   display: flex;
-  background: #f8fafc;
+  background: #f0f4f8;
   border-radius: 12px;
   margin-bottom: 12px;
   overflow: hidden;
-  border: 1px solid #f1f5f9;
 }
-
-.event-indicator {
+.event-accent {
   width: 4px;
-  background: #1d4ed8;
+  background: #0033cc;
 }
-
-.event-details {
-  padding: 12px 16px;
+.event-content {
+  padding: 15px;
+  font-size: 0.85rem;
 }
-
-.event-details h4 { font-size: 0.95rem; margin-bottom: 6px; }
-.event-details p { font-size: 0.8rem; color: #64748b; margin: 4px 0; }
-.event-details i { width: 16px; margin-right: 4px; }
+.event-content h4 { margin-bottom: 8px; font-size: 0.95rem; }
+.event-content p { color: #555; margin: 4px 0; }
+.event-content i { width: 18px; color: #888; }
 </style>
