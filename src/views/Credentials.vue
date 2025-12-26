@@ -9,7 +9,7 @@
             </div>
 
             <div class="nav-links">
-                <a href="#">Sign In</a>
+                <router-link to="/signin">Sign In</router-link>
                 <button class="btn-primary">Get Started</button>
             </div>
         </nav>
