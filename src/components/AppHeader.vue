@@ -11,9 +11,9 @@
             </div>
         </div>
 
-        <router-link to="/Account" class="user-profile">
+        <router-link to="/account" class="user-profile">
         <div class="user-profile" >
-           <div class="user-avatar">
+            <div class="user-avatar">
                 <i class="fas fa-user"></i>
             </div>
 
@@ -51,18 +51,17 @@
 }
 
 .user-profile {
-  text-decoration: none; 
-  color: inherit;     
-  display: flex;      
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;   
+    text-decoration: none; 
+    color: inherit;     
+    display: flex;      
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;   
 }
 
 .user-profile:hover {
-  opacity: 0.9;
+    opacity: 0.9;
 }
-
 
 /* Avatar */
 .user-avatar {

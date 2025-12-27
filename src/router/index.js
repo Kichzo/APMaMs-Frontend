@@ -4,6 +4,7 @@ import Credentials from '/src/views/Credentials.vue'
 import Signin from '/src/views/Signin.vue'
 import Dashboard from '/src/views/Dashboard.vue'
 import Account from '/src/views/Account.vue'
+import Activity from '/src/views/Activity.vue'
 
 const routes = [
     {
@@ -25,9 +26,15 @@ const routes = [
     },
 
     {
-        path: '/Account',
+        path: '/account',
         name: 'Account',
         component: Account
+    },
+
+    {
+        path:   '/activity',
+        name:    'Activity',
+        component:  Activity
     },
 ]
 

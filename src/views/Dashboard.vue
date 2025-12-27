@@ -1,4 +1,20 @@
 <template>
+
+
+
+
+
+
+
+<!-- Need to be responsive --> 
+
+
+
+
+
+
+
+
   <div class="app-container">
     <!-- guys this is top header, this is content -->
     <AppHeader @toggle-sidebar="toggleSidebar" />
