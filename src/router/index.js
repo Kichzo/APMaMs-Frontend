@@ -7,6 +7,7 @@ import Account from '/src/views/Account.vue'
 import Activity from '/src/views/Activity.vue'
 import ActionPlan from '/src/views/ActionPlan.vue'
 import Calendar from '/src/views/Calendar.vue'
+import Financial from '/src/views/Financial.vue'
 
 const routes = [
     {
@@ -47,6 +48,11 @@ const routes = [
         path:   '/calendar',
         name:    'Calendar',
         component:  Calendar
+    },
+    {
+        path:   '/financial',
+        name:    'Financial',
+        component:  Financial
     },
 ]
 
