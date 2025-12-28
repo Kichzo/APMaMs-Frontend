@@ -18,19 +18,29 @@
     <button class="new-activity-btn">New Activity</button>
   </div>
 
-  <ActivityStats />
+  <ActivityStats :activities="activities" />
   <ActivityFilters />
 
   <div class="activity-list-container">
     <nav class="tabs">
-      <button class="active">All Activities (8)</button>
-      <button>Pending (1)</button>
-      <button>Approved (2)</button>
-      <button>Ongoing (2)</button>
-      <button>Completed (2)</button>
-      <button>Drafts (1)</button>
-      </nav>
-    <ActivityItemCard v-for="i in 3" :key="i" />
+  <button 
+    v-for="tab in tabs" 
+    :key="tab.id"
+    :class="{ active: currentTab === tab.id }"
+    @click="currentTab = tab.id"
+  >
+    {{ tab.label }} ({{ tab.count }})
+  </button>
+</nav>
+
+<div class="activity-items-wrapper">
+  <ActivityItemCard 
+    v-for="activity in filteredActivities" 
+    :key="activity.id" 
+    :data="activity" 
+  />
+</div>
+
   </div>
       </main>
     </div>
@@ -53,45 +63,62 @@ export default {
     ActivityFilters,
     ActivityItemCard
   },
-  data() {
-    return {
-      currentTab: 'all',
-      tabs: [
-        { id: 'all', label: 'All Activities', count: 8 },
-        { id: 'pending', label: 'Pending', count: 1 },
-        { id: 'approved', label: 'Approved', count: 2 },
-        { id: 'ongoing', label: 'Ongoing', count: 2 },
-        { id: 'completed', label: 'Completed', count: 1 },
-        { id: 'drafts', label: 'Drafts', count: 1 }
-      ],
-      // This data structure matches the design requirements for the ActivityItemCard
-      activities: [
-        {
-          id: 1,
-          title: 'Leadership Training Workshop',
-          description: 'Comprehensive leadership development program for student officers',
-          org: 'Student Council',
-          date: '18/11/2025',
-          location: 'Function Hall',
-          participants: 50,
-          status: 'Approved',
-          priority: 'HIGH',
-          progress: 75,
-          budget: 23000,
-          author: 'Al Christian Molina',
-          submittedAt: '15/10/2025',
-          approver: 'VP Uy'
-        }
-        // Add more activity objects here...
-      ]
-    };
+data() {
+  return {
+    currentTab: 'all',
+    activities: [
+      {
+        id: 1,
+        title: 'Leadership Training Workshop',
+        status: 'Approved',
+        priority: 'HIGH',
+        description: 'Comprehensive leadership development program for student officers',
+        organization: 'Student Council',
+        date: '18/11/2025',
+        location: 'Function Hall',
+        participants: 50,
+        progress: 75,
+        budget: '23,000',
+        submittedBy: 'Al Christian Molina',
+        submittedAt: '15/10/2025',
+        approvedBy: 'VP Uy'
+      },
+      {
+        id: 2,
+        title: 'Freshmen Orientation Program',
+        status: 'Pending',
+        priority: 'MEDIUM',
+        description: 'Orientation program for incoming freshmen students',
+        organization: 'Academic Affairs',
+        date: '05/12/2025',
+        location: 'Main Auditorium',
+        participants: 300,
+        progress: 20,
+        budget: '45,000',
+        submittedBy: 'Jane Dela Cruz',
+        submittedAt: '01/11/2025',
+        approvedBy: null
+      }
+    ]
+  }
+},
+computed: {
+  // This replaces your static tabs array
+  tabs() {
+    return [
+      { id: 'all', label: 'All Activities', count: this.activities.length },
+      { id: 'pending', label: 'Pending', count: this.activities.filter(a => a.status.toLowerCase() === 'pending').length },
+      { id: 'approved', label: 'Approved', count: this.activities.filter(a => a.status.toLowerCase() === 'approved').length },
+      { id: 'ongoing', label: 'Ongoing', count: this.activities.filter(a => a.status.toLowerCase() === 'ongoing').length },
+      { id: 'completed', label: 'Completed', count: this.activities.filter(a => a.status.toLowerCase() === 'completed').length },
+      { id: 'drafts', label: 'Drafts', count: this.activities.filter(a => a.status.toLowerCase() === 'draft').length }
+    ];
   },
-  computed: {
-    filteredActivities() {
-      if (this.currentTab === 'all') return this.activities;
-      return this.activities.filter(a => a.status.toLowerCase() === this.currentTab);
-    }
-  },
+  filteredActivities() {
+    if (this.currentTab === 'all') return this.activities;
+    return this.activities.filter(a => a.status.toLowerCase() === this.currentTab);
+  }
+},
   methods: {
     handleSearch(query) {
       console.log("Searching for:", query);

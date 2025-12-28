@@ -2,34 +2,60 @@
   <div class="activity-item">
     <div class="card-header">
       <div class="title-group">
-        <h3>Leadership Training Workshop</h3>
-        <span class="badge approved">Approved</span>
-        <span class="badge high">HIGH</span>
+        <h3>{{ data.title }}</h3>
+        <span class="badge" :class="statusClass">{{ data.status }}</span>
+        <span class="badge high">{{ data.priority }}</span>
       </div>
       <button class="view-btn">View Details</button>
     </div>
-    <p class="desc">Comprehensive leadership development program for student officers</p>
-    
+
+    <p class="desc">{{ data.description }}</p>
+
     <div class="meta-grid">
-      <span><i class="far fa-building"></i> Student Council</span>
-      <span><i class="far fa-calendar"></i> 18/11/2025</span>
-      <span><i class="fas fa-map-marker-alt"></i> Function Hall</span>
-      <span><i class="fas fa-users"></i> 50 participants</span>
+      <span><i class="far fa-building"></i> {{ data.organization }}</span>
+      <span><i class="far fa-calendar"></i> {{ data.date }}</span>
+      <span><i class="fas fa-map-marker-alt"></i> {{ data.location }}</span>
+      <span><i class="fas fa-users"></i> {{ data.participants }} participants</span>
     </div>
 
     <div class="progress-section">
-      <div class="progress-labels"><span>Progress</span><span>75%</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width: 75%"></div></div>
+      <div class="progress-labels">
+        <span>Progress </span>
+        <span>{{ data.progress }}%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" :style="{ width: data.progress + '%' }"></div>
+      </div>
     </div>
 
     <div class="footer-meta">
-      <span>₱ 23,000</span>
-      <span><i class="far fa-user"></i> By Al Christian Molina</span>
-      <span><i class="far fa-clock"></i> Submitted 15/10/2025</span>
-      <span class="check"><i class="fas fa-check"></i> Approved by VP Uy</span>
+      <span>₱ {{ data.budget }}</span>
+      <span><i class="far fa-user"></i> By {{ data.submittedBy }}</span>
+      <span><i class="far fa-clock"></i> Submitted {{ data.submittedAt }}</span>
+      <span v-if="data.approvedBy" class="check">
+        <i class="fas fa-check"></i> Approved by {{ data.approvedBy }}
+      </span>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'ActivityItemCard',
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    statusClass() {
+      return this.data.status.toLowerCase()
+    }
+  }
+}
+</script>
+
 
 <style scoped>
 .activity-item {

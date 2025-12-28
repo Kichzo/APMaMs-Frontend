@@ -5,6 +5,7 @@ import Signin from '/src/views/Signin.vue'
 import Dashboard from '/src/views/Dashboard.vue'
 import Account from '/src/views/Account.vue'
 import Activity from '/src/views/Activity.vue'
+import ActionPlan from '/src/views/ActionPlan.vue'
 
 const routes = [
     {
@@ -35,6 +36,11 @@ const routes = [
         path:   '/activity',
         name:    'Activity',
         component:  Activity
+    },
+    {
+        path:   '/actionplan',
+        name:    'ActionPlan',
+        component:  ActionPlan
     },
 ]
 

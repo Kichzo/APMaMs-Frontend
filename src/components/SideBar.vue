@@ -11,7 +11,7 @@
         <span>Activity</span>
       </li>
 
-      <li :class="{ active: isActive('/action-plan') }" @click="goTo('/action-plan')">
+      <li :class="{ active: isActive('/actionplan') }" @click="goTo('/actionplan')">
         <i class="fas fa-layer-group"></i>
         <span>Action Plan</span>
       </li>
