@@ -8,6 +8,8 @@ import Activity from '/src/views/Activity.vue'
 import ActionPlan from '/src/views/ActionPlan.vue'
 import Calendar from '/src/views/Calendar.vue'
 import Financial from '/src/views/Financial.vue'
+import Organizations from '/src/views/Organizations.vue'
+
 
 const routes = [
     {
@@ -53,6 +55,11 @@ const routes = [
         path:   '/financial',
         name:    'Financial',
         component:  Financial
+    },
+    {
+        path:   '/organizations',
+        name:    'Organizations',
+        component:  Organizations
     },
 ]
 

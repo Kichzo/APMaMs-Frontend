@@ -107,7 +107,6 @@ import UpcomingEvents from '/src/components/UpcomingEvents.vue'
 import QuickActions from '/src/components/QuickActions.vue'
 
 export default {
-  name: 'Dashboard',
   components: {
     AppHeader,      // guys this is header component
     AppSidebar,     // guys this is sidebar component
