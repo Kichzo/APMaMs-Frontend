@@ -6,6 +6,7 @@ import Dashboard from '/src/views/Dashboard.vue'
 import Account from '/src/views/Account.vue'
 import Activity from '/src/views/Activity.vue'
 import ActionPlan from '/src/views/ActionPlan.vue'
+import Calendar from '/src/views/Calendar.vue'
 
 const routes = [
     {
@@ -41,6 +42,11 @@ const routes = [
         path:   '/actionplan',
         name:    'ActionPlan',
         component:  ActionPlan
+    },
+    {
+        path:   '/calendar',
+        name:    'Calendar',
+        component:  Calendar
     },
 ]
 

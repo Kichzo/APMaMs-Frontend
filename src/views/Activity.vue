@@ -1,47 +1,42 @@
 <template>
-    <div class="app-container">
-    <!-- guys this is top header, this is content -->
+  <div class="app-container">
     <AppHeader @toggle-sidebar="toggleSidebar" />
 
-    <!-- guys this is main dashboard layout -->
     <div class="dashboard-layout">
-      <!-- guys this is sidebar, this is content -->
       <AppSidebar :visible="isSidebarVisible" />
 
-      <!-- guys this is main content area -->
       <main class="content">
-  <div class="page-header">
-    <div class="title-block">
-      <h1>Activity Management</h1>
-      <p>Create, manage, and track all organizational activities and proposals</p>
-    </div>
-    <button class="new-activity-btn">New Activity</button>
-  </div>
+        <div class="page-header">
+          <div class="title-block">
+            <h1>Activity Management</h1>
+            <p>Create, manage, and track all organizational activities and proposals</p>
+          </div>
+          <button class="new-activity-btn">New Activity</button>
+        </div>
 
-  <ActivityStats :activities="activities" />
-  <ActivityFilters />
+        <ActivityStats :activities="activities" />
+        <ActivityFilters />
 
-  <div class="activity-list-container">
-    <nav class="tabs">
-  <button 
-    v-for="tab in tabs" 
-    :key="tab.id"
-    :class="{ active: currentTab === tab.id }"
-    @click="currentTab = tab.id"
-  >
-    {{ tab.label }} ({{ tab.count }})
-  </button>
-</nav>
+        <div class="activity-list-container">
+          <nav class="tabs">
+            <button 
+              v-for="tab in tabs" 
+              :key="tab.id"
+              :class="{ active: currentTab === tab.id }"
+              @click="currentTab = tab.id"
+            >
+              {{ tab.label }} ({{ tab.count }})
+            </button>
+          </nav>
 
-<div class="activity-items-wrapper">
-  <ActivityItemCard 
-    v-for="activity in filteredActivities" 
-    :key="activity.id" 
-    :data="activity" 
-  />
-</div>
-
-  </div>
+          <div class="activity-items-wrapper">
+            <ActivityItemCard 
+              v-for="activity in filteredActivities" 
+              :key="activity.id" 
+              :data="activity" 
+            />
+          </div>
+        </div>
       </main>
     </div>
   </div>
@@ -131,33 +126,36 @@ computed: {
 </script>
 
 <style scoped>
-/* Change: Main container allows horizontal growth */
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  /* Lock to viewport height */
+  height: 100vh; 
   width: 100%;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden; /* Prevent page-level scrolling */
 }
 
-/* Change: Ensures the layout takes up 100% width without side gaps */
 .dashboard-layout {
   display: flex;
-  flex: 1;
+  flex: 1; /* Take up remaining height below header */
   width: 100%;
+  overflow: hidden; /* Keeps sidebar and content contained */
 }
 
-/* Change: flex: 1 ensures it fills all available space; 
-   width: 100% prevents centered "column" constraints */
 .content {
   flex: 1;
   width: 100%;
   padding: 40px;
   background-color: #fff;
-  box-sizing: border-box; /* Ensures padding doesn't cause overflow */
+  box-sizing: border-box;
+  
+  /* Scrollable logic */
+  overflow-y: auto; 
+  height: 100%;
 }
 
-/* Change: justify-content space-between stretches title and button to edges */
+/* UI Component Styles */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -167,7 +165,7 @@ computed: {
 }
 
 .title-block h1 {
-  font-family: serif; /* Matches image_495e05.png typography */
+  font-family: serif; 
   font-size: 2.2rem;
   margin: 0;
 }
@@ -185,24 +183,24 @@ computed: {
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
   white-space: nowrap;
 }
 
-/* Change: Removed margin-top to let it sit flush if needed */
 .activity-list-container {
   border-top: 1px solid #e2e8f0;
   width: 100%;
 }
 
-/* Change: Tabs now align to the start of the full-width container */
 .tabs {
   display: flex;
   gap: 30px; 
   border-bottom: 1px solid #e2e8f0;
   width: 100%;
+  /* Optional: Keep tabs visible while scrolling cards */
+  position: sticky;
+  top: -40px; /* Offset for the .content padding */
+  background: white;
+  z-index: 10;
 }
 
 .tabs button {
@@ -213,7 +211,6 @@ computed: {
   color: #64748b;
   font-size: 0.95rem;
   position: relative;
-  transition: color 0.2s ease;
 }
 
 .tabs button.active {
