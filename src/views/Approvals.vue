@@ -1,33 +1,26 @@
 <template>
 
-<!--NEED DETAILS-->
-
-
   <div class="app-container">
-    <AppHeader @toggle-sidebar="toggleSidebar" />
+    <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
     <div class="dashboard-layout">
-      <AppSidebar :visible="isSidebarVisible" />
+      <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
 
       <main class="content">
         <div class="page-container">
-    <div class="page-header">
-      <h1>Approvals</h1>
-      <p>Review and manage approval requests</p>
-    </div>
+          <div class="page-header">
+            <h1>Approvals</h1>
+            <p>Review and manage approval requests</p>
+          </div>
 
-    <ApprovalTabs :currentTab="activeTab" />
+          <ApprovalTabs :currentTab="activeTab" />
 
-    <div class="approvalcard">
-      <ApprovalCard 
-        v-for="request in requests" 
-        :key="request.id" 
-        :data="request" 
-      />
-    </div>
-  </div>
+          <div class="approvalcard">
+            <ApprovalCard v-for="request in requests" :key="request.id" :data="request" />
+          </div>
+        </div>
 
-              </main>
+      </main>
     </div>
   </div>
 </template>
@@ -48,10 +41,8 @@ export default {
   },
   data() {
     return {
-      // Tracks which tab is currently selected
+      isSidebarVisible: true,
       activeTab: 'Pending',
-      
-      // Mock data based on the reference image
       requests: [
         {
           id: 1,
@@ -81,13 +72,11 @@ export default {
     };
   },
   methods: {
-    /**
-     * Updates the active tab and could be used to 
-     * fetch filtered data from an API later.
-     */
+    toggleSidebar() {
+      this.isSidebarVisible = !this.isSidebarVisible;
+    },
     handleTabChange(tabName) {
       this.activeTab = tabName;
-      // Logical filtering of 'this.requests' would happen here
     }
   }
 
@@ -99,17 +88,20 @@ export default {
   display: flex;
   flex-direction: column;
   /* Lock to viewport height */
-  height: 100vh; 
+  height: 100vh;
   width: 100%;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden; /* Prevent page-level scrolling */
+  overflow: hidden;
+  /* Prevent page-level scrolling */
 }
 
 .dashboard-layout {
   display: flex;
-  flex: 1; /* Take up remaining height below header */
+  flex: 1;
+  /* Take up remaining height below header */
   width: 100%;
-  overflow: hidden; /* Keeps sidebar and content contained */
+  overflow: hidden;
+  /* Keeps sidebar and content contained */
 }
 
 .content {
@@ -118,26 +110,48 @@ export default {
   padding: 40px;
   background-color: #fff;
   box-sizing: border-box;
-  
+
   /* Scrollable logic */
-  overflow-y: auto; 
+  overflow-y: auto;
   height: 100%;
+}
+
+:deep(.sidebar) {
+  width: 260px;
+  height: 100%;
+  flex-shrink: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+/* This pulls the sidebar off-screen so the flex content fills the space */
+:deep(.sidebar-hidden) {
+  margin-left: -260px;
 }
 
 .page-container {
   display: flex;
   flex-direction: column;
-  height: 100%; /* Fills the parent content area */
+  height: 100%;
+  /* Fills the parent content area */
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.page-header h1 { font-family: serif; font-size: 2.2rem; margin-bottom: 5px; }
-.page-header p { color: #64748b; margin-bottom: 25px; }
+.page-header h1 {
+  font-family: serif;
+  font-size: 2.2rem;
+  margin-bottom: 5px;
+}
+
+.page-header p {
+  color: #64748b;
+  margin-bottom: 25px;
+}
 
 .approvalcard {
   flex: 1;
-  padding-right: 10px; /* Space for scrollbar */
+  padding-right: 10px;
+  /* Space for scrollbar */
   margin-top: 20px;
   display: flex;
   flex-direction: column;

@@ -1,32 +1,28 @@
 <template>
-
-<!--UNFINISHED BUT SMALL TWEAKS-->
-
-
-    <div class="app-container">
+  <div class="app-container">
     <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
     <div class="dashboard-layout">
-      <AppSidebar :visible="isSidebarVisible" />
+      <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
 
       <main class="content">
-  <div class="main-content-container">
-    <div class="page-header">
-      <div class="header-text">
-        <h1>Organizations</h1>
-        <p>Manage and monitor all student organizations at MSUN</p>
-      </div>
-      <div class="org-dropdown">
-        <span>All Organization</span>
-        <i class="fas fa-chevron-down"></i>
-      </div>
-    </div>
+        <div class="main-content-container">
+          <div class="page-header">
+            <div class="header-text">
+              <h1>Organizations</h1>
+              <p>Manage and monitor all student organizations at MSUN</p>
+            </div>
+            <div class="org-dropdown">
+              <span>All Organization</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
 
-    <OrgStats :stats="summaryStats" />
+          <OrgStats :stats="summaryStats" />
 
-    <OrgCards :organizations="organizations" />
-  </div>
-            </main>
+          <OrgCards :organizations="organizations" />
+        </div>
+      </main>
     </div>
   </div>
 </template>
@@ -46,6 +42,7 @@ export default {
   },
   data() {
     return {
+      isSidebarVisible: true,
       role: localStorage.getItem('role') || 'org',
       summaryStats: {
         totalOrgs: 8,
@@ -91,7 +88,7 @@ export default {
           name: 'College of Environmental and Life Sciences',
           type: 'College',
           description: 'The official student government body representing all students of CELS.',
-          president: 'Kent V. Mapula',
+          president: 'Hazel Anne P. Mapula',
           established: '2008',
           members: 58,
           activities: 4,
@@ -105,7 +102,13 @@ export default {
         // Add more organization objects here...
       ]
     }
+  },
+  methods: {
+    toggleSidebar() {
+      this.isSidebarVisible = !this.isSidebarVisible;
+    },
   }
+
 }
 </script>
 
@@ -113,34 +116,50 @@ export default {
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; 
+  height: 100vh;
   width: 100%;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden; /* Keeps the main window locked */
+  overflow: hidden;
+  /* Keeps the main window locked */
 }
 
 .dashboard-layout {
   display: flex;
-  flex: 1; 
+  flex: 1;
   width: 100%;
-  overflow: hidden; /* Prevents the sidebar from scrolling with content */
+  overflow: hidden;
+  /* Prevents the sidebar from scrolling with content */
 }
 
 .content {
   flex: 1;
   width: 100%;
   padding: 40px;
-  background-color: #f8fafc; /* Moved background color here */
+  background-color: #f8fafc;
+  /* Moved background color here */
   box-sizing: border-box;
-  
+
   /* THIS IS THE ONLY SCROLLBAR */
-  overflow-y: auto; 
+  overflow-y: auto;
+}
+
+:deep(.sidebar) {
+  width: 260px;
+  height: 100%;
+  flex-shrink: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+/* This pulls the sidebar off-screen so the flex content fills the space */
+:deep(.sidebar-hidden) {
+  margin-left: -260px;
 }
 
 .main-content-container {
   /* Removed height: 100% and overflow to stop double scroll */
   width: 100%;
-  max-width: 1200px; /* Optional: keeps content from getting too wide */
+  max-width: 1200px;
+  /* Optional: keeps content from getting too wide */
   margin: 0 auto;
 }
 
