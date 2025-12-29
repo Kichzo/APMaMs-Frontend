@@ -49,11 +49,11 @@
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import ActionPlanList from '/src/components/ActionPlanList.vue'
-import ActionPlanHeader from '/src/components/ActionPlanHeader.vue'
-import KeyMetrics from '/src/components/ActionPlanKeyMetrics.vue'
-import ActionObjectives from '/src/components/ActionPlanObjectives.vue'
-import ActionPlanStats from '/src/components/ActionPlanStats.vue'
+import ActionPlanList from '/src/components/ActionPlan/ActionPlanList.vue'
+import ActionPlanHeader from '/src/components/ActionPlan/ActionPlanHeader.vue'
+import KeyMetrics from '/src/components/ActionPlan/ActionPlanKeyMetrics.vue'
+import ActionObjectives from '/src/components/ActionPlan/ActionPlanObjectives.vue'
+import ActionPlanStats from '/src/components/ActionPlan/ActionPlanStats.vue'
 
 export default {
   components: {

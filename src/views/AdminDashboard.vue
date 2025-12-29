@@ -71,10 +71,10 @@
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import DashboardCard from '/src/components/DashboardCard.vue'
-import RecentActivities from '/src/components/RecentActivities.vue'
-import UpcomingEvents from '/src/components/UpcomingEvents.vue'
-import QuickActions from '/src/components/QuickActions.vue'
+import DashboardCard from '/src/components/Dashboard/DashboardCard.vue'
+import RecentActivities from '/src/components/Dashboard/RecentActivities.vue'
+import UpcomingEvents from '/src/components/Dashboard/UpcomingEvents.vue'
+import QuickActions from '/src/components/Dashboard/QuickActions.vue'
 
 export default {
   components: {

@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import ActivityStats from '/src/components/ActivityStats.vue';
-import ActivityFilters from '/src/components/ActivityFilters.vue';
-import ActivityItemCard from '/src/components/ActivityItemCard.vue';
+import ActivityStats from '/src/components/Activity/ActivityStats.vue';
+import ActivityFilters from '/src/components/Activity/ActivityFilters.vue';
+import ActivityItemCard from '/src/components/Activity/ActivityItemCard.vue';
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
 
