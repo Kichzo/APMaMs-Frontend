@@ -6,7 +6,7 @@
 
  <div class="app-container">
     <!-- guys this is top header, this is content -->
-    <AppHeader @toggle-sidebar="toggleSidebar" />
+    <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
     <!-- guys this is main dashboard layout -->
     <div class="dashboard-layout">
@@ -56,6 +56,7 @@ export default {
  },
   data() {
     return {
+      role: localStorage.getItem('role') || 'org',
       selectedOrg: 'All Organizations',
       events: [
         { id: 1, title: 'Leadership Training', day: 15, org: 'SSC', status: 'approved', date: 'Jan 15' },
