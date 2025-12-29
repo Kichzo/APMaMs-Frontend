@@ -1,13 +1,17 @@
 <template>
   <div class="credentials-page">
-    
+
+    <!-- Top navigation / branding -->
     <CredentialsHeader />
-    
+
+    <!-- Main page content -->
     <main class="main-content">
-      <CredentialsHeroSection />
-      <CredentialsFeaturesSection />
+      <CredentialsHeroSection class="fade-section delay-1" />
+      <CredentialsFeaturesSection class="fade-section delay-2" />
     </main>
 
+
+    <!-- Page footer -->
     <CredentialsFooter />
   </div>
 </template>
@@ -19,8 +23,8 @@ import CredentialsFeaturesSection from '/src/components/Credentials/CredentialsF
 import CredentialsFooter from '/src/components/Credentials/CredentialsFooter.vue'
 
 export default {
-  components: { 
-    CredentialsHeader, 
+  components: {
+    CredentialsHeader,
     CredentialsHeroSection,
     CredentialsFeaturesSection,
     CredentialsFooter
@@ -29,46 +33,88 @@ export default {
 </script>
 
 <style scoped>
+/* Root layout wrapper */
 .credentials-page {
   background: #fff;
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden; /* Prevents unwanted horizontal scrolling on mobile */
+  overflow-x: hidden;
+  /* Prevent horizontal scroll caused by wide sections */
   display: flex;
   flex-direction: column;
+  animation: pageFade 0.6s ease-out forwards;
 }
 
+/* Main content grows to push footer to the bottom */
 .main-content {
   flex: 1;
   position: relative;
-  z-index: 1; /* Ensures content stays above the blue strip */
-  /* Remove the negative margin on mobile to avoid overlap issues */
-  margin-top: 0; 
+  z-index: 1;
+  /* Keeps content above decorative background elements */
+  margin-top: 0;
+  /* Neutral default for mobile */
 }
 
-/* Desktop Styles (Big Screens) */
+.fade-section {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: sectionFade 0.7s ease-out forwards;
+}
+
+.delay-1 {
+  animation-delay: 0.1s;
+}
+
+.delay-2 {
+  animation-delay: 0.25s;
+}
+
+@keyframes sectionFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Desktop-only adjustment for visual alignment */
 @media (min-width: 1024px) {
   .main-content {
-    margin-top: -10px; /* Restores the specific look you wanted for desktop */
+    margin-top: -10px;
+    /* Fine-tuned spacing for large screens */
   }
 }
 
-/* Tablet Styles */
+/* Tablet breakpoint adjustments */
 @media (max-width: 1023px) {
   .background-left-strip {
-    width: 80px; /* Shrink the strip so it doesn't crowd the hero text */
+    width: 80px;
+    /* Prevents visual crowding on mid-sized screens */
   }
 }
 
-/* Mobile Styles (Small Screens) */
+/* Mobile-specific layout behavior */
 @media (max-width: 768px) {
   .background-left-strip {
-    /* Optionally hide or turn into a top-bar for mobile */
-    width: 15px; 
+    width: 15px;
+    /* Minimizes decorative strip on small screens */
   }
 
   .main-content {
-    padding: 0; /* Let child components handle their own mobile padding */
+    padding: 0;
+    /* Child components control their own spacing */
   }
 }
 </style>

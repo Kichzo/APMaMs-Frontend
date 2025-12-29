@@ -38,7 +38,7 @@
             Remember me
           </label>
         </div>
-        <p class="temp-note">Temporary buttons (for testing)</p>
+        <p class="temp-note">Temporary buttons (Demo only)</p>
 
         <!-- guys this is submit button, this is content -->
         <div class="button-group">
@@ -59,6 +59,49 @@
     <footer>Mindanao State University at Naawan</footer>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      email: '', 
+      password: '' 
+    }
+  },
+  methods: {
+    goBack() {
+      this.$router.back()
+    },
+    // Validation helper
+    validateForm() {
+      if (!this.email || !this.password) {
+        alert("Please fill in both the email and password fields.");
+        return false;
+      }
+      return true;
+    },
+    showCustomAlert(roleName) {
+      // This triggers the browser's native popup
+      alert(`Success! Logged in as ${roleName}.`);
+    },
+    loginAsUser() {
+      if (this.validateForm()) {
+        localStorage.setItem('role', 'org');
+        this.showCustomAlert('Student Organization');
+        this.$router.push('/userdashboard');
+      }
+    },
+    loginAsAdmin() {
+      if (this.validateForm()) {
+        localStorage.setItem('role', 'admin');
+        this.showCustomAlert('Administrator');
+        this.$router.push('/admindashboard');
+      }
+    }
+  }
+}
+</script>
+
 
 
 <style scoped>
@@ -259,27 +302,3 @@ footer {
 }
 </style>
 
-<script>
-export default {
-  data() {
-    return {
-      email: '', // guys this is email data
-      password: '' // guys this is password data
-    }
-  },
-  methods: {
-    goBack() {
-      this.$router.back()
-    },
-    loginAsUser() {
-      localStorage.setItem('role', 'org')
-      this.$router.push('/userdashboard')
-    },
-    loginAsAdmin() {
-      localStorage.setItem('role', 'admin')
-      this.$router.push('/admindashboard')
-    }
-  }
-
-}
-</script>

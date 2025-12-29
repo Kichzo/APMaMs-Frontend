@@ -1,132 +1,94 @@
 <template>
-
-
-
-
-
-
-
-
-<!-- NEED TWEAKSSSS -->
-
-
-
-
-
-
-
-
-
-
   <div class="app-container">
-    <!-- guys this is top bar / header, this is content -->
     <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
-    <!-- guys this is main dashboard body -->
+    <AccountDelete 
+      v-if="isDeleteModalVisible" 
+      @close="isDeleteModalVisible = false"
+      @confirm="handleConfirmDelete"
+    />
+
     <div class="dashboard-body">
-      <!-- guys this is sidebar, this is content -->
-      <AppSidebar v-if="isSidebarVisible" />
+      <AppSidebar :class="{ 'sidebar-active': isSidebarVisible }" />
 
-      <!-- guys this is main content area, this is content -->
-      <main class="main-content" :class="{ 'full-width': !isSidebarVisible }">
-        <!-- guys this is center wrapper for centering page content -->
-        <div class="center-wrapper">
-          <!-- guys this is profile settings page, this is content -->
-          <div class="profile-settings-page">
-            <!-- guys this is header of profile settings -->
-            <header class="settings-header">
-              <button class="back-btn" @click="$emit('back')">
-                <i class="fas fa-arrow-left"></i>
-              </button>
-              <div class="header-text">
-                <h1>Profile Settings</h1>
-                <p>Manage your account information and preferences</p>
-              </div>
-            </header>
-
-            <!-- guys this is profile card, this is content -->
-            <div class="profile-card">
-              <!-- guys this is main profile info -->
-              <div class="profile-main">
-                <div class="avatar-container">
-                  <i class="fas fa-user-circle"></i>
-                </div>
-                
-                <div class="user-identity">
-                  <h2>Kian Estenzo</h2>
-                  <p class="role">President</p>
-                  <p class="org">Student Council</p>
-                </div>
-              </div>
-
-              <!-- guys this is user details list -->
-              <ul class="detail-list">
-                <li>
-                  <i class="fas fa-envelope"></i>
-                  <span>kian.estenzo@msunaawan.edu.ph</span>
-                </li>
-                <li>
-                  <i class="fas fa-id-card"></i>
-                  <span>2021-12345</span>
-                </li>
-                <li>
-                  <i class="fas fa-university"></i>
-                  <span>College of Business and Information Technology</span>
-                </li>
-                <li>
-                  <i class="fas fa-calendar-alt"></i>
-                  <span>Joined August 2025</span>
-                </li>
-              </ul>
-
-              <!-- guys these are action buttons, this is content -->
-              <div class="action-buttons">
-                <button class="btn btn-primary">Edit Profile</button>
-                <button class="btn btn-danger">Deleted Account</button>
-              </div>
+      <main class="main-content">
+        <div class="center-wrapper" :class="{ 'editing-mode': isEditing }">
+          <div class="content-padding">
+            <AccountHeader @back="goBack" />
+            
+            <div class="settings-layout">
+              <AccountProfileCard 
+                :user="userData" 
+                @edit="isEditing = true" 
+                @delete="isDeleteModalVisible = true" />
+              
+              <transition name="slide-fade">
+                <AccountForm
+                  v-if="isEditing" 
+                  @cancel="isEditing = false" 
+                />
+              </transition>
             </div>
-          </div> <!-- guys end profile-settings-page -->
-        </div> <!-- guys end center-wrapper -->
+          </div>
+        </div>
       </main>
-    </div> <!-- guys end dashboard-body -->
-  </div> <!-- guys end app-container -->
+    </div>
+  </div>
 </template>
 
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
+import AccountHeader from '/src/components/Account/AccountHeader.vue'
+import AccountProfileCard from '/src/components/Account/AccountProfileCard.vue'
+import AccountForm from '/src/components/Account/AccountForm.vue'
+import AccountDelete from '/src/components/Account/AccountDelete.vue'
 
 export default {
-  name: 'DashboardLayout',
-  components: {
-    AppHeader,  // guys top header component
-    AppSidebar  // guys left sidebar component
+  components: { 
+    AppHeader, 
+    AppSidebar, 
+    AccountHeader, 
+    AccountProfileCard,
+    AccountForm,
+    AccountDelete
   },
   data() {
     return {
       role: localStorage.getItem('role') || 'org',
-      isSidebarVisible: false // guys sidebar is hidden by default
+      isSidebarVisible: false,
+      isEditing: false,
+      isDeleteModalVisible: false, 
+      userData: {
+        name: 'Kian Estenzo',
+        role: 'President',
+        org: 'Student Council',
+        email: 'kian.estenzo@msunaawan.edu.ph',
+        idNumber: '2021-12345',
+        college: 'CBIT',
+        joinedDate: 'August 2025'
+      }
     }
   },
   methods: {
-    toggleSidebar() {
-      // guys toggle sidebar visibility, this is content
-      this.isSidebarVisible = !this.isSidebarVisible
+    toggleSidebar() { this.isSidebarVisible = !this.isSidebarVisible },
+    goBack() { this.$router.back() },
+    handleConfirmDelete() {
+        this.isDeleteModalVisible = false;
+        alert('Account deleted successfully');
     }
   }
 }
 </script>
 
 <style scoped>
-/* guys base layout */
 .app-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
 }
 
-/* guys main dashboard body */
 .dashboard-body {
   display: flex;
   flex: 1;
@@ -134,158 +96,61 @@ export default {
   overflow: hidden;
 }
 
-/* guys main content area */
+:deep(.sidebar) {
+  width: 260px;
+  height: 100%;
+  background: white;
+  transition: all 0.3s ease-in-out;
+  flex-shrink: 0;
+  margin-left: -260px;
+  border-right: 1px solid #e0e0e0;
+}
+
+:deep(.sidebar.sidebar-active) {
+  margin-left: 0;
+}
+
 .main-content {
   flex: 1;
   overflow-y: auto;
-  transition: all 0.3s ease;
-  background-color: #fff;
-  padding: 40px;
+  background-color: #f8f9fa;
   display: flex;
-  justify-content: center; /* guys always center inner content */
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
 }
 
-/* guys full width when sidebar hidden */
-.main-content.full-width {
-  width: 100vw;
-  padding: 40px 20px;
-}
-
-/* guys center wrapper */
 .center-wrapper {
-  max-width: 500px;
+  max-width: 500px; /* Default single card width */
   width: 100%;
+  transition: max-width 0.4s ease;
 }
 
-/* guys profile settings page */
-.profile-settings-page {
-  max-width: 500px;
-  width: 100%;
-  padding: 20px;
+/* Expands to fit both card and form side-by-side */
+.center-wrapper.editing-mode {
+  max-width: 1100px;
 }
 
-/* guys header styling */
-.settings-header {
+.settings-layout {
   display: flex;
+  gap: 30px;
   align-items: flex-start;
-  gap: 15px;
-  margin-bottom: 30px;
 }
 
-.back-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding-top: 5px;
+/* Ensure the card doesn't stretch too much when editing starts */
+:deep(.profile-card) {
+  flex-shrink: 0;
+  width: 420px;
 }
 
-.header-text h1 {
-  font-family: serif;
-  font-size: 1.8rem;
-  margin: 0;
-  font-weight: 700;
+/* Smooth transition for the form appearing */
+.slide-fade-enter-active { transition: all 0.3s ease-out; }
+.slide-fade-leave-active { transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1); }
+.slide-fade-enter-from, .slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 
-.header-text p {
-  color: #888;
-  font-size: 0.9rem;
-  margin: 5px 0 0 0;
-}
-
-/* guys profile card styling */
-.profile-card {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 10px 30px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* guys profile main info */
-.profile-main {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.avatar-container {
-  font-size: 100px;
-  color: #000;
-  line-height: 1;
-  margin-bottom: 15px;
-}
-
-.user-identity h2 {
-  font-family: serif;
-  font-size: 1.5rem;
-  margin: 0;
-}
-
-.user-identity .role,
-.user-identity .org {
-  color: #666;
-  margin: 0;
-  font-size: 0.95rem;
-}
-
-/* guys detail list styling */
-.detail-list {
-  list-style: none;
-  padding: 0;
-  width: 100%;
-  margin-bottom: 30px;
-}
-
-.detail-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 18px;
-  font-size: 0.85rem;
-  color: #333;
-}
-
-.detail-list li i {
-  width: 18px;
-  text-align: center;
-  font-size: 1rem;
-  color: #000;
-}
-
-/* guys action buttons styling */
-.action-buttons {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.btn {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  font-family: serif;
-  font-size: 1.1rem;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
-  transition: opacity 0.2s;
-}
-
-.btn:hover {
-  opacity: 0.9;
-}
-
-.btn-primary {
-  background-color: #0a21c0;
-  color: white;
-}
-
-.btn-danger {
-  background-color: #d32f2f;
-  color: white;
+.content-padding {
+  padding: 10px 10px;
 }
 </style>

@@ -1,67 +1,92 @@
 <template>
+    <!-- Hero section -->
     <section class="hero">
+
+        <!-- Decorative vertical strip -->
         <div class="hero-strip"></div>
 
+        <!-- Main content container -->
         <div class="hero-container">
             <div class="hero-layout">
+
+                <!-- Image / carousel panel -->
                 <div class="image-panel">
+
+                    <!-- Background stacked images -->
                     <img :src="img2" class="stack-img img-back" alt="Decorative background" />
                     <img :src="img3" class="stack-img img-mid" alt="Decorative middle" />
 
+                    <!-- Main carousel frame -->
                     <div class="main-frame">
                         <transition name="fade" mode="out-in">
-                            <img :key="currentImageIndex" :src="carouselImages[currentImageIndex]"
-                                class="active-slide" alt="Main carousel" />
+                            <img :key="currentImageIndex" :src="carouselImages[currentImageIndex]" class="active-slide"
+                                alt="Main carousel" />
                         </transition>
                     </div>
                 </div>
 
+                <!-- Text content -->
                 <div class="content">
                     <h1>Action Plan: Monitoring and Management System</h1>
-                    <p>Centralize and streamline strategic planning, activity management, and monitoring processes for
+
+                    <p>
+                        Centralize and streamline strategic planning, activity management, and monitoring processes for
                         student organizations. Enhance collaboration, improve communication, and ensure alignment with
-                        institutional goals.</p>
+                        institutional goals.
+                    </p>
+
+                    <!-- Call-to-action buttons -->
                     <div class="actions">
-                        <button class="primary-btn">Start Planning</button>
+                        <router-link to="/signin" class="primary-btn">
+                            Start Planning
+                        </router-link>
                         <button class="secondary-btn">Learn More</button>
                     </div>
                 </div>
+
             </div>
         </div>
 
-       <div class="wave-footer">
+        <!-- Bottom wave decoration -->
+        <div class="wave-footer">
             <svg viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0,40 C320,150 1120,150 1440,40 L1440,160 L0,160 Z" fill="#001499" />
             </svg>
         </div>
+
     </section>
 </template>
 
 <script>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-// Import local assets from your folder
+// Local image assets
 import img1 from '/src/assets/img1.jpg'
 import img2 from '/src/assets/img2.jpg'
 import img3 from '/src/assets/img3.jpg'
 
 export default {
     setup() {
-        // Use the imported assets in the carousel array
+        // Carousel image list
         const carouselImages = [img1, img2, img3]
-        
+
+        // Current slide index
         const currentImageIndex = ref(0)
         let interval = null
 
+        // Auto-rotate carousel
         onMounted(() => {
             interval = setInterval(() => {
-                currentImageIndex.value = (currentImageIndex.value + 1) % carouselImages.length
+                currentImageIndex.value =
+                    (currentImageIndex.value + 1) % carouselImages.length
             }, 3500)
         })
+
+        // Cleanup interval
         onBeforeUnmount(() => clearInterval(interval))
 
-        return { 
-            carouselImages, 
+        return {
+            carouselImages,
             currentImageIndex,
             img1,
             img2,
@@ -70,18 +95,22 @@ export default {
     }
 }
 </script>
+
 <style scoped>
-/* --- BASE STYLES --- */
+/* --- HERO BASE --- */
 .hero {
     position: relative;
     min-height: 85vh;
     display: flex;
     align-items: center;
-    padding-top: 80px; /* Space for header */
+    padding-top: 20px;
+    /* space for header */
     padding-bottom: 160px;
+    /* space for wave footer */
     overflow: hidden;
 }
 
+/* Decorative strip */
 .hero-strip {
     position: absolute;
     top: 0;
@@ -92,6 +121,7 @@ export default {
     z-index: 1;
 }
 
+/* Content container */
 .hero-container {
     position: relative;
     max-width: 1280px;
@@ -101,6 +131,7 @@ export default {
     width: 100%;
 }
 
+/* Layout wrapper */
 .hero-layout {
     display: flex;
     align-items: center;
@@ -115,6 +146,7 @@ export default {
     flex-shrink: 0;
 }
 
+/* Stacked decorative images */
 .stack-img {
     position: absolute;
     width: 320px;
@@ -125,9 +157,19 @@ export default {
     filter: blur(1px);
 }
 
-.img-back { left: -40px; top: 80px; transform: rotate(-4deg); }
-.img-mid { left: 160px; top: 60px; transform: rotate(2deg); }
+.img-back {
+    left: -40px;
+    top: 80px;
+    transform: rotate(-4deg);
+}
 
+.img-mid {
+    left: 160px;
+    top: 60px;
+    transform: rotate(2deg);
+}
+
+/* Main carousel frame */
 .main-frame {
     position: absolute;
     left: 70px;
@@ -135,16 +177,23 @@ export default {
     width: 360px;
     height: 460px;
     z-index: 10;
-    background: #fff;
+    background: transparent; 
     box-shadow: 15px 15px 40px rgba(0, 0, 0, 0.3);
     border-radius: 4px;
     overflow: hidden;
 }
 
-.active-slide { width: 100%; height: 100%; object-fit: cover; }
+.active-slide {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-/* --- CONTENT --- */
-.content { flex: 1; }
+/* --- TEXT CONTENT --- */
+.content {
+    flex: 1;
+}
+
 .content h1 {
     font-family: 'serif';
     font-size: 3.5rem;
@@ -160,9 +209,14 @@ export default {
     margin-bottom: 40px;
 }
 
-.actions { display: flex; gap: 15px; }
+/* Action buttons */
+.actions {
+    display: flex;
+    gap: 15px;
+}
 
-.primary-btn, .secondary-btn {
+.primary-btn,
+.secondary-btn {
     padding: 16px 32px;
     border-radius: 8px;
     font-weight: bold;
@@ -171,9 +225,20 @@ export default {
     white-space: nowrap;
 }
 
-.primary-btn { background: #001499; color: white; border: none; }
-.secondary-btn { background: white; color: #1a1a1a; border: 1px solid #ddd; }
+.primary-btn {
+    text-decoration: none;
+    background: #001499;
+    color: white;
+    border: none;
+}
 
+.secondary-btn {
+    background: white;
+    color: #1a1a1a;
+    border: 1px solid #ddd;
+}
+
+/* Wave footer */
 .wave-footer {
     position: absolute;
     bottom: 0;
@@ -183,41 +248,114 @@ export default {
     z-index: 2;
 }
 
-/* --- RESPONSIVE BREAKPOINTS --- */
-
-/* Medium Screens (Tablets / Small Laptops) */
-@media (max-width: 1100px) {
-    .content h1 { font-size: 2.8rem; }
-    .image-panel { transform: scale(0.85); width: 400px; }
-    .hero-strip { width: 100px; left: 30px; }
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.6s ease;
 }
 
-/* Tablet Vertical (Stacked Layout) */
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+    opacity: 1;
+}
+
+.fade-enter-active {
+    animation: carouselZoom 3.5s ease forwards;
+}
+
+.active-slide {
+    transition: filter 0.6s ease;
+}
+
+.fade-enter-from .active-slide {
+    filter: brightness(0.98);
+}
+
+
+@keyframes carouselZoom {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.03);
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: none;
+        animation: none;
+    }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1100px) {
+    .content h1 {
+        font-size: 2.8rem;
+    }
+
+    .image-panel {
+        transform: scale(0.85);
+        width: 400px;
+    }
+
+    .hero-strip {
+        width: 100px;
+        left: 30px;
+    }
+}
+
 @media (max-width: 900px) {
     .hero-layout {
-        flex-direction: column-reverse; /* Images move below text or above depending on preference */
+        flex-direction: column-reverse;
         text-align: center;
     }
-    .content { padding-left: 0; }
-    .actions { justify-content: center; }
-    .image-panel { margin: 0 auto; transform: scale(0.9); }
-    .hero-strip { display: none; } /* Hide strip to simplify mobile view */
+
+    .actions {
+        justify-content: center;
+    }
+
+    .image-panel {
+        margin: 0 auto;
+        transform: scale(0.9);
+    }
+
+    .hero-strip {
+        display: none;
+    }
 }
 
-/* Small Mobile */
 @media (max-width: 600px) {
-    .hero { padding-top: 40px; }
-    .content h1 { font-size: 2.2rem; }
-    .content p { font-size: 1rem; }
-    
-    /* Shrink the complex image stack to fit small screens */
-    .image-panel { 
-        width: 100%; 
-        height: 350px; 
-        transform: scale(0.7); 
+    .hero {
+        padding-top: 40px;
+    }
+
+    .content h1 {
+        font-size: 2.2rem;
+    }
+
+    .content p {
+        font-size: 1rem;
+    }
+
+    .image-panel {
+        width: 100%;
+        height: 350px;
+        transform: scale(0.7);
         margin-top: -50px;
     }
-    .actions { flex-direction: column; width: 100%; }
-    .secondary-btn { margin-left: 0; }
+
+    .actions {
+        flex-direction: column;
+        width: 100%;
+    }
 }
 </style>
