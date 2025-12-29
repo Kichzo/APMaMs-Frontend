@@ -9,17 +9,51 @@
             </button>
         </div>
 
+        <div v-if="activeTab === 'profile'" class="tab-content">
+            <div class="form-grid">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="Kian Estenzo" />
+                    </div>
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="kian.estenzo@msunaawan.edu.ph" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Student ID</label>
+                        <input type="text" placeholder="2021-12345" />
+                    </div>
+                    <div class="input-group">
+                        <label>Department</label>
+                        <input type="text" placeholder="College of Business and Information Technology" />
+                    </div>
+                </div>
+
+                <div class="input-group full-width">
+                    <label>Bio</label>
+                    <textarea placeholder="Tell us about yourself..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-actions-aligned">
+                <button class="btn-cancel" @click="$emit('cancel')">Cancel</button>
+                <button class="btn-update" @click="handleUpdate">Save Changes</button>
+            </div>
+        </div>
+
         <div v-if="activeTab === 'security'" class="tab-content">
             <div class="input-group">
                 <label>Current Password</label>
                 <input type="password" placeholder="Enter current password" />
             </div>
-
             <div class="input-group">
                 <label>New Password</label>
                 <input type="password" placeholder="Enter new password" />
             </div>
-
             <div class="input-group">
                 <label>Confirm New Password</label>
                 <input type="password" placeholder="Confirm new password" />
@@ -31,7 +65,6 @@
                     <li>At least 8 characters long</li>
                     <li>Contains uppercase and lowercase letters</li>
                     <li>Contains at least one number</li>
-                    <li>Contains at least one special character</li>
                 </ul>
             </div>
 
@@ -39,10 +72,6 @@
                 <button class="btn-cancel" @click="$emit('cancel')">Cancel</button>
                 <button class="btn-update" @click="handleUpdate">Update Password</button>
             </div>
-        </div>
-
-        <div v-else class="tab-content">
-            <p>Profile information editing fields go here...</p>
         </div>
     </div>
 </template>
@@ -56,11 +85,11 @@ export default {
     },
     methods: {
         handleUpdate() {
-            // This triggers regardless of field status as requested
-            alert('Password updated successfully!');
-            
-            // Optional: Close the editing mode after update
-            this.$emit('cancel');
+            // 1. Instead of alert(), we tell the parent we are done.
+            // We pass the success message back to the parent.
+            this.$emit('save', { message: 'Password updated successfully!' });
+
+            // 2. The parent will now handle closing the form and showing the Toast.
         }
     }
 }
@@ -99,9 +128,16 @@ export default {
     /* Matches blue tab in image */
     color: white;
 }
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
 
 .input-group {
-    margin-bottom: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .input-group label {
@@ -111,12 +147,18 @@ export default {
     margin-bottom: 8px;
 }
 
-.input-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 0.9rem;
+.input-group input, 
+.input-group textarea {
+    padding: 12px 15px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    font-family: serif;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+}
+.input-group textarea {
+    height: 180px;
+    resize: none;
 }
 
 .requirements-box {
@@ -148,6 +190,13 @@ export default {
     gap: 15px;
 }
 
+.form-actions-aligned {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
 .btn-cancel {
     background: #fff;
     border: 1px solid #ddd;
@@ -163,5 +212,10 @@ export default {
     padding: 10px 25px;
     border-radius: 6px;
     cursor: pointer;
+}
+
+::placeholder {
+    color: #a0aec0;
+    font-style: normal;
 }
 </style>

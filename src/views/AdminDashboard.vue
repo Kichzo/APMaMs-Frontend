@@ -1,67 +1,34 @@
 <template>
-
-
-
-
-
-
-
-  <!-- Need to be responsive -->
-
-
-
-
-
-
-
-
   <div class="app-container">
-    <!-- guys this is top header, this is content -->
     <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
-    <!-- guys this is main dashboard layout -->
     <div class="dashboard-layout">
-      <!-- guys this is sidebar, this is content -->
-      <AppSidebar :visible="isSidebarVisible" />
+      <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
 
-      <!-- guys this is main content area -->
-      <main class="content">
-        <!-- guys this is page title, this is content -->
+      <main class="content" :class="{ 'content-expanded': !isSidebarVisible }">
         <div class="page-title">
           <h1>Dashboard</h1>
           <p>Welcome back! Here's what's happening with your organizations.</p>
         </div>
 
-        <!-- guys these are the stats cards, this is content -->
         <div class="stats-grid">
-          <!-- guys this is total activities card -->
           <DashboardCard value="24" label="Total Activities" color="blue" leftIcon="fa-solid fa-layer-group"
             rightIcon="fa-solid fa-arrow-up-right-from-square" />
-          <!-- guys this is pending approvals card -->
           <DashboardCard value="5" label="Pending Approvals" color="yellow" leftIcon="fa-regular fa-clock"
             rightIcon="fa-solid fa-clipboard-list" />
-          <!-- guys this is active projects card -->
           <DashboardCard value="12" label="Active Projects" color="green" leftIcon="fa-solid fa-diagram-project"
             rightIcon="fa-solid fa-cube" />
-          <!-- guys this is completed activities card -->
           <DashboardCard value="18" label="Completed Activities" color="purple" leftIcon="fa-solid fa-square-check"
             rightIcon="fa-solid fa-trophy" />
-          <!-- guys this is total budget card -->
           <DashboardCard value="₱450,000" label="Total Budget" color="teal" leftIcon="fa-solid fa-wallet"
             rightIcon="fa-solid fa-eye" />
-          <!-- guys this is budget spent card -->
           <DashboardCard value="₱285,000" label="Budget Spent" color="orange" leftIcon="fa-solid fa-coins"
             rightIcon="fa-solid fa-chart-line" />
         </div>
 
-        <br />
-
-        <!-- guys this is dashboard lower section, this is content -->
         <div class="dashboard-lower">
           <RecentActivities />
         </div>
-
-        <!-- guys this is quick actions section, this is content -->
         <QuickActions />
       </main>
     </div>
@@ -101,45 +68,82 @@ export default {
 </script>
 
 <style scoped>
-/* guys this is base layout styling */
 .app-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* guys this is dashboard layout container */
-.dashboard-layout {
-  display: flex;
-  flex: 1;
   overflow: hidden;
 }
 
-/* guys this is main content styling */
-.content {
+.dashboard-layout {
+  display: flex;
   flex: 1;
-  padding: 40px;
-  overflow-y: auto;
-  background-color: #fff;
+  position: relative;
+  overflow: hidden;
 }
 
-/* guys this is page title styling */
+/* --- Content Auto-Expansion Logic --- */
+.content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+  background-color: #fff;
+  transition: all 0.3s ease-in-out; /* Smooth slide when sidebar moves */
+}
+
+/* Sidebar styling needs to handle the width transition */
+:deep(.sidebar) {
+  width: 260px;
+  transition: all 0.3s ease;
+}
+
+:deep(.sidebar-hidden) {
+  margin-left: -260px; /* Slides it out of view completely */
+}
+
+/* --- Stats Grid Responsiveness --- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns for desktop */
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
 .page-title h1 {
   font-family: serif;
   font-size: 2.5rem;
   margin-bottom: 5px;
 }
 
-.page-title p {
-  color: #888;
-  margin-bottom: 40px;
+/* --- Media Queries for Mobile/Tablet --- */
+
+/* Tablet & Smaller Laptops */
+@media (max-width: 1100px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  }
 }
 
-/* guys these are stats cards grid */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
+/* Mobile Devices */
+@media (max-width: 768px) {
+  .content {
+    padding: 20px;
+  }
+
+  .page-title h1 {
+    font-size: 1.8rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr; /* Single column stack */
+    gap: 15px;
+  }
+
+  /* On mobile, usually the sidebar should overlay or hide completely */
+  :deep(.sidebar) {
+    position: absolute;
+    z-index: 100;
+    height: 100%;
+  }
 }
 </style>

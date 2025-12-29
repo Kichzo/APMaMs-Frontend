@@ -3,7 +3,7 @@
     <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
     <div class="dashboard-layout">
-      <AppSidebar :visible="isSidebarVisible" />
+      <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
 
       <main class="content">
         <div class="page-header">
@@ -19,22 +19,14 @@
 
         <div class="activity-list-container">
           <nav class="tabs">
-            <button 
-              v-for="tab in tabs" 
-              :key="tab.id"
-              :class="{ active: currentTab === tab.id }"
-              @click="currentTab = tab.id"
-            >
+            <button v-for="tab in tabs" :key="tab.id" :class="{ active: currentTab === tab.id }"
+              @click="currentTab = tab.id">
               {{ tab.label }} ({{ tab.count }})
             </button>
           </nav>
 
           <div class="activity-items-wrapper">
-            <ActivityItemCard 
-              v-for="activity in filteredActivities" 
-              :key="activity.id" 
-              :data="activity" 
-            />
+            <ActivityItemCard v-for="activity in filteredActivities" :key="activity.id" :data="activity" />
           </div>
         </div>
       </main>
@@ -58,64 +50,68 @@ export default {
     ActivityFilters,
     ActivityItemCard
   },
-data() {
-  return {
-    role: localStorage.getItem('role') || 'org',
-    currentTab: 'all',
-    activities: [
-      {
-        id: 1,
-        title: 'Leadership Training Workshop',
-        status: 'Approved',
-        priority: 'HIGH',
-        description: 'Comprehensive leadership development program for student officers',
-        organization: 'Student Council',
-        date: '18/11/2025',
-        location: 'Function Hall',
-        participants: 50,
-        progress: 75,
-        budget: '23,000',
-        submittedBy: 'Al Christian Molina',
-        submittedAt: '15/10/2025',
-        approvedBy: 'VP Uy'
-      },
-      {
-        id: 2,
-        title: 'Freshmen Orientation Program',
-        status: 'Pending',
-        priority: 'MEDIUM',
-        description: 'Orientation program for incoming freshmen students',
-        organization: 'Academic Affairs',
-        date: '05/12/2025',
-        location: 'Main Auditorium',
-        participants: 300,
-        progress: 20,
-        budget: '45,000',
-        submittedBy: 'Jane Dela Cruz',
-        submittedAt: '01/11/2025',
-        approvedBy: null
-      }
-    ]
-  }
-},
-computed: {
-  // This replaces your static tabs array
-  tabs() {
-    return [
-      { id: 'all', label: 'All Activities', count: this.activities.length },
-      { id: 'pending', label: 'Pending', count: this.activities.filter(a => a.status.toLowerCase() === 'pending').length },
-      { id: 'approved', label: 'Approved', count: this.activities.filter(a => a.status.toLowerCase() === 'approved').length },
-      { id: 'ongoing', label: 'Ongoing', count: this.activities.filter(a => a.status.toLowerCase() === 'ongoing').length },
-      { id: 'completed', label: 'Completed', count: this.activities.filter(a => a.status.toLowerCase() === 'completed').length },
-      { id: 'drafts', label: 'Drafts', count: this.activities.filter(a => a.status.toLowerCase() === 'draft').length }
-    ];
+  data() {
+    return {
+      isSidebarVisible: true,
+      role: localStorage.getItem('role') || 'org',
+      currentTab: 'all',
+      activities: [
+        {
+          id: 1,
+          title: 'Leadership Training Workshop',
+          status: 'Approved',
+          priority: 'HIGH',
+          description: 'Comprehensive leadership development program for student officers',
+          organization: 'Student Council',
+          date: '18/11/2025',
+          location: 'Function Hall',
+          participants: 50,
+          progress: 75,
+          budget: '23,000',
+          submittedBy: 'Al Christian Molina',
+          submittedAt: '15/10/2025',
+          approvedBy: 'VP Uy'
+        },
+        {
+          id: 2,
+          title: 'Freshmen Orientation Program',
+          status: 'Pending',
+          priority: 'MEDIUM',
+          description: 'Orientation program for incoming freshmen students',
+          organization: 'Academic Affairs',
+          date: '05/12/2025',
+          location: 'Main Auditorium',
+          participants: 300,
+          progress: 20,
+          budget: '45,000',
+          submittedBy: 'Jane Dela Cruz',
+          submittedAt: '01/11/2025',
+          approvedBy: null
+        }
+      ]
+    }
   },
-  filteredActivities() {
-    if (this.currentTab === 'all') return this.activities;
-    return this.activities.filter(a => a.status.toLowerCase() === this.currentTab);
-  }
-},
+  computed: {
+    // This replaces your static tabs array
+    tabs() {
+      return [
+        { id: 'all', label: 'All Activities', count: this.activities.length },
+        { id: 'pending', label: 'Pending', count: this.activities.filter(a => a.status.toLowerCase() === 'pending').length },
+        { id: 'approved', label: 'Approved', count: this.activities.filter(a => a.status.toLowerCase() === 'approved').length },
+        { id: 'ongoing', label: 'Ongoing', count: this.activities.filter(a => a.status.toLowerCase() === 'ongoing').length },
+        { id: 'completed', label: 'Completed', count: this.activities.filter(a => a.status.toLowerCase() === 'completed').length },
+        { id: 'drafts', label: 'Drafts', count: this.activities.filter(a => a.status.toLowerCase() === 'draft').length }
+      ];
+    },
+    filteredActivities() {
+      if (this.currentTab === 'all') return this.activities;
+      return this.activities.filter(a => a.status.toLowerCase() === this.currentTab);
+    }
+  },
   methods: {
+    toggleSidebar() {
+      this.isSidebarVisible = !this.isSidebarVisible;
+    },
     handleSearch(query) {
       console.log("Searching for:", query);
     },
@@ -131,42 +127,57 @@ computed: {
   display: flex;
   flex-direction: column;
   /* Lock to viewport height */
-  height: 100vh; 
+  height: 100vh;
   width: 100%;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden; /* Prevent page-level scrolling */
+  overflow: hidden;
+  /* Prevent page-level scrolling */
 }
 
 .dashboard-layout {
   display: flex;
-  flex: 1; /* Take up remaining height below header */
+  flex: 1;
+  /* Take up remaining height below header */
   width: 100%;
-  overflow: hidden; /* Keeps sidebar and content contained */
+  overflow: hidden;
+  /* Keeps sidebar and content contained */
+}
+
+/* Sidebar logic exactly as your working reference */
+:deep(.sidebar) {
+  width: 260px;
+  height: 100%;
+  flex-shrink: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+/* This pulls the sidebar off-screen so the flex content fills the space */
+:deep(.sidebar-hidden) {
+  margin-left: -260px;
 }
 
 .content {
   flex: 1;
-  width: 100%;
+  /* This ensures it expands to fill 100% of the remaining width */
   padding: 40px;
+  overflow-y: auto;
   background-color: #fff;
+  transition: all 0.3s ease-in-out;
+  /* Smooth slide sync with sidebar */
   box-sizing: border-box;
-  
-  /* Scrollable logic */
-  overflow-y: auto; 
-  height: 100%;
 }
 
 /* UI Component Styles */
 .page-header {
   display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
   width: 100%;
   margin-bottom: 30px;
 }
 
 .title-block h1 {
-  font-family: serif; 
+  font-family: serif;
   font-size: 2.2rem;
   margin: 0;
 }
@@ -194,12 +205,13 @@ computed: {
 
 .tabs {
   display: flex;
-  gap: 30px; 
+  gap: 30px;
   border-bottom: 1px solid #e2e8f0;
   width: 100%;
   /* Optional: Keep tabs visible while scrolling cards */
   position: sticky;
-  top: -40px; /* Offset for the .content padding */
+  top: -40px;
+  /* Offset for the .content padding */
   background: white;
   z-index: 10;
 }

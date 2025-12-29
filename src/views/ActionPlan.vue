@@ -1,47 +1,32 @@
 <template>
-
-<!-- NEED LITTLE DETAILS-->
-
-
-    <div class="app-container">
-    <!-- guys this is top header, this is content -->
+  <div class="app-container">
     <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
-    <!-- guys this is main dashboard layout -->
     <div class="dashboard-layout">
-      <!-- guys this is sidebar, this is content -->
-      <AppSidebar :visible="isSidebarVisible" />
+      <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
 
-      <!-- guys this is main content area -->
       <main class="content">
         <div class="page-title">
           <h1>Action Plan</h1>
           <p>Monitor and manage institutional strategic initiatives</p>
         </div>
+        
         <ActionPlanStats />
-  <div class="action-grid">
+        
+        <div class="action-grid">
+          <ActionPlanList 
+            :plans="plans" 
+            :activePlanId="selectedPlan.id" 
+            @select-plan="selectedPlan = $event" 
+          />
 
-    <!-- LEFT -->
-    <ActionPlanList
-      :plans="plans"
-      :activePlanId="selectedPlan.id"
-      @select-plan="selectedPlan = $event"
-    />
-
-    <!-- RIGHT -->
-    <div>
-      <ActionPlanHeader
-        :title="selectedPlan.title"
-        :progress="selectedPlan.progress"
-      />
-
-      <KeyMetrics :metrics="metrics" />
-
-      <ActionObjectives :objectives="objectives" />
-    </div>
-
-  </div>
-        </main>
+          <div>
+            <ActionPlanHeader :title="selectedPlan.title" :progress="selectedPlan.progress" />
+            <KeyMetrics :metrics="metrics" />
+            <ActionObjectives :objectives="objectives" />
+          </div>
+        </div>
+      </main>
     </div>
   </div>
 </template>
@@ -67,6 +52,7 @@ export default {
   },
   data() {
     return {
+      isSidebarVisible: true,
       role: localStorage.getItem('role') || 'org',
       plans: [
         {
@@ -91,10 +77,16 @@ export default {
       objectives: [
         { id: 1, title: 'Enhance curriculum activity', progress: 45, status: 'On Track', statusClass: 'green' },
         { id: 2, title: 'Increase research output', progress: 25, status: 'At Risk', statusClass: 'red' }
-      ]
+      ],
+    }
+  },
+  methods: {
+    toggleSidebar() {
+      this.isSidebarVisible = !this.isSidebarVisible;
     }
   }
 }
+  
 </script>
 
 <style scoped>
@@ -102,22 +94,35 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
 }
 
-/* guys this is dashboard layout container */
 .dashboard-layout {
   display: flex;
   flex: 1;
   overflow: hidden;
+  position: relative; /* Required for mobile absolute positioning */
 }
 
-/* guys this is main content styling */
+/* Sidebar logic exactly as your Dashboard reference */
+:deep(.sidebar) {
+  width: 260px;
+  height: 100%;
+  flex-shrink: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+/* This is the magic part that pulls it away so content can fill space */
+:deep(.sidebar-hidden) {
+  margin-left: -260px;
+}
+
 .content {
-  flex: 1;
+  flex: 1; /* This pushes the content to fill 100% of the remaining width */
   padding: 40px;
   overflow-y: auto;
   background-color: #fff;
+  transition: all 0.3s ease-in-out;
 }
 
 .page-title h1 {
@@ -136,5 +141,4 @@ export default {
   grid-template-columns: 300px 1fr;
   gap: 24px;
 }
-
 </style>

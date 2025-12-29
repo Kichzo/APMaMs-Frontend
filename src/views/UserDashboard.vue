@@ -85,7 +85,7 @@ export default {
 /* --- Content Auto-Expansion Logic --- */
 .content {
   flex: 1;
-  padding: 40px;
+  padding: 30px;
   overflow-y: auto;
   background-color: #fff;
   transition: all 0.3s ease-in-out; /* Smooth slide when sidebar moves */

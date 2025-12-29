@@ -2,11 +2,9 @@
   <div class="app-container">
     <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
-    <AccountDelete 
-      v-if="isDeleteModalVisible" 
-      @close="isDeleteModalVisible = false"
-      @confirm="handleConfirmDelete"
-    />
+    <Toast :visible="showToast" :message="toastMessage" @close="showToast = false" />
+
+    <AccountDelete v-if="isDeleteModalVisible" @close="isDeleteModalVisible = false" @confirm="handleConfirmDelete" />
 
     <div class="dashboard-body">
       <AppSidebar :class="{ 'sidebar-active': isSidebarVisible }" />
@@ -15,18 +13,13 @@
         <div class="center-wrapper" :class="{ 'editing-mode': isEditing }">
           <div class="content-padding">
             <AccountHeader @back="goBack" />
-            
+
             <div class="settings-layout">
-              <AccountProfileCard 
-                :user="userData" 
-                @edit="isEditing = true" 
-                @delete="isDeleteModalVisible = true" />
-              
+              <AccountProfileCard :user="userData" @edit="isEditing = true" @delete="isDeleteModalVisible = true" />
+
               <transition name="slide-fade">
-                <AccountForm
-                  v-if="isEditing" 
-                  @cancel="isEditing = false" 
-                />
+                <AccountForm v-if="isEditing" :user="userData" @cancel="isEditing = false"
+                  @save="handleUpdateAccount" />
               </transition>
             </div>
           </div>
@@ -43,22 +36,21 @@ import AccountHeader from '/src/components/Account/AccountHeader.vue'
 import AccountProfileCard from '/src/components/Account/AccountProfileCard.vue'
 import AccountForm from '/src/components/Account/AccountForm.vue'
 import AccountDelete from '/src/components/Account/AccountDelete.vue'
+import Toast from '/src/components/Toast.vue'
 
 export default {
-  components: { 
-    AppHeader, 
-    AppSidebar, 
-    AccountHeader, 
-    AccountProfileCard,
-    AccountForm,
-    AccountDelete
+  components: {
+    AppHeader, AppSidebar, AccountHeader,
+    AccountProfileCard, AccountForm, AccountDelete, Toast
   },
   data() {
     return {
       role: localStorage.getItem('role') || 'org',
       isSidebarVisible: false,
       isEditing: false,
-      isDeleteModalVisible: false, 
+      isDeleteModalVisible: false,
+      showToast: false,       // Controls the Toast visibility
+      toastMessage: '',       // Dynamic message for the Toast
       userData: {
         name: 'Kian Estenzo',
         role: 'President',
@@ -73,9 +65,34 @@ export default {
   methods: {
     toggleSidebar() { this.isSidebarVisible = !this.isSidebarVisible },
     goBack() { this.$router.back() },
+
+    handleUpdateAccount(data) {
+      // Update logic here...
+      this.toastMessage = "Account updated successfully";
+      this.showToast = true;
+      // The toast will now close itself in 2 seconds OR when X is clicked
+    },
+
+    // Handle account deletion
     handleConfirmDelete() {
-        this.isDeleteModalVisible = false;
-        alert('Account deleted successfully');
+      // 1. Immediately hide the modal
+      this.isDeleteModalVisible = false;
+
+      // 2. Set the custom message
+      this.toastMessage = "Account deleted successfully";
+
+      // 3. Show the toast (The Toast.vue internal timer will hide it in 2s)
+      this.showToast = true;
+
+    },
+
+    // Reusable toast trigger logic
+    triggerToast(message) {
+      this.toastMessage = message;
+      this.showToast = true;
+      setTimeout(() => {
+        this.showToast = false;
+      }, 3000);
     }
   }
 }
@@ -120,7 +137,8 @@ export default {
 }
 
 .center-wrapper {
-  max-width: 500px; /* Default single card width */
+  max-width: 500px;
+  /* Default single card width */
   width: 100%;
   transition: max-width 0.4s ease;
 }
@@ -143,9 +161,16 @@ export default {
 }
 
 /* Smooth transition for the form appearing */
-.slide-fade-enter-active { transition: all 0.3s ease-out; }
-.slide-fade-leave-active { transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1); }
-.slide-fade-enter-from, .slide-fade-leave-to {
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
   transform: translateX(20px);
   opacity: 0;
 }
