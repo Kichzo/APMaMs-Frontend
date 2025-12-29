@@ -5,7 +5,7 @@
 
     <div class="app-container">
     <!-- guys this is top header, this is content -->
-    <AppHeader @toggle-sidebar="toggleSidebar" />
+    <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
     <!-- guys this is main dashboard layout -->
     <div class="dashboard-layout">
@@ -67,6 +67,7 @@ export default {
   },
   data() {
     return {
+      role: localStorage.getItem('role') || 'org',
       plans: [
         {
           id: 1,

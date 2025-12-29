@@ -18,9 +18,10 @@
                 </div>
 
                 <div class="user-info">
-                    <span class="user-name">Kian Estenzo</span>
-                    <span class="user-role">Student Council</span>
+                    <span class="user-name">{{ userName }}</span>
+                    <span class="user-role">{{ roleLabel }}</span>
                 </div>
+
 
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </div>
@@ -28,6 +29,29 @@
 
     </header>
 </template>
+
+<script>
+export default {
+    props: {
+        userName: {
+            type: String,
+            default: 'User'
+        },
+        role: {
+            type: String,
+            required: true // 'admin' | 'org'
+        }
+    },
+    computed: {
+        roleLabel() {
+            return this.role === 'admin'
+                ? 'System Administrator'
+                : 'Student Organization'
+        }
+    }
+}
+</script>
+
 
 <style scoped>
 .header {

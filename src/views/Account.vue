@@ -20,7 +20,7 @@
 
   <div class="app-container">
     <!-- guys this is top bar / header, this is content -->
-    <AppHeader @toggle-sidebar="toggleSidebar" />
+    <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
     <!-- guys this is main dashboard body -->
     <div class="dashboard-body">
@@ -104,6 +104,7 @@ export default {
   },
   data() {
     return {
+      role: localStorage.getItem('role') || 'org',
       isSidebarVisible: false // guys sidebar is hidden by default
     }
   },

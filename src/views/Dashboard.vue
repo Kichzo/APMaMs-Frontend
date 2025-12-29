@@ -6,7 +6,7 @@
 
 
 
-<!-- Need to be responsive --> 
+  <!-- Need to be responsive -->
 
 
 
@@ -17,7 +17,7 @@
 
   <div class="app-container">
     <!-- guys this is top header, this is content -->
-    <AppHeader @toggle-sidebar="toggleSidebar" />
+    <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
     <!-- guys this is main dashboard layout -->
     <div class="dashboard-layout">
@@ -35,53 +35,23 @@
         <!-- guys these are the stats cards, this is content -->
         <div class="stats-grid">
           <!-- guys this is total activities card -->
-          <DashboardCard
-            value="24"
-            label="Total Activities"
-            color="blue"
-            leftIcon="fa-solid fa-layer-group"
-            rightIcon="fa-solid fa-arrow-up-right-from-square"
-          />
+          <DashboardCard value="24" label="Total Activities" color="blue" leftIcon="fa-solid fa-layer-group"
+            rightIcon="fa-solid fa-arrow-up-right-from-square" />
           <!-- guys this is pending approvals card -->
-          <DashboardCard
-            value="5"
-            label="Pending Approvals"
-            color="yellow"
-            leftIcon="fa-regular fa-clock"
-            rightIcon="fa-solid fa-clipboard-list"
-          />
+          <DashboardCard value="5" label="Pending Approvals" color="yellow" leftIcon="fa-regular fa-clock"
+            rightIcon="fa-solid fa-clipboard-list" />
           <!-- guys this is active projects card -->
-          <DashboardCard
-            value="12"
-            label="Active Projects"
-            color="green"
-            leftIcon="fa-solid fa-diagram-project"
-            rightIcon="fa-solid fa-cube"
-          />
+          <DashboardCard value="12" label="Active Projects" color="green" leftIcon="fa-solid fa-diagram-project"
+            rightIcon="fa-solid fa-cube" />
           <!-- guys this is completed activities card -->
-          <DashboardCard
-            value="18"
-            label="Completed Activities"
-            color="purple"
-            leftIcon="fa-solid fa-square-check"
-            rightIcon="fa-solid fa-trophy"
-          />
+          <DashboardCard value="18" label="Completed Activities" color="purple" leftIcon="fa-solid fa-square-check"
+            rightIcon="fa-solid fa-trophy" />
           <!-- guys this is total budget card -->
-          <DashboardCard
-            value="₱450,000"
-            label="Total Budget"
-            color="teal"
-            leftIcon="fa-solid fa-wallet"
-            rightIcon="fa-solid fa-eye"
-          />
+          <DashboardCard value="₱450,000" label="Total Budget" color="teal" leftIcon="fa-solid fa-wallet"
+            rightIcon="fa-solid fa-eye" />
           <!-- guys this is budget spent card -->
-          <DashboardCard
-            value="₱285,000"
-            label="Budget Spent"
-            color="orange"
-            leftIcon="fa-solid fa-coins"
-            rightIcon="fa-solid fa-chart-line"
-          />
+          <DashboardCard value="₱285,000" label="Budget Spent" color="orange" leftIcon="fa-solid fa-coins"
+            rightIcon="fa-solid fa-chart-line" />
         </div>
 
         <br />
@@ -117,6 +87,7 @@ export default {
   },
   data() {
     return {
+      role: localStorage.getItem('role') || 'org',
       isSidebarVisible: true // guys this controls sidebar visibility
     }
   },
