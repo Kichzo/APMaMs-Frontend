@@ -11,7 +11,10 @@
             <h1>Activity Management</h1>
             <p>Create, manage, and track all organizational activities and proposals</p>
           </div>
-          <button class="new-activity-btn">New Activity</button>
+          <router-link :to="{ name: 'CreateActivity' }" class="new-activity-btn">
+            New Activity
+          </router-link>
+
         </div>
 
         <ActivityStats :activities="activities" />
@@ -40,10 +43,12 @@ import ActivityFilters from '/src/components/Activity/ActivityFilters.vue';
 import ActivityItemCard from '/src/components/Activity/ActivityItemCard.vue';
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
+import CreateActivity from '/src/views/CreateActivity.vue';
 
 export default {
   name: 'Activity',
   components: {
+    CreateActivity,
     AppHeader,
     AppSidebar,
     ActivityStats,
@@ -196,6 +201,7 @@ export default {
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .activity-list-container {

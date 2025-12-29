@@ -12,7 +12,8 @@ import Organizations from '/src/views/Organizations.vue'
 import Reports from '/src/views/Reports.vue'
 import Approvals from '/src/views/Approvals.vue'
 import AdminDashboard from '/src/views/AdminDashboard.vue'
-
+import CreateActivity from '/src/views/CreateActivity.vue'
+import Users from '/src/views/Users.vue'
 
 const routes = [
     {
@@ -79,6 +80,16 @@ const routes = [
         path:   '/approvals',
         name:   'Approvals',
         component:   Approvals
+    },
+    {
+        path:   '/createactivity',
+        name:   'CreateActivity',
+        component:   CreateActivity
+    },
+    {
+        path:   '/users',
+        name:   'Users',
+        component:   Users
     }
 ]
 
