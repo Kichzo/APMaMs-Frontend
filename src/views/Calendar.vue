@@ -44,8 +44,8 @@
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import CalendarView from '/src/components/CalendarView.vue'
-import CalendarUpcomingAct from '/src/components/CalendarUpcomingAct.vue'
+import CalendarView from '/src/components/Calendar/CalendarView.vue'
+import CalendarUpcomingAct from '/src/components/Calendar/CalendarUpcomingAct.vue'
 
 export default {
   components: { 

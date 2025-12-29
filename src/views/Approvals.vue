@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import ApprovalTabs from '/src/components/ApprovalTabs.vue';
-import ApprovalCard from '/src/components/ApprovalCard.vue';
+import ApprovalTabs from '/src/components/Approval/ApprovalTabs.vue';
+import ApprovalCard from '/src/components/Approval/ApprovalCard.vue';
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
 

@@ -34,8 +34,8 @@
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import OrgStats from '/src/components/OrgStats.vue';
-import OrgCards from '/src/components/OrgCards.vue';
+import OrgStats from '/src/components/Organizations/OrgStats.vue';
+import OrgCards from '/src/components/Organizations/OrgCards.vue';
 
 export default {
   components: {

@@ -26,8 +26,8 @@
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import ReportsFilterBar from '/src/components/ReportsFilterBar.vue'
-import ReportCard from '/src/components/ReportCard.vue'
+import ReportsFilterBar from '/src/components/Report/ReportsFilterBar.vue'
+import ReportCard from '/src/components/Report/ReportCard.vue'
 
 export default {
   name: 'Activity',

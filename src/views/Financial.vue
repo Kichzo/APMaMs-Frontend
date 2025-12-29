@@ -46,10 +46,10 @@
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import FinancialQuickAct from '/src/components/FinancialQuickAct.vue'
-import FinancialStats from '/src/components/FinancialStats.vue'
-import FinancialStatus from '/src/components/FinancialStatus.vue'
-import FinancialSidebar from '/src/components/FinancialSidebar.vue'
+import FinancialQuickAct from '/src/components/Financial/FinancialQuickAct.vue'
+import FinancialStats from '/src/components/Financial/FinancialStats.vue'
+import FinancialStatus from '/src/components/Financial/FinancialStatus.vue'
+import FinancialSidebar from '/src/components/Financial/FinancialSidebar.vue'
 
 
 export default {
