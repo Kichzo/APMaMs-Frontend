@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <AppHeader @toggle-sidebar="toggleSidebar" />
+    <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
     <div class="dashboard-layout">
       <AppSidebar :visible="isSidebarVisible" />
@@ -60,6 +60,7 @@ export default {
   },
 data() {
   return {
+    role: localStorage.getItem('role') || 'org',
     currentTab: 'all',
     activities: [
       {

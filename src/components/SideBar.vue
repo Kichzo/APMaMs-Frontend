@@ -1,51 +1,23 @@
 <template>
   <aside class="sidebar" :class="{ hidden: !visible }">
     <ul class="menu">
-      <li :class="{ active: isActive('/dashboard') }" @click="goTo('/dashboard')">
-        <i class="fas fa-th-large"></i>
-        <span>Dashboard</span>
-      </li>
+  <li
+    v-for="item in menuItems"
+    :key="item.path"
+    :class="{ active: isActive(item.path) }"
+    @click="goTo(item.path)"
+  >
+    <i :class="item.icon"></i>
+    <span>{{ item.label }}</span>
+  </li>
+</ul>
 
-      <li :class="{ active: isActive('/activity') }" @click="goTo('/activity')">
-        <i class="fas fa-chart-line"></i>
-        <span>Activity</span>
-      </li>
-
-      <li :class="{ active: isActive('/actionplan') }" @click="goTo('/actionplan')">
-        <i class="fas fa-layer-group"></i>
-        <span>Action Plan</span>
-      </li>
-
-      <li :class="{ active: isActive('/calendar') }" @click="goTo('/calendar')">
-        <i class="fas fa-calendar-alt"></i>
-        <span>Calendar</span>
-      </li>
-
-      <li :class="{ active: isActive('/financial') }" @click="goTo('/financial')">
-        <i class="fas fa-coins"></i>
-        <span>Financial</span>
-      </li>
-
-      <li :class="{ active: isActive('/organizations') }" @click="goTo('/organizations')">
-        <i class="fas fa-users"></i>
-        <span>Organizations</span>
-      </li>
-
-      <li :class="{ active: isActive('/report') }" @click="goTo('/report')">
-        <i class="fas fa-file-alt"></i>
-        <span>Report</span>
-      </li>
-
-      <li :class="{ active: isActive('/approvals') }" @click="goTo('/approvals')">
-        <i class="fas fa-user-check"></i>
-        <span>Approvals</span>
-      </li>
-    </ul>
   </aside>
 </template>
 
 <script>
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router'
+import { computed } from 'vue'
 
 export default {
   props: {
@@ -55,15 +27,42 @@ export default {
     }
   },
   setup() {
-    const router = useRouter();
-    const route = useRoute();
+    const router = useRouter()
+    const route = useRoute()
 
-    const isActive = (path) => route.path === path;
-    const goTo = (path) => router.push(path);
+    // TEMP role source
+    const role = localStorage.getItem('role') || 'org'
 
-    return { isActive, goTo };
+    const menus = {
+      admin: [
+        { label: 'Dashboard', icon: 'fas fa-th-large', path: '/admindashboard' },
+        { label: 'Users', icon: 'fas fa-users', path: '/users' },
+        { label: 'Organizations', icon: 'fas fa-building', path: '/organizations' },
+        { label: 'Action Plan', icon: 'fas fa-layer-group', path: '/actionplan' },
+        { label: 'Activities', icon: 'fas fa-chart-line', path: '/activity' },
+        { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' }
+      ],
+      org: [
+        { label: 'Dashboard', icon: 'fas fa-th-large', path: '/userdashboard' },
+        { label: 'Activity', icon: 'fas fa-chart-line', path: '/activity' },
+        { label: 'Action Plan', icon: 'fas fa-layer-group', path: '/actionplan' },
+        { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' },
+        { label: 'Financial', icon: 'fas fa-coins', path: '/financial' },
+        { label: 'Organizations', icon: 'fas fa-users', path: '/organizations' },
+        { label: 'Report', icon: 'fas fa-file-alt', path: '/report' },
+        { label: 'Approvals', icon: 'fas fa-user-check', path: '/approvals' }
+      ]
+    }
+
+    const menuItems = computed(() => menus[role])
+
+    const isActive = (path) => route.path === path
+    const goTo = (path) => router.push(path)
+
+    return { menuItems, isActive, goTo }
   }
 }
+
 </script>
 
 <style scoped>

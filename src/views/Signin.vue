@@ -1,64 +1,65 @@
 <template>
 
-    <div class="page">
-        <!-- guys this is back arrow -->
-        <div class="back-arrow" @click="goBack">←</div>
+  <div class="page">
+    <!-- guys this is back arrow -->
+    <div class="back-arrow" @click="goBack">←</div>
 
-        <!-- guys this is header -->
-        <div class="header">
-            <h1>APMaMS</h1>
-            <p>MSUN Action Plan</p>
-        </div>
-
-        <!-- guys this is card container, this is content -->
-        <div class="card">
-            <h2>Welcome Back</h2>
-            <p class="subtitle">Sign in to access your dashboard</p>
-
-            <!-- guys this is form, this is content -->
-            <form @submit.prevent="handleLogin">
-                <!-- guys this is email field -->
-                <div class="field">
-                    <label>Email Address</label>
-
-                    <input
-                        type="email"
-                        v-model="email"
-                        placeholder="you.email@msu.edu.ph"
-                        required
-                    />
-                </div>
-
-                <!-- guys this is password field -->
-                <div class="field">
-                    <label>Password</label>
-                
-                    <input
-                        type="password"
-                        v-model="password"
-                        placeholder="Enter your password"
-                        required
-                    />
-                </div>
-            
-                <!-- guys this is options section, this is content -->
-                <div class="options">
-                    <label>
-                        <input type="checkbox" />
-                        Remember me
-                        </label>
-                </div>
-
-                <!-- guys this is submit button, this is content -->
-                <button type="submit">Sign In</button>
-
-            </form>
-        </div>
-
-        <!-- guys this is footer -->
-        <footer>Mindanao State University at Naawan</footer>
+    <!-- guys this is header -->
+    <div class="header">
+      <h1>APMaMS</h1>
+      <p>MSUN Action Plan</p>
     </div>
+
+    <!-- guys this is card container, this is content -->
+    <div class="card">
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Sign in to access your dashboard</p>
+
+      <!-- guys this is form, this is content -->
+      <form @submit.prevent="handleLogin">
+        <!-- guys this is email field -->
+        <div class="field">
+          <label>Email Address</label>
+
+          <input type="email" v-model="email" placeholder="you.email@msu.edu.ph" required />
+        </div>
+
+        <!-- guys this is password field -->
+        <div class="field">
+          <label>Password</label>
+
+          <input type="password" v-model="password" placeholder="Enter your password" required />
+        </div>
+
+        <!-- guys this is options section, this is content -->
+        <div class="options">
+          <label>
+            <input type="checkbox" />
+            Remember me
+          </label>
+        </div>
+        <p class="temp-note">Temporary buttons (for testing)</p>
+
+        <!-- guys this is submit button, this is content -->
+        <div class="button-group">
+          <button type="button" @click="loginAsUser">
+            Sign In as User
+          </button>
+
+          <button type="button" class="admin-btn" @click="loginAsAdmin">
+            Sign In as Admin
+          </button>
+        </div>
+
+
+      </form>
+    </div>
+
+    <!-- guys this is footer -->
+    <footer>Mindanao State University at Naawan</footer>
+  </div>
 </template>
+
 
 <style scoped>
 .page {
@@ -176,6 +177,27 @@ footer {
   color: #aaa;
 }
 
+.temp-note {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.admin-btn {
+  background: #333;
+}
+
+.admin-btn:hover {
+  background: #222;
+}
+
+
 @media (min-width: 1200px) {
   .header h1 {
     font-size: 28px;
@@ -247,13 +269,17 @@ export default {
   },
   methods: {
     goBack() {
-      // guys this is back function
       this.$router.back()
     },
-    handleLogin() {
-      // guys this is login function, this is content
-      this.$router.push('/dashboard')
+    loginAsUser() {
+      localStorage.setItem('role', 'org')
+      this.$router.push('/userdashboard')
+    },
+    loginAsAdmin() {
+      localStorage.setItem('role', 'admin')
+      this.$router.push('/admindashboard')
     }
   }
+
 }
 </script>

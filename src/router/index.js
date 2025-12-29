@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import Credentials from '/src/views/Credentials.vue'
 import Signin from '/src/views/Signin.vue'
-import Dashboard from '/src/views/Dashboard.vue'
+import UserDashboard from '/src/views/UserDashboard.vue'
 import Account from '/src/views/Account.vue'
 import Activity from '/src/views/Activity.vue'
 import ActionPlan from '/src/views/ActionPlan.vue'
@@ -11,6 +11,7 @@ import Financial from '/src/views/Financial.vue'
 import Organizations from '/src/views/Organizations.vue'
 import Reports from '/src/views/Reports.vue'
 import Approvals from '/src/views/Approvals.vue'
+import AdminDashboard from '/src/views/AdminDashboard.vue'
 
 
 const routes = [
@@ -27,9 +28,15 @@ const routes = [
     },
 
     {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: Dashboard
+        path: '/userdashboard',
+        name: 'UserDashboard',
+        component: UserDashboard
+    },
+
+    {
+        path: '/admindashboard',
+        name: 'AdminDashboard',
+        component: AdminDashboard
     },
 
     {

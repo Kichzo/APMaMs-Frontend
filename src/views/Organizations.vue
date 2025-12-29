@@ -4,7 +4,7 @@
 
 
     <div class="app-container">
-    <AppHeader @toggle-sidebar="toggleSidebar" />
+    <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
     <div class="dashboard-layout">
       <AppSidebar :visible="isSidebarVisible" />
@@ -46,6 +46,7 @@ export default {
   },
   data() {
     return {
+      role: localStorage.getItem('role') || 'org',
       summaryStats: {
         totalOrgs: 8,
         totalMembers: 334,
