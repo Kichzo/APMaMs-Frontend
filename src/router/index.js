@@ -10,6 +10,7 @@ import Calendar from '/src/views/Calendar.vue'
 import Financial from '/src/views/Financial.vue'
 import Organizations from '/src/views/Organizations.vue'
 import Reports from '/src/views/Reports.vue'
+import Approvals from '/src/views/Approvals.vue'
 
 
 const routes = [
@@ -67,6 +68,11 @@ const routes = [
         name:    'Reports',
         component:  Reports
     },
+    {
+        path:   '/approvals',
+        name:   'Approvals',
+        component:   Approvals
+    }
 ]
 
 const router = createRouter({
