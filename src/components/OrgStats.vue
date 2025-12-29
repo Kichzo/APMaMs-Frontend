@@ -59,7 +59,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .icon-box {
@@ -72,10 +72,25 @@ export default {
   font-size: 1.3rem;
 }
 
-.blue { background: #eff6ff; color: #1e40af; }
-.green { background: #f0fdf4; color: #166534; }
-.purple { background: #faf5ff; color: #6b21a8; }
-.orange { background: #fff7ed; color: #c2410c; }
+.blue {
+  background: #eff6ff;
+  color: #1e40af;
+}
+
+.green {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.purple {
+  background: #faf5ff;
+  color: #6b21a8;
+}
+
+.orange {
+  background: #fff7ed;
+  color: #c2410c;
+}
 
 .stat-info h2 {
   font-family: serif;

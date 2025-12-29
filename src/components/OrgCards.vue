@@ -20,7 +20,7 @@
 
         <div class="card-content">
           <p class="org-description">{{ org.description }}</p>
-          
+
           <div class="leadership-details">
             <div class="detail-block">
               <span class="detail-label">President</span>
@@ -171,7 +171,8 @@ export default {
   font-size: 0.9rem;
   margin-bottom: 20px;
   line-height: 1.5;
-  height: 2.8rem; /* Keeps cards uniform if descriptions are 2 lines */
+  height: 2.8rem;
+  /* Keeps cards uniform if descriptions are 2 lines */
   overflow: hidden;
 }
 

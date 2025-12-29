@@ -81,15 +81,14 @@ export default {
   justify-content: center;
 }
 
-.count { 
-  font-weight: bold; 
-  font-size: 1.2rem; 
-  display: block; 
+.count {
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: block;
 }
 
-.label { 
-  font-size: 0.8rem; 
-  color: #6b7280; 
+.label {
+  font-size: 0.8rem;
+  color: #6b7280;
 }
-
 </style>

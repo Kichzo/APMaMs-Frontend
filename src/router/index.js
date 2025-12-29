@@ -9,6 +9,7 @@ import ActionPlan from '/src/views/ActionPlan.vue'
 import Calendar from '/src/views/Calendar.vue'
 import Financial from '/src/views/Financial.vue'
 import Organizations from '/src/views/Organizations.vue'
+import Reports from '/src/views/Reports.vue'
 
 
 const routes = [
@@ -60,6 +61,11 @@ const routes = [
         path:   '/organizations',
         name:    'Organizations',
         component:  Organizations
+    },
+    {
+        path:   '/report',
+        name:    'Reports',
+        component:  Reports
     },
 ]
 

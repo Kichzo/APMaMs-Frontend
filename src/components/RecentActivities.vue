@@ -118,7 +118,7 @@ export default {
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
 }
 
 .card-top {
@@ -127,17 +127,36 @@ export default {
   align-items: flex-start;
 }
 
-.info h3 { font-size: 1.1rem; margin-bottom: 4px; }
-.org { color: #777; font-size: 0.9rem; }
+.info h3 {
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.org {
+  color: #777;
+  font-size: 0.9rem;
+}
 
 .status-badge {
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 0.75rem;
 }
-.status-badge.approved { background: #e8f5e9; color: #2e7d32; }
-.status-badge.pending { background: #fffde7; color: #f9a825; }
-.status-badge.ongoing { background: #e3f2fd; color: #1976d2; }
+
+.status-badge.approved {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-badge.pending {
+  background: #fffde7;
+  color: #f9a825;
+}
+
+.status-badge.ongoing {
+  background: #e3f2fd;
+  color: #1976d2;
+}
 
 .card-meta {
   margin: 15px 0;
@@ -148,19 +167,24 @@ export default {
 }
 
 /* Progress Bar */
-.progress-section { margin-top: 15px; }
+.progress-section {
+  margin-top: 15px;
+}
+
 .progress-labels {
   display: flex;
   justify-content: space-between;
   font-size: 0.8rem;
   margin-bottom: 8px;
 }
+
 .progress-bar {
   height: 8px;
   background: #eee;
   border-radius: 4px;
   overflow: hidden;
 }
+
 .progress-fill {
   height: 100%;
   background: #0033cc;
@@ -175,15 +199,29 @@ export default {
   margin-bottom: 12px;
   overflow: hidden;
 }
+
 .event-accent {
   width: 4px;
   background: #0033cc;
 }
+
 .event-content {
   padding: 15px;
   font-size: 0.85rem;
 }
-.event-content h4 { margin-bottom: 8px; font-size: 0.95rem; }
-.event-content p { color: #555; margin: 4px 0; }
-.event-content i { width: 18px; color: #888; }
+
+.event-content h4 {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.event-content p {
+  color: #555;
+  margin: 4px 0;
+}
+
+.event-content i {
+  width: 18px;
+  color: #888;
+}
 </style>

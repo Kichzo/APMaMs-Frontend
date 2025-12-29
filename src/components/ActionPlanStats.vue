@@ -1,45 +1,45 @@
-<template> 
-    <div class="action-stats">
-  <div class="stat-card">
-    <div class="icon blue">
-      <i class="far fa-clock"></i>
+<template>
+  <div class="action-stats">
+    <div class="stat-card">
+      <div class="icon blue">
+        <i class="far fa-clock"></i>
+      </div>
+      <div>
+        <h4>3</h4>
+        <span>Active Plans</span>
+      </div>
     </div>
-    <div>
-      <h4>3</h4>
-      <span>Active Plans</span>
-    </div>
-  </div>
 
-  <div class="stat-card">
-    <div class="icon yellow">
-      <i class="far fa-check-circle"></i>
+    <div class="stat-card">
+      <div class="icon yellow">
+        <i class="far fa-check-circle"></i>
+      </div>
+      <div>
+        <h4>29</h4>
+        <span>Total Objectives</span>
+      </div>
     </div>
-    <div>
-      <h4>29</h4>
-      <span>Total Objectives</span>
-    </div>
-  </div>
 
-  <div class="stat-card">
-    <div class="icon green">
-      <i class="fas fa-chart-line"></i>
+    <div class="stat-card">
+      <div class="icon green">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <div>
+        <h4>53%</h4>
+        <span>Avg Progress</span>
+      </div>
     </div>
-    <div>
-      <h4>53%</h4>
-      <span>Avg Progress</span>
-    </div>
-  </div>
 
-  <div class="stat-card">
-    <div class="icon purple">
-      <i class="far fa-file-alt"></i>
-    </div>
-    <div>
-      <h4>₱23.5M</h4>
-      <span>Total Budget</span>
+    <div class="stat-card">
+      <div class="icon purple">
+        <i class="far fa-file-alt"></i>
+      </div>
+      <div>
+        <h4>₱23.5M</h4>
+        <span>Total Budget</span>
+      </div>
     </div>
   </div>
-</div>
 
 </template>
 
@@ -60,7 +60,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .stat-card h4 {
@@ -84,8 +84,23 @@
   font-size: 0.9rem;
 }
 
-.icon.blue   { background: #dbeafe; color: #1e3a8a; }
-.icon.yellow { background: #fef9c3; color: #92400e; }
-.icon.green  { background: #dcfce7; color: #166534; }
-.icon.purple { background: #f3e8ff; color: #6b21a8; }
+.icon.blue {
+  background: #dbeafe;
+  color: #1e3a8a;
+}
+
+.icon.yellow {
+  background: #fef9c3;
+  color: #92400e;
+}
+
+.icon.green {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.icon.purple {
+  background: #f3e8ff;
+  color: #6b21a8;
+}
 </style>

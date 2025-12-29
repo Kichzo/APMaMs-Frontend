@@ -5,13 +5,8 @@
       <button class="add-btn">+</button>
     </div>
 
-    <ActionPlanCard
-      v-for="plan in plans"
-      :key="plan.id"
-      :plan="plan"
-      :active="plan.id === activePlanId"
-      @select="$emit('select-plan', plan)"
-    />
+    <ActionPlanCard v-for="plan in plans" :key="plan.id" :plan="plan" :active="plan.id === activePlanId"
+      @select="$emit('select-plan', plan)" />
   </div>
 </template>
 
@@ -56,5 +51,4 @@ export default {
   border-radius: 6px;
   cursor: pointer;
 }
-
 </style>

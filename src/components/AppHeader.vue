@@ -12,18 +12,18 @@
         </div>
 
         <router-link to="/account" class="user-profile">
-        <div class="user-profile" >
-            <div class="user-avatar">
-                <i class="fas fa-user"></i>
-            </div>
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
 
-            <div class="user-info">
-                <span class="user-name">Kian Estenzo</span>
-                <span class="user-role">Student Council</span>
-            </div>
+                <div class="user-info">
+                    <span class="user-name">Kian Estenzo</span>
+                    <span class="user-role">Student Council</span>
+                </div>
 
-            <i class="fas fa-chevron-down dropdown-icon"></i>
-        </div>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
         </router-link>
 
     </header>
@@ -39,24 +39,31 @@
 }
 
 .header-left {
-    display: flex; align-items: center; gap: 20px; 
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-.brand-main { 
-    font-weight: bold; font-size: 1.4rem; color: #1a1a1a; font-family: serif; 
+.brand-main {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: #1a1a1a;
+    font-family: serif;
 }
 
-.brand-sub { 
-    font-size: 0.75rem; letter-spacing: 1px; color: #333; 
+.brand-sub {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: #333;
 }
 
 .user-profile {
-    text-decoration: none; 
-    color: inherit;     
-    display: flex;      
+    text-decoration: none;
+    color: inherit;
+    display: flex;
     align-items: center;
     gap: 10px;
-    cursor: pointer;   
+    cursor: pointer;
 }
 
 .user-profile:hover {
@@ -115,5 +122,4 @@
     background: #333;
     display: block;
 }
-
 </style>

@@ -1,28 +1,28 @@
 <template>
-<div class="action-plan-header">
-  <div class="header-top">
-    <div class="title-wrap">
-      <h3>Academic Excellence Initiative 2025–2028</h3>
-      <span class="period">Period: 2025–2028</span>
+  <div class="action-plan-header">
+    <div class="header-top">
+      <div class="title-wrap">
+        <h3>Academic Excellence Initiative 2025–2028</h3>
+        <span class="period">Period: 2025–2028</span>
+      </div>
+
+      <button class="edit-btn">
+        <i class="fas fa-pen"></i>
+        Edit Plan
+      </button>
     </div>
 
-    <button class="edit-btn">
-      <i class="fas fa-pen"></i>
-      Edit Plan
-    </button>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Overall Progress</span>
+        <span class="percent">35%</span>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 35%"></div>
+      </div>
+    </div>
   </div>
-
-  <div class="progress-wrap">
-    <div class="progress-label">
-      <span>Overall Progress</span>
-      <span class="percent">35%</span>
-    </div>
-
-    <div class="progress-bar">
-      <div class="progress-fill" style="width: 35%"></div>
-    </div>
-  </div>
-</div>
 
 </template>
 
@@ -41,7 +41,8 @@ export default {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 16px;
-  width: 100%;              /* ← CRITICAL */
+  width: 100%;
+  /* ← CRITICAL */
 }
 
 .header-top {
@@ -77,7 +78,8 @@ export default {
 /* 🔥 PROGRESS FIX */
 .progress-wrap {
   margin-top: 14px;
-  width: 100%;             /* ← CRITICAL */
+  width: 100%;
+  /* ← CRITICAL */
 }
 
 .progress-label {
@@ -89,7 +91,8 @@ export default {
 }
 
 .progress-bar {
-  width: 100%;             /* ← CRITICAL */
+  width: 100%;
+  /* ← CRITICAL */
   height: 6px;
   background: #e5e7eb;
   border-radius: 999px;
@@ -101,6 +104,4 @@ export default {
   background: #f97316;
   border-radius: 999px;
 }
-
-
 </style>

@@ -23,6 +23,7 @@
   border-radius: 12px;
   margin-bottom: 24px;
 }
+
 .search-container {
   flex: 2;
   position: relative;
@@ -30,7 +31,26 @@
   border: 1px solid #cbd5e1;
   border-radius: 6px;
 }
-.search-container i { position: absolute; left: 10px; top: 12px; color: #94a3b8; }
-.search-container input { width: 100%; padding: 8px 8px 8px 35px; border: none; background: transparent; }
-.filter-select { flex: 1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; }
+
+.search-container i {
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  color: #94a3b8;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 8px 8px 8px 35px;
+  border: none;
+  background: transparent;
+}
+
+.filter-select {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #fff;
+}
 </style>

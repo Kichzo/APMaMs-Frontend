@@ -35,7 +35,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
 .card-header {
@@ -64,12 +64,29 @@ export default {
 }
 
 /* Gradients */
-.blue   { background: linear-gradient(135deg, #3f51ff, #2a36d9); }
-.yellow { background: linear-gradient(135deg, #cddc39, #afb42b); }
-.green  { background: linear-gradient(135deg, #00c853, #009624); }
-.purple { background: linear-gradient(135deg, #9c27b0, #6a1b9a); }
-.teal   { background: linear-gradient(135deg, #26a69a, #00695c); }
-.orange { background: linear-gradient(135deg, #ffa726, #ef6c00); }
+.blue {
+  background: linear-gradient(135deg, #3f51ff, #2a36d9);
+}
+
+.yellow {
+  background: linear-gradient(135deg, #cddc39, #afb42b);
+}
+
+.green {
+  background: linear-gradient(135deg, #00c853, #009624);
+}
+
+.purple {
+  background: linear-gradient(135deg, #9c27b0, #6a1b9a);
+}
+
+.teal {
+  background: linear-gradient(135deg, #26a69a, #00695c);
+}
+
+.orange {
+  background: linear-gradient(135deg, #ffa726, #ef6c00);
+}
 
 .value {
   font-size: 2rem;

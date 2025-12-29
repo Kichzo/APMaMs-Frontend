@@ -7,7 +7,7 @@
         <p>Total Allocated</p>
       </div>
     </div>
-    
+
     <div class="stat-card">
       <div class="icon-box green"><i class="fas fa-arrow-down"></i></div>
       <div class="stat-info">
@@ -49,7 +49,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .icon-box {
@@ -61,11 +61,36 @@
   justify-content: center;
   font-size: 1.1rem;
 }
-.blue { background: #eff6ff; color: #1e40af; }
-.green { background: #f0fdf4; color: #166534; }
-.purple { background: #faf5ff; color: #6b21a8; }
-.red { background: #fef2f2; color: #991b1b; }
 
-.stat-info h2 { font-family: serif; font-size: 1.8rem; margin: 0; }
-.stat-info p { color: #64748b; margin: 4px 0 0 0; font-size: 0.85rem; }
+.blue {
+  background: #eff6ff;
+  color: #1e40af;
+}
+
+.green {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.purple {
+  background: #faf5ff;
+  color: #6b21a8;
+}
+
+.red {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.stat-info h2 {
+  font-family: serif;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.stat-info p {
+  color: #64748b;
+  margin: 4px 0 0 0;
+  font-size: 0.85rem;
+}
 </style>

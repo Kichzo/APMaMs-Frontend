@@ -1,14 +1,14 @@
 <template>
   <div class="budget-panel">
     <h3 class="panel-title">Organization Budget Status</h3>
-    
+
     <div class="org-list">
       <div v-for="org in organizations" :key="org.name" class="org-item">
         <div class="org-header">
           <span class="org-name">{{ org.name }}</span>
           <span class="usage-label">{{ org.percentage }}% Used</span>
         </div>
-        
+
         <div class="progress-bg">
           <div class="progress-fill" :style="{ width: org.percentage + '%', background: org.color }"></div>
         </div>
@@ -54,21 +54,76 @@ export default {
   border-radius: 12px;
   padding: 24px;
 }
-.panel-title { font-family: serif; font-size: 1.25rem; margin-bottom: 25px; }
 
-.org-item { margin-bottom: 30px; border-bottom: 1px solid #f8fafc; padding-bottom: 20px; }
-.org-item:last-child { border-bottom: none; margin-bottom: 0; }
+.panel-title {
+  font-family: serif;
+  font-size: 1.25rem;
+  margin-bottom: 25px;
+}
 
-.org-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 600; font-size: 0.95rem; }
-.usage-label { color: #64748b; font-size: 0.85rem; }
+.org-item {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #f8fafc;
+  padding-bottom: 20px;
+}
 
-.progress-bg { height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; margin-bottom: 12px; }
-.progress-fill { height: 100%; border-radius: 3px; }
+.org-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
 
-.budget-details { display: flex; justify-content: space-between; font-size: 0.8rem; }
-.detail-item { display: flex; flex-direction: column; gap: 2px; }
-.detail-item span { color: #94a3b8; font-size: 0.7rem; }
-.detail-item strong { color: #334155; }
-.detail-item.spent strong { color: #ef4444; }
-.detail-item.remaining strong { color: #22c55e; }
+.org-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.usage-label {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.progress-bg {
+  height: 6px;
+  background: #f1f5f9;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.budget-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-item span {
+  color: #94a3b8;
+  font-size: 0.7rem;
+}
+
+.detail-item strong {
+  color: #334155;
+}
+
+.detail-item.spent strong {
+  color: #ef4444;
+}
+
+.detail-item.remaining strong {
+  color: #22c55e;
+}
 </style>

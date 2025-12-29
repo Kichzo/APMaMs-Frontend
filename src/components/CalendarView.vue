@@ -13,22 +13,18 @@
     </div>
 
     <div class="org-filters">
-      <button 
-        v-for="org in orgs" 
-        :key="org" 
-        :class="['filter-chip', { active: selectedOrg === org }]"
-        @click="selectedOrg = org"
-      >
+      <button v-for="org in orgs" :key="org" :class="['filter-chip', { active: selectedOrg === org }]"
+        @click="selectedOrg = org">
         {{ org }}
       </button>
     </div>
 
     <div class="calendar-grid">
       <div v-for="day in daysOfWeek" :key="day" class="day-header">{{ day }}</div>
-      
+
       <div v-for="date in 31" :key="date" class="date-cell">
         <span class="date-num">{{ date }}</span>
-        
+
         <template v-if="selectedOrg === 'All Organizations' || selectedOrg === 'SSC'">
           <div v-if="date === 10" class="event-tag ongoing">Community..</div>
           <div v-if="date === 15" class="event-tag ongoing">Leadership..</div>
@@ -41,7 +37,7 @@
         <template v-if="selectedOrg === 'All Organizations' || selectedOrg === 'CELS College'">
           <div v-if="date === 20" class="event-tag pending">Techn Inno..</div>
         </template>
-        
+
         <template v-if="selectedOrg === 'All Organizations' || selectedOrg === 'CESS College'">
           <div v-if="date === 28" class="event-tag pending">Business.......</div>
         </template>
@@ -130,7 +126,7 @@ export default {
   background: #fff;
   border: 1px solid #e2e8f0;
   color: #000;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .calendar-grid {

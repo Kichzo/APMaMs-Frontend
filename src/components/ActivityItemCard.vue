@@ -65,70 +65,74 @@ export default {
   padding: 24px;
   margin-top: 16px;
 }
-.card-header { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.title-group { 
-  display: flex; 
-  align-items: center; 
-  gap: 10px; 
+.title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.title-group h3 { 
-  font-family: serif; 
-  font-size: 1.25rem; 
+.title-group h3 {
+  font-family: serif;
+  font-size: 1.25rem;
 }
 
-.badge { 
-  font-size: 0.7rem; 
-  padding: 2px 8px; 
-  border-radius: 4px; 
-  font-weight: bold; 
+.badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
 }
 
-.approved { 
-  background: #dcfce7; 
-  color: #166534; 
+.approved {
+  background: #dcfce7;
+  color: #166534;
 }
 
-.high { 
-  background: #fee2e2; color: #991b1b; 
+.high {
+  background: #fee2e2;
+  color: #991b1b;
 }
 
-.view-btn { 
-  background: #0a21c0; 
-  color: white; 
-  padding: 8px 16px; 
-  border-radius: 6px; 
-  border: none; 
-  cursor: pointer; 
+.view-btn {
+  background: #0a21c0;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
 }
 
-.meta-grid, .footer-meta { 
-  display: flex; 
-  gap: 20px; 
-  font-size: 0.8rem; 
-  color: #64748b; 
-  margin-top: 15px; 
+.meta-grid,
+.footer-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 15px;
 }
 
-.footer-meta { 
-  border-top: 1px solid #f1f5f9; padding-top: 15px;
+.footer-meta {
+  border-top: 1px solid #f1f5f9;
+  padding-top: 15px;
 }
 
-.bar-track { 
-  height: 6px; 
-  background: #e2e8f0; 
-  border-radius: 3px; 
-  margin-top: 5px; 
+.bar-track {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  margin-top: 5px;
 }
 
-.bar-fill { 
-  height: 100%; 
-  background: #0a21c0; 
-  border-radius: 3px; 
-  }
+.bar-fill {
+  height: 100%;
+  background: #0a21c0;
+  border-radius: 3px;
+}
 </style>

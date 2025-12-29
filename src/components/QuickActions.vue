@@ -72,7 +72,8 @@ export default {
 }
 
 .section-title {
-  font-family: serif; /* Matching the serif look in your image */
+  font-family: serif;
+  /* Matching the serif look in your image */
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 20px;
@@ -86,7 +87,8 @@ export default {
 }
 
 .action-card {
-  background: #f0f7ff; /* Soft blue background from image */
+  background: #f0f7ff;
+  /* Soft blue background from image */
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 24px 20px;

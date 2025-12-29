@@ -160,8 +160,19 @@ export default {
   border-radius: 50%;
 }
 
-.green { background: #10b981; }
-.blue { background: #3b82f6; }
-.yellow { background: #eab308; }
-.grey { background: #94a3b8; }
+.green {
+  background: #10b981;
+}
+
+.blue {
+  background: #3b82f6;
+}
+
+.yellow {
+  background: #eab308;
+}
+
+.grey {
+  background: #94a3b8;
+}
 </style>

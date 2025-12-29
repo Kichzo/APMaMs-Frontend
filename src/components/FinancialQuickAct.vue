@@ -31,14 +31,21 @@ export default {
 </script>
 
 <style scoped>
-.label { font-weight: 700; margin-bottom: 16px; font-size: 1.1rem; }
+.label {
+  font-weight: 700;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+}
+
 .actions-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
 }
+
 .action-card {
-  background: #eff6ff; /* Light blue tint from image */
+  background: #eff6ff;
+  /* Light blue tint from image */
   border-radius: 12px;
   padding: 24px;
   display: flex;
@@ -47,6 +54,7 @@ export default {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   cursor: pointer;
 }
+
 .icon-box {
   width: 48px;
   height: 48px;
@@ -56,6 +64,16 @@ export default {
   justify-content: center;
   font-size: 1.2rem;
 }
-.action-info h4 { margin: 0; font-family: serif; font-size: 1.1rem; }
-.action-info p { margin: 4px 0 0; font-size: 0.85rem; color: #64748b; }
+
+.action-info h4 {
+  margin: 0;
+  font-family: serif;
+  font-size: 1.1rem;
+}
+
+.action-info p {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
 </style>

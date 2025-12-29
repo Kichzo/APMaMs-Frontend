@@ -83,37 +83,37 @@ export default {
 
 
 .menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .menu li {
-    padding: 14px 28px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    color: #333;
-    cursor: pointer;
-    font-size: 0.95rem;
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #333;
+  cursor: pointer;
+  font-size: 0.95rem;
 }
 
 .menu li i {
-    width: 18px;
-    text-align: center;
-    color: #666;
+  width: 18px;
+  text-align: center;
+  color: #666;
 }
 
 .menu li.active {
-    background: #f4f8ff;
-    color: #4361ee;
+  background: #f4f8ff;
+  color: #4361ee;
 }
 
 .menu li.active i {
-    color: #4361ee;
+  color: #4361ee;
 }
 
 .menu li:hover {
-    background: #fafafa;
+  background: #fafafa;
 }
 </style>
