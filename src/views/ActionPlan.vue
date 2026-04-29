@@ -6,24 +6,45 @@
       <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
 
       <main class="content">
-        <div class="page-title">
+        <div class="title-block">
           <h1>Action Plan</h1>
           <p>Monitor and manage institutional strategic initiatives</p>
         </div>
-        
-        <ActionPlanStats />
-        
+
         <div class="action-grid">
-          <ActionPlanList 
-            :plans="plans" 
-            :activePlanId="selectedPlan.id" 
-            @select-plan="selectedPlan = $event" 
+
+          <!-- LEFT PANEL -->
+          <ActionPlanList
+            :plans="plans"
+            :activePlanId="selectedPlan?.id"
+            @select-plan="selectPlan"
+            @add-plan="showAddForm = true"
           />
 
-          <div>
-            <ActionPlanHeader :title="selectedPlan.title" :progress="selectedPlan.progress" />
-            <KeyMetrics :metrics="metrics" />
-            <ActionObjectives :objectives="objectives" />
+          <!-- RIGHT PANEL -->
+          <div class="right-panel">
+
+            <div v-if="selectedPlan" class="details-panel">
+              <div class="details-header">
+                <div class="tab">Action Plan</div>
+                <div class="header-actions">
+                  <button class="add-activity-btn">
+                    <i class="fa-solid fa-plus"></i> Add Activity
+                  </button>
+                  <button class="import-btn">
+                    <i class="fa-solid fa-download"></i> Import
+                  </button>
+                </div>
+              </div>
+              <div class="details-content">
+                <!-- Content gets shown here later -->
+              </div>
+            </div>
+
+            <!-- EMPTY STATE (default) -->
+            <div v-else class="empty-placeholder">
+            </div>
+
           </div>
         </div>
       </main>
@@ -35,58 +56,36 @@
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
 import ActionPlanList from '/src/components/ActionPlan/ActionPlanList.vue'
-import ActionPlanHeader from '/src/components/ActionPlan/ActionPlanHeader.vue'
-import KeyMetrics from '/src/components/ActionPlan/ActionPlanKeyMetrics.vue'
-import ActionObjectives from '/src/components/ActionPlan/ActionPlanObjectives.vue'
-import ActionPlanStats from '/src/components/ActionPlan/ActionPlanStats.vue'
 
 export default {
   components: {
     AppHeader,
     AppSidebar,
-    ActionPlanList,
-    ActionPlanHeader,
-    KeyMetrics,
-    ActionObjectives,
-    ActionPlanStats
+    ActionPlanList
   },
   data() {
     return {
       isSidebarVisible: true,
       role: localStorage.getItem('role') || 'org',
+
       plans: [
-        {
-          id: 1,
-          title: 'Academic Excellence Initiative',
-          period: '2025–2028',
-          status: 'Active',
-          progress: 35
-        }
+        { id: 1, title: 'Fiscal Year 2025' },
+        { id: 2, title: 'Fiscal Year 2026' },
+        { id: 3, title: 'Fiscal Year 2027' }
       ],
-      selectedPlan: {
-        id: 1,
-        title: 'Academic Excellence Initiative',
-        progress: 35
-      },
-      metrics: [
-        { label: 'Completion Rate', value: '35%' },
-        { label: 'Budget Utilization', value: '₱2.1M' },
-        { label: 'Objectives Met', value: '3 / 12' },
-        { label: 'Timeline', value: '8 months' }
-      ],
-      objectives: [
-        { id: 1, title: 'Enhance curriculum activity', progress: 45, status: 'On Track', statusClass: 'green' },
-        { id: 2, title: 'Increase research output', progress: 25, status: 'At Risk', statusClass: 'red' }
-      ],
+
+      selectedPlan: null
     }
   },
   methods: {
     toggleSidebar() {
-      this.isSidebarVisible = !this.isSidebarVisible;
+      this.isSidebarVisible = !this.isSidebarVisible
+    },
+    selectPlan(plan) {
+      this.selectedPlan = plan
     }
   }
 }
-  
 </script>
 
 <style scoped>
@@ -94,51 +93,141 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: hidden;
 }
 
 .dashboard-layout {
   display: flex;
   flex: 1;
-  overflow: hidden;
-  position: relative; /* Required for mobile absolute positioning */
-}
-
-/* Sidebar logic exactly as your Dashboard reference */
-:deep(.sidebar) {
-  width: 260px;
-  height: 100%;
-  flex-shrink: 0;
-  transition: all 0.3s ease-in-out;
-}
-
-/* This is the magic part that pulls it away so content can fill space */
-:deep(.sidebar-hidden) {
-  margin-left: -260px;
 }
 
 .content {
-  flex: 1; /* This pushes the content to fill 100% of the remaining width */
-  padding: 40px;
+  flex: 1;
+  padding: 30px 40px;
   overflow-y: auto;
-  background-color: #fff;
-  transition: all 0.3s ease-in-out;
+  background-color: #f8fafc;
+  transition: all 0.3s ease-in-out; 
 }
 
-.page-title h1 {
-  font-family: serif;
-  font-size: 2.5rem;
-  margin-bottom: 5px;
+:deep(.sidebar) {
+  width: 260px;
+  transition: all 0.3s ease;
 }
 
-.page-title p {
-  color: #888;
-  margin-bottom: 40px;
+:deep(.sidebar-hidden) {
+  margin-left: -260px; 
 }
 
+/* Title */
+.title-block h1 {
+  font-family: Arial, sans-serif;
+  font-size: 2.2rem;
+  margin: 0;
+}
+
+.title-block p {
+  color: #64748b;
+  font-family: Arial, sans-serif;
+  margin-top: 5px;
+}
+
+/* Grid */
 .action-grid {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: 24px;
+  align-items: start;
+  margin-top: 20px;
+}
+
+/* Right side container spacing */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
+
+.empty-placeholder {
+  width: 100%;
+  height: 350px;
+}
+
+/* Details Panel matches the left panel's general borders */
+.details-panel {
+  background: #ffffff;
+  border: 1px solid #9e9e9e;
+  border-radius: 10px;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #9e9e9e;
+  padding: 0 24px;
+  height: 60px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  color: #3b82f6; /* Blue text */
+  border-bottom: 3px solid #3b82f6; /* Blue active underline */
+  margin-bottom: -1px; /* Align border directly over container's bottom border */
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.add-activity-btn {
+  background: #3b82f6; /* Blue primary color */
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-activity-btn:hover {
+  background: #2563eb;
+}
+
+.import-btn {
+  background: #000000;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.import-btn:hover {
+  background: #333333;
+}
+
+.details-content {
+  flex: 1;
+  padding: 24px;
 }
 </style>

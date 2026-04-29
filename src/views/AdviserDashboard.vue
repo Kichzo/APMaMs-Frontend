@@ -85,7 +85,7 @@ export default {
 /* --- Content Auto-Expansion Logic --- */
 .content {
   flex: 1;
-  padding: 30px 40px;
+  padding: 30pxo;
   overflow-y: auto;
   background-color: #f8fafc;
   transition: all 0.3s ease-in-out; /* Smooth slide when sidebar moves */
@@ -111,13 +111,8 @@ export default {
 
 .page-title h1 {
   font-family: serif;
-  font-size: 2.2rem;
-  margin: 0;
-}
-
-.page-title p {
-  color: #64748b;
-  margin-top: 5px;
+  font-size: 2.5rem;
+  margin-bottom: 5px;
 }
 
 /* --- Media Queries for Mobile/Tablet --- */

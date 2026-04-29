@@ -7,20 +7,19 @@
             <div class="user-identity">
                 <h2>{{ user.name }}</h2>
                 <p class="role">{{ user.role }}</p>
-                <p class="org">{{ user.org }}</p>
             </div>
         </div>
 
         <ul class="detail-list">
-            <li><i class="fas fa-envelope"></i><span>{{ user.email }}</span></li>
-            <li><i class="fas fa-id-card"></i><span>{{ user.idNumber }}</span></li>
-            <li><i class="fas fa-university"></i><span>{{ user.college }}</span></li>
-            <li><i class="fas fa-calendar-alt"></i><span>Joined {{ user.joinedDate }}</span></li>
+            <li><i class="fas fa-envelope"></i><span class="detail-text">{{ user.email }}</span></li>
+            <li><i class="far fa-building"></i><span class="detail-text">College of Business and Information Technology</span></li>
+            <li><i class="fab fa-envira"></i><span class="detail-text">Active</span></li>
+            <li><i class="fas fa-address-card"></i><span class="detail-text"></span></li>
         </ul>
 
         <div class="action-buttons">
             <button class="btn btn-primary" @click="$emit('edit')">Edit Profile</button>
-            <button class="btn btn-danger" @click="$emit('delete')">Delete Account</button>
+            <button class="btn btn-danger" @click="$emit('delete')">Deleted Account</button>
         </div>
     </div>
 </template>
@@ -57,39 +56,44 @@ export default {
 }
 
 .user-identity h2 {
-    font-family: serif;
+    font-family: Arial, sans-serif;
     font-size: 1.5rem;
     margin: 0;
+    font-weight: bold;
 }
 
-.user-identity .role,
-.user-identity .org {
-    color: #666;
-    font-size: 0.95rem;
-    margin: 0;
+.user-identity .role {
+    color: #333;
+    font-size: 1rem;
+    margin: 5px 0 0;
 }
 
 .detail-list {
     list-style: none;
     padding: 0;
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .detail-list li {
     display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 18px;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 25px;
     font-size: 0.85rem;
-    color: #333;
+    color: #000;
+    font-weight: bold;
 }
 
 .detail-list li i {
-    width: 18px;
+    width: 20px;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #000;
+}
+
+.detail-text {
+    flex: 1;
 }
 
 .action-buttons {
@@ -103,19 +107,21 @@ export default {
     width: 100%;
     padding: 12px;
     border-radius: 8px;
-    font-family: serif;
+    font-family: Arial, sans-serif;
     font-size: 1.1rem;
+    font-weight: bold;
     cursor: pointer;
-    border: none;
+    border: 2px solid #000;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .btn-primary {
-    background-color: #0a21c0;
+    background-color: #00129a;
     color: white;
 }
 
 .btn-danger {
-    background-color: #d32f2f;
+    background-color: #c02c1d;
     color: white;
 }
 </style>

@@ -2,7 +2,7 @@
     <div class="tools-header">
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
-            <input type="text" placeholder="Search by name, email, or organization" class="search-input" />
+            <input type="text" placeholder="Search by name or organization" class="search-input" />
         </div>
         <button class="add-user-btn">
             <i class="fas fa-user-plus"></i> Add New User
@@ -22,7 +22,7 @@
 .search-container {
     position: relative;
     flex: 1;
-    max-width: 600px;
+    max-width: 830px;
 }
 
 .search-icon {
@@ -36,7 +36,7 @@
 .search-input {
     width: 100%;
     padding: 12px 15px 12px 45px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #cbced2;
     border-radius: 8px;
     font-size: 0.95rem;
     outline: none;

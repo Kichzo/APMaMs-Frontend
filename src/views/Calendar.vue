@@ -17,10 +17,9 @@
       <main class="content">
         <div class="page-header">
           <div class="title-block">
-            <h1>Activity Management</h1>
-            <p>Create, manage, and track all organizational activities and proposals</p>
+            <h1>Activity Calendar</h1>
+            <p>View and Manage Activity Schedules</p>
           </div>
-          <button class="new-activity-btn">New Activity</button>
         </div>
         <div class="calendar-page">
           <div class="calendar-layout">
@@ -92,8 +91,8 @@ export default {
 .content {
   flex: 1;
   width: 100%;
-  padding: 40px;
-  background-color: #fff;
+  padding: 30px 40px;
+  background-color: #f8fafc;
   box-sizing: border-box;
 
   /* The Magic Sauce: Enable scrolling only here */
@@ -136,19 +135,5 @@ export default {
 .title-block p {
   color: #64748b;
   margin-top: 5px;
-}
-
-.new-activity-btn {
-  background-color: #0a21c0;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
 }
 </style>

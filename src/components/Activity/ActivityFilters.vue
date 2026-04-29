@@ -5,10 +5,14 @@
       <input type="text" placeholder="Search activities, organizations, or activities" />
     </div>
     <select class="filter-select">
-      <option>All Status</option>
-    </select>
-    <select class="filter-select">
       <option>All Organizations</option>
+      <option>CBIT</option>
+      <option>CELS</option>
+      <option>CMFS</option>
+      <option>CESS</option>
+      <option>KAABAG</option>
+      <option>TME</option>
+      <option>SenSo</option>
     </select>
   </div>
 </template>
@@ -35,7 +39,7 @@
 .search-container i {
   position: absolute;
   left: 10px;
-  top: 12px;
+  top: 10px;
   color: #94a3b8;
 }
 

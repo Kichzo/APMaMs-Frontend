@@ -1,8 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+//Auth Pages
 import Credentials from '/src/views/Credentials.vue'
 import Signin from '/src/views/Signin.vue'
+
+//Dashboards
 import UserDashboard from '/src/views/UserDashboard.vue'
+import AdminDashboard from '/src/views/AdminDashboard.vue'
+import AdviserDashboard from '/src/views/AdviserDashboard.vue'
+
+//User Pages
 import Account from '/src/views/Account.vue'
 import Activity from '/src/views/Activity.vue'
 import ActionPlan from '/src/views/ActionPlan.vue'
@@ -11,7 +18,6 @@ import Financial from '/src/views/Financial.vue'
 import Organizations from '/src/views/Organizations.vue'
 import Reports from '/src/views/Reports.vue'
 import Approvals from '/src/views/Approvals.vue'
-import AdminDashboard from '/src/views/AdminDashboard.vue'
 import CreateActivity from '/src/views/CreateActivity.vue'
 import Users from '/src/views/Users.vue'
 
@@ -31,7 +37,7 @@ const routes = [
     {
         path: '/userdashboard',
         name: 'UserDashboard',
-        component: UserDashboard
+        component: UserDashboard,
     },
 
     {
@@ -41,55 +47,61 @@ const routes = [
     },
 
     {
+        path: '/adviserdashboard',
+        name: 'AdviserDashboard',
+        component: AdviserDashboard
+    },
+
+    {
         path: '/account',
         name: 'Account',
         component: Account
     },
 
     {
-        path:   '/activity',
-        name:    'Activity',
-        component:  Activity
+        path: '/activity',
+        name: 'Activity',
+        component: Activity
     },
     {
-        path:   '/actionplan',
-        name:    'ActionPlan',
-        component:  ActionPlan
+        path: '/actionplan',
+        name: 'ActionPlan',
+        component: ActionPlan
     },
     {
-        path:   '/calendar',
-        name:    'Calendar',
-        component:  Calendar
+        path: '/calendar',
+        name: 'Calendar',
+        component: Calendar
     },
     {
-        path:   '/financial',
-        name:    'Financial',
-        component:  Financial
+        path: '/financial',
+        name: 'Financial',
+        component: Financial
     },
     {
-        path:   '/organizations',
-        name:    'Organizations',
-        component:  Organizations
+        path: '/organizations',
+        name: 'Organizations',
+        component: Organizations
     },
     {
-        path:   '/report',
-        name:    'Reports',
-        component:  Reports
+        path: '/report',
+        name: 'Reports',
+        component: Reports
     },
     {
-        path:   '/approvals',
-        name:   'Approvals',
-        component:   Approvals
+        path: '/approvals',
+        name: 'Approvals',
+        component: Approvals
     },
     {
-        path:   '/createactivity',
-        name:   'CreateActivity',
-        component:   CreateActivity
+        path: '/createactivity',
+        name: 'CreateActivity',
+        component: CreateActivity
     },
     {
-        path:   '/users',
-        name:   'Users',
-        component:   Users
+        path: '/users',
+        name: 'Users',
+        component: Users
     }
 ]
 

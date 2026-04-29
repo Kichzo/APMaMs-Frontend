@@ -1,12 +1,18 @@
 <template>
   <div class="panel">
     <div class="panel-header">
-      <h3>Action Plans</h3>
-      <button class="add-btn">+</button>
+      <h3>Action Plan</h3>
     </div>
 
-    <ActionPlanCard v-for="plan in plans" :key="plan.id" :plan="plan" :active="plan.id === activePlanId"
-      @select="$emit('select-plan', plan)" />
+    <div class="plan-items">
+      <ActionPlanCard
+        v-for="plan in plans"
+        :key="plan.id"
+        :plan="plan"
+        :active="plan.id === activePlanId"
+        @select="$emit('select-plan', plan)"
+      />
+    </div>
   </div>
 </template>
 
@@ -24,31 +30,26 @@ export default {
 
 <style scoped>
 .panel {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #9e9e9e;
+  border-radius: 10px;
+  min-height: 350px;
 }
 
 .panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #9e9e9e;
 }
 
 .panel-header h3 {
-  font-family: serif;
-  font-size: 1.1rem;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #111827;
 }
 
-.add-btn {
-  background: #0a21c0;
-  color: #fff;
-  border: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  cursor: pointer;
+.plan-items {
+  padding: 10px 0;
 }
 </style>

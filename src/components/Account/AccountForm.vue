@@ -13,23 +13,37 @@
             <div class="form-grid">
                 <div class="form-row">
                     <div class="input-group">
-                        <label>Full Name</label>
-                        <input type="text" placeholder="Kian Estenzo" />
+                        <label>First Name</label>
+                        <input type="text" value="Kian" />
                     </div>
                     <div class="input-group">
-                        <label>Email Address</label>
-                        <input type="email" placeholder="kian.estenzo@msunaawan.edu.ph" />
+                        <label>Last Name</label>
+                        <input type="text" value="Estenzo" />
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="input-group">
-                        <label>Student ID</label>
-                        <input type="text" placeholder="2021-12345" />
+                        <label>Email Address</label>
+                        <input type="email" value="kian.estenzo@msunaawan.edu.ph" />
                     </div>
                     <div class="input-group">
-                        <label>Department</label>
-                        <input type="text" placeholder="College of Business and Information Technology" />
+                        <label>Organization</label>
+                        <input type="text" value="College of Business and Information Technology" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Role</label>
+                        <input type="text" value="President" />
+                    </div>
+                    <div class="input-group">
+                        <label>Status</label>
+                        <select>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
                     </div>
                 </div>
 
@@ -65,6 +79,7 @@
                     <li>At least 8 characters long</li>
                     <li>Contains uppercase and lowercase letters</li>
                     <li>Contains at least one number</li>
+                    <li>Contains at least one special character</li>
                 </ul>
             </div>
 
@@ -116,16 +131,17 @@ export default {
 .tab-btn {
     background: none;
     border: none;
-    padding: 8px 20px;
+    padding: 10px 40px;
     cursor: pointer;
-    font-size: 0.9rem;
-    color: #666;
-    border-radius: 20px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #111827;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
 }
 
 .tab-btn.active {
-    background-color: #3b59ff;
-    /* Matches blue tab in image */
+    background-color: #2b4cff;
     color: white;
 }
 .form-row {
@@ -138,23 +154,29 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .input-group label {
     display: block;
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: bold;
     margin-bottom: 8px;
+    font-family: Arial, sans-serif;
 }
 
 .input-group input, 
-.input-group textarea {
+.input-group textarea,
+.input-group select {
     padding: 12px 15px;
     border: 1px solid #cbd5e0;
     border-radius: 8px;
-    font-family: serif;
+    font-family: Arial, sans-serif;
     font-size: 0.95rem;
     color: #1a1a1a;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
 }
 .input-group textarea {
     height: 180px;
@@ -162,22 +184,26 @@ export default {
 }
 
 .requirements-box {
-    background-color: #eef2ff;
+    background-color: #e3efff;
     padding: 20px;
     border-radius: 8px;
     margin: 25px 0;
 }
 
 .requirements-box h4 {
-    color: #001499;
+    color: #00129a;
     margin-top: 0;
     font-size: 0.95rem;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
 }
 
 .requirements-box ul {
     padding-left: 20px;
-    color: #333;
+    color: #00129a;
     font-size: 0.85rem;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
 }
 
 .requirements-box li {
@@ -199,19 +225,24 @@ export default {
 
 .btn-cancel {
     background: #fff;
-    border: 1px solid #ddd;
-    padding: 10px 25px;
-    border-radius: 6px;
+    border: 1px solid #cbd5e0;
+    padding: 12px 35px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    color: #111827;
 }
 
 .btn-update {
-    background: #001499;
+    background: #00129a;
     color: white;
     border: none;
-    padding: 10px 25px;
-    border-radius: 6px;
+    padding: 12px 35px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
 }
 
 ::placeholder {

@@ -63,35 +63,23 @@ export default {
       activities: [
         {
           id: 1,
-          title: 'Leadership Training Workshop',
+          title: 'First SSC Regular Meeting',
           status: 'Approved',
-          priority: 'HIGH',
-          description: 'Comprehensive leadership development program for student officers',
-          organization: 'Student Council',
-          date: '18/11/2025',
-          location: 'Function Hall',
+          organization: 'Supreme Student Council',
+          date: '05/01/2026 - 09/01/2026',
           participants: 50,
-          progress: 75,
-          budget: '23,000',
-          submittedBy: 'Al Christian Molina',
-          submittedAt: '15/10/2025',
-          approvedBy: 'VP Uy'
+          progress: 0,
+          budget: '5,000'
         },
         {
           id: 2,
-          title: 'Freshmen Orientation Program',
-          status: 'Pending',
-          priority: 'MEDIUM',
-          description: 'Orientation program for incoming freshmen students',
-          organization: 'Academic Affairs',
-          date: '05/12/2025',
-          location: 'Main Auditorium',
-          participants: 300,
-          progress: 20,
-          budget: '45,000',
-          submittedBy: 'Jane Dela Cruz',
-          submittedAt: '01/11/2025',
-          approvedBy: null
+          title: 'SSC Legislative Meeting',
+          status: 'Approved',
+          organization: 'Supreme Student Council',
+          date: '02/02/2026 - 06/02/2026',
+          participants: 50,
+          progress: 0,
+          budget: '5,000'
         }
       ]
     }
@@ -100,12 +88,7 @@ export default {
     // This replaces your static tabs array
     tabs() {
       return [
-        { id: 'all', label: 'All Activities', count: this.activities.length },
-        { id: 'pending', label: 'Pending', count: this.activities.filter(a => a.status.toLowerCase() === 'pending').length },
-        { id: 'approved', label: 'Approved', count: this.activities.filter(a => a.status.toLowerCase() === 'approved').length },
-        { id: 'ongoing', label: 'Ongoing', count: this.activities.filter(a => a.status.toLowerCase() === 'ongoing').length },
-        { id: 'completed', label: 'Completed', count: this.activities.filter(a => a.status.toLowerCase() === 'completed').length },
-        { id: 'drafts', label: 'Drafts', count: this.activities.filter(a => a.status.toLowerCase() === 'draft').length }
+        { id: 'all', label: 'All Activities', count: this.activities.length }
       ];
     },
     filteredActivities() {
@@ -134,7 +117,7 @@ export default {
   /* Lock to viewport height */
   height: 100vh;
   width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
   overflow: hidden;
   /* Prevent page-level scrolling */
 }
@@ -163,11 +146,10 @@ export default {
 
 .content {
   flex: 1;
-  /* This ensures it expands to fill 100% of the remaining width */
-  padding: 40px;
+  padding: 30px 40px;
   overflow-y: auto;
-  background-color: #fff;
-  transition: all 0.3s ease-in-out;
+  background-color: #f8fafc;
+  transition: all 0.3s ease-in-out; 
   /* Smooth slide sync with sidebar */
   box-sizing: border-box;
 }
@@ -178,11 +160,11 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 2px;
 }
 
 .title-block h1 {
-  font-family: serif;
+  font-family: Arial, sans-serif;
   font-size: 2.2rem;
   margin: 0;
 }
@@ -207,6 +189,13 @@ export default {
 .activity-list-container {
   border-top: 1px solid #e2e8f0;
   width: 100%;
+}
+
+.activity-items-wrapper{
+  padding-top:20px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
 }
 
 .tabs {

@@ -1,304 +1,366 @@
 <template>
-
-  <div class="page">
-    <!-- guys this is back arrow -->
-    <div class="back-arrow" @click="goBack">←</div>
-
-    <!-- guys this is header -->
-    <div class="header">
-      <h1>APMaMS</h1>
-      <p>MSUN Action Plan</p>
+  <div class="login-page">
+    <!-- Back Arrow -->
+    <div v-if="step === 1" class="top-nav">
+      <button class="back-btn" @click="goBack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+    </div>
+    <div v-if="step === 2" class="top-nav">
+      <button class="back-btn" @click="step = 1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
     </div>
 
-    <!-- guys this is card container, this is content -->
-    <div class="card">
-      <h2>Welcome Back</h2>
-      <p class="subtitle">Sign in to access your dashboard</p>
+    <!-- STEP 1: ROLE SELECTION -->
+    <div v-if="step === 1" class="role-selection-wrapper">
+      <div class="roles-row">
+        <div
+          class="role-box"
+          :class="{ active: selectedRole === 'Student Organization' }"
+          @click="selectRole('Student Organization')"
+        >
+          <h3>Student Organization</h3>
+          <p>Manage activities and action plans</p>
+        </div>
 
-      <!-- guys this is form, this is content -->
+        <div
+          class="role-box"
+          :class="{ active: selectedRole === 'OSD Admin' }"
+          @click="selectRole('OSD Admin')"
+        >
+          <h3>OSD Admin</h3>
+          <p>System administration and oversight</p>
+        </div>
+
+        <div
+          class="role-box"
+          :class="{ active: selectedRole === 'Adviser/Dean/Coordinator' }"
+          @click="selectRole('Adviser/Dean/Coordinator')"
+        >
+          <h3>Adviser/Dean/Coordinator</h3>
+          <p>Review and approve activities</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: LOGIN FORM -->
+    <div v-if="step === 2" class="login-card">
+      <h2 class="title">Action Plan Monitoring System</h2>
+      <p class="subtitle">Sign in to your account</p>
+
+      <p class="selected-role">
+        Selected Role: <strong>{{ selectedRole }}</strong>
+      </p>
+
       <form @submit.prevent="handleLogin">
-        <!-- guys this is email field -->
-        <div class="field">
+        <div class="form-group">
           <label>Email Address</label>
-
-          <input type="email" v-model="email" placeholder="you.email@msu.edu.ph" required />
+          <input
+            type="email"
+            v-model="email"
+            placeholder="you.email@msu.edu.ph"
+            required
+          />
         </div>
 
-        <!-- guys this is password field -->
-        <div class="field">
+        <div class="form-group">
           <label>Password</label>
-
-          <input type="password" v-model="password" placeholder="Enter your password" required />
+          <input
+            type="password"
+            v-model="password"
+            placeholder="Enter your password"
+            required
+          />
         </div>
 
-        <!-- guys this is options section, this is content -->
-        <div class="options">
+        <div class="form-options">
           <label>
-            <input type="checkbox" />
+            <input type="checkbox" v-model="rememberMe" />
             Remember me
           </label>
-        </div>
-        <p class="temp-note">Temporary buttons (Demo only)</p>
-
-        <!-- guys this is submit button, this is content -->
-        <div class="button-group">
-          <button type="button" @click="loginAsUser">
-            Sign In as User
-          </button>
-
-          <button type="button" class="admin-btn" @click="loginAsAdmin">
-            Sign In as Admin
-          </button>
+          <a href="#">Forgot password?</a>
         </div>
 
-
+        <button type="submit" class="signin-btn">
+          Sign In
+        </button>
       </form>
     </div>
-
-    <!-- guys this is footer -->
-    <footer>Mindanao State University at Naawan</footer>
   </div>
 </template>
 
 <script>
 export default {
+  name: "LoginView",
+
   data() {
     return {
-      email: '', 
-      password: '' 
-    }
+      email: "",
+      password: "",
+      selectedRole: "",
+      rememberMe: false,
+      step: 1, //controls UI
+    };
   },
+
   methods: {
     goBack() {
-      this.$router.back()
+      this.$router.replace({ name: 'Credentials' });
     },
-    // Validation helper
+
+    selectRole(role) {
+      this.selectedRole = role;
+
+      // add a very brief timeout so the active state is seen
+      setTimeout(() => {
+        this.step = 2; // move to login form
+      }, 150);
+    },
+
+    goToLogin() {
+      if (!this.selectedRole) {
+        alert("Please select a role first.");
+        return;
+      }
+      this.step = 2; // move to login form
+    },
+
     validateForm() {
       if (!this.email || !this.password) {
-        alert("Please fill in both the email and password fields.");
+        alert("Please complete all fields.");
         return false;
       }
       return true;
     },
-    showCustomAlert(roleName) {
-      // This triggers the browser's native popup
-      alert(`Success! Logged in as ${roleName}.`);
-    },
-    loginAsUser() {
-      if (this.validateForm()) {
-        localStorage.setItem('role', 'org');
-        this.showCustomAlert('Student Organization');
-        this.$router.push('/userdashboard');
+
+    handleLogin() {
+      if (!this.validateForm()) return;
+
+      if (this.rememberMe) {
+        localStorage.setItem("email", this.email);
+      }
+
+      switch (this.selectedRole) {
+        case "Student Organization":
+          localStorage.setItem("role", "org");
+          this.$router.push("/userdashboard");
+          break;
+        case "OSD Admin":
+          localStorage.setItem("role", "admin");
+          this.$router.push("/admindashboard");
+          break;
+        case "Adviser/Dean/Coordinator":
+          localStorage.setItem("role", "adviser");
+          this.$router.push("/adviserdashboard");
+          break;
       }
     },
-    loginAsAdmin() {
-      if (this.validateForm()) {
-        localStorage.setItem('role', 'admin');
-        this.showCustomAlert('Administrator');
-        this.$router.push('/admindashboard');
-      }
-    }
   }
-}
+};
 </script>
 
-
-
 <style scoped>
-.page {
+.login-page {
   min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  position: relative;
+}
+
+.top-nav {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.back-btn:hover {
+  background-color: #f3f4f6;
+}
+
+/* Role Selection Wrapper */
+.role-selection-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+
+.roles-row {
+  display: flex;
   justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap; /* responsive */
+}
+
+/* Card style */
+.role-box {
+  width: 320px;
+  height: 160px;
   background: #ffffff;
-  font-family: Arial, sans-serif;
-}
-
-/* guys this is back arrow style */
-.back-arrow {
-  position: absolute;
-  top: 20px;
-  left: 20px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  font-size: 20px;
-}
-
-/* guys this is header style */
-.header {
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   text-align: center;
-  margin-bottom: 20px;
+  padding: 0 20px;
 }
 
-.header h1 {
+/* Text */
+.role-box h3 {
   margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  font-family: "Times New Roman", Times, serif;
+  color: #111827;
+}
+
+.role-box p {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #6b7280;
+  font-family: "Times New Roman", Times, serif;
+}
+
+/* Hover */
+.role-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Active (selected) */
+.role-box.active {
+  border: 1.5px solid #2563eb;
+  background: #eef2ff;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+}
+
+/* Login Card (Step 2) */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 5px;
   font-size: 24px;
 }
 
-.header p {
-  margin: 0;
-  font-size: 14px;
-  color: #555;
-}
-
-/* guys this is card styling */
-.card {
-  width: 100%;
-  max-width: 380px;
-  background: #fff;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.card h2 {
-  margin-bottom: 4px;
-}
-
 .subtitle {
+  text-align: center;
   font-size: 14px;
   color: #666;
   margin-bottom: 20px;
 }
 
-.field {
-  margin-bottom: 15px;
+.selected-role {
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 20px;
+  background: #f3f4f6;
+  padding: 10px;
+  border-radius: 6px;
 }
 
-.field label {
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
   font-size: 14px;
   font-weight: 500;
+  color: #374151;
+  display: block;
 }
 
-.field input {
+.form-group input {
   width: 100%;
   margin-top: 6px;
   padding: 10px;
-  border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 14px;
+  border: 1px solid #d1d5db;
+  box-sizing: border-box;
+  font-family: inherit;
 }
 
-/* guys this is options style */
-.options {
+.form-group input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-options {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   font-size: 13px;
   margin-bottom: 20px;
 }
 
-.options a {
-  color: #1a4ed8;
-  text-decoration: none;
-}
-
-.options a:hover {
-  text-decoration: underline;
-}
-
-/* guys this is button style */
-button {
-  width: 100%;
-  padding: 10px;
-  background: #1a4ed8;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
+.form-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   cursor: pointer;
 }
 
-button:hover {
-  background: #153fb5;
+.form-options a {
+  color: #2563eb;
+  text-decoration: none;
 }
 
-/* guys this is footer style */
-footer {
-  margin-top: 20px;
-  font-size: 12px;
-  color: #aaa;
+.form-options a:hover {
+  text-decoration: underline;
 }
 
-.temp-note {
-  font-size: 12px;
-  color: #999;
-  text-align: center;
-  margin-bottom: 10px;
+.signin-btn {
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-.button-group {
-  display: flex;
-  gap: 10px;
-}
-
-.admin-btn {
-  background: #333;
-}
-
-.admin-btn:hover {
-  background: #222;
-}
-
-
-@media (min-width: 1200px) {
-  .header h1 {
-    font-size: 28px;
-  }
-
-  .card {
-    max-width: 420px;
-    padding: 28px;
-  }
-}
-
-/* guys this is tablet media */
-@media (max-width: 768px) {
-  .page {
-    padding: 20px;
-  }
-
-  .card {
-    width: 100%;
-    max-width: 360px;
-    padding: 20px;
-  }
-
-  .header h1 {
-    font-size: 22px;
-  }
-}
-
-/* guys this is mobile media */
-@media (max-width: 480px) {
-  .back-arrow {
-    top: 15px;
-    left: 15px;
-    font-size: 18px;
-  }
-
-  .header h1 {
-    font-size: 20px;
-  }
-
-  .header p {
-    font-size: 13px;
-  }
-
-  .card {
-    border-radius: 10px;
-    padding: 18px;
-  }
-
-  button {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  footer {
-    font-size: 11px;
-    text-align: center;
-  }
+.signin-btn:hover {
+  background: #1d4ed8;
 }
 </style>
 

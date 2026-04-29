@@ -8,13 +8,9 @@
       <main class="content">
         <div class="main-content-container">
           <div class="page-header">
-            <div class="header-text">
+            <div class="title-block">
               <h1>Organizations</h1>
               <p>Manage and monitor all student organizations at MSUN</p>
-            </div>
-            <div class="org-dropdown">
-              <span>All Organization</span>
-              <i class="fas fa-chevron-down"></i>
             </div>
           </div>
 
@@ -46,40 +42,28 @@ export default {
       role: localStorage.getItem('role') || 'org',
       summaryStats: {
         totalOrgs: 8,
-        totalMembers: 334,
-        activeActivities: 27,
-        totalBudget: 'P1045K'
+        activeOrgs: 8,
+        totalMembers: 1111,
+        totalActivities: 6
       },
       organizations: [
         {
           id: 1,
           name: 'Supreme Student Council',
           type: 'Governance',
-          description: 'The official student government body representing all students of MSUN.',
-          president: 'Kian Estenzo',
-          established: '2001',
+          regNumber: '1239768',
           members: 45,
-          activities: 5,
-          budget: 'P250K',
-          email: 'ssc@msun.edu.ph',
-          phone: '+63 912 345 6789',
-          status: 'Active',
-          headerColor: '#1e40af', // Blue
+          attachments: 5,
+          headerColor: '#2563eb', // Blue
           icon: 'fas fa-university'
         },
         {
           id: 2,
           name: 'College of Business and Information Technology',
           type: 'College',
-          description: 'The official student government body representing all students of CBIT.',
-          president: 'Al Christian Molina',
-          established: '2005',
-          members: 32,
-          activities: 3,
-          budget: 'P85K',
-          email: 'cbit@msun.edu.ph',
-          phone: '+63 912 345 6789',
-          status: 'Active',
+          regNumber: '1239768',
+          members: 45,
+          attachments: 5,
           headerColor: '#eab308', // Yellow
           icon: 'fas fa-briefcase'
         },
@@ -87,17 +71,61 @@ export default {
           id: 3,
           name: 'College of Environmental and Life Sciences',
           type: 'College',
-          description: 'The official student government body representing all students of CELS.',
-          president: 'Hazel Anne P. Mapula',
-          established: '2008',
-          members: 58,
-          activities: 4,
-          budget: 'P180K',
-          email: 'cels@msun.edu.ph',
-          phone: '+63 912 345 6789',
-          status: 'Active',
+          regNumber: '1239768',
+          members: 45,
+          attachments: 5,
           headerColor: '#16a34a', // Green
           icon: 'fas fa-leaf'
+        },
+        {
+          id: 4,
+          name: 'College of Education and Social Sciences',
+          type: 'College',
+          regNumber: '1239768',
+          members: 45,
+          attachments: 5,
+          headerColor: '#7600bc', // Violet
+          icon: 'fas fa-book'
+        },
+        {
+          id: 5,
+          name: 'College of Marine and Fisheries Sciences',
+          type: 'College',
+          regNumber: '1239768',
+          members: 45,
+          attachments: 5,
+          headerColor: '#00CCFF', // Sky Blue
+          icon: 'fas fa-fish'
+        },
+        {
+          id: 6,
+          name: 'KAABAG',
+          type: 'Social Welfare',
+          regNumber: '1239768',
+          members: 45,
+          attachments: 5,
+          headerColor: '#06402B', // Dark Green
+          icon: 'fas fa-hands-helping'
+        },
+        {
+          id: 7,
+          name: 'The Marine Echo',
+          type: 'Publication',
+          regNumber: '1239768',
+          members: 45,
+          attachments: 5,
+          headerColor: '#00008B', // Dark Blue
+          icon: 'fas fa-newspaper'
+        },
+        {
+          id: 8,
+          name: 'Senior Student Society',
+          type: 'Senior Officer',
+          regNumber: '1239768',
+          members: 45,
+          attachments: 5,
+          headerColor: '#800000', // Maroon
+          icon: 'fas fa-user-graduate'
         },
         // Add more organization objects here...
       ]
@@ -118,7 +146,7 @@ export default {
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
   overflow: hidden;
   /* Keeps the main window locked */
 }
@@ -134,7 +162,7 @@ export default {
 .content {
   flex: 1;
   width: 100%;
-  padding: 40px;
+  padding: 30px 40px;
   background-color: #f8fafc;
   /* Moved background color here */
   box-sizing: border-box;
@@ -170,17 +198,15 @@ export default {
   margin-bottom: 30px;
 }
 
-.header-text h1 {
-  font-family: serif;
+.title-block h1 {
+  font-family: Arial, sans-serif;
   font-size: 2.2rem;
-  margin: 0 0 5px 0;
-  color: #1a1a1a;
+  margin: 0;
 }
 
-.header-text p {
+.title-block p {
   color: #64748b;
-  margin: 0;
-  font-size: 0.95rem;
+  margin-top: 5px;
 }
 
 .org-dropdown {

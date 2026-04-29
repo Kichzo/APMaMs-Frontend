@@ -1,5 +1,5 @@
 <template>
-  <aside class="sidebar" :class="{ hidden: !visible }">
+  <div class="sidebar" :class="{ hidden: !visible }">
     <ul class="menu">
   <li
     v-for="item in menuItems"
@@ -12,7 +12,7 @@
   </li>
 </ul>
 
-  </aside>
+</div>
 </template>
 
 <script>
@@ -39,17 +39,26 @@ export default {
         { label: 'Users', icon: 'fas fa-users', path: '/users' },
         { label: 'Organizations', icon: 'fas fa-building', path: '/organizations' },
         { label: 'Action Plan', icon: 'fas fa-layer-group', path: '/actionplan' },
-        { label: 'Activities', icon: 'fas fa-chart-line', path: '/activity' },
-        { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' }
+        { label: 'Activity', icon: 'fas fa-chart-line', path: '/activity' },
+        { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' },
+        { label: 'Approvals', icon: 'fas fa-user-check', path: '/approvals' }
       ],
       org: [
         { label: 'Dashboard', icon: 'fas fa-th-large', path: '/userdashboard' },
-        { label: 'Activity', icon: 'fas fa-chart-line', path: '/activity' },
         { label: 'Action Plan', icon: 'fas fa-layer-group', path: '/actionplan' },
+        { label: 'Activity', icon: 'fas fa-chart-line', path: '/activity' },
         { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' },
         { label: 'Financial', icon: 'fas fa-coins', path: '/financial' },
         { label: 'Organizations', icon: 'fas fa-users', path: '/organizations' },
         { label: 'Report', icon: 'fas fa-file-alt', path: '/report' },
+        { label: 'Approvals', icon: 'fas fa-user-check', path: '/approvals' }
+      ],
+      adviser: [
+        { label: 'Dashboard', icon: 'fas fa-th-large', path: '/adviserdashboard' },
+        { label: 'Organizations', icon: 'fas fa-building', path: '/organizations' },
+        { label: 'Action Plan', icon: 'fas fa-layer-group', path: '/actionplan' },
+        { label: 'Activity', icon: 'fas fa-chart-line', path: '/activity' },
+        { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' },
         { label: 'Approvals', icon: 'fas fa-user-check', path: '/approvals' }
       ]
     }

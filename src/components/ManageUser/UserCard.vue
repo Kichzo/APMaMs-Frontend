@@ -33,7 +33,7 @@
 <style scoped>
 .user-card {
   background: white;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbced2;
   border-radius: 12px;
   padding: 25px;
   max-width: 500px;

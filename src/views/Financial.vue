@@ -8,7 +8,7 @@
       <main class="content">
         <div class="dashboard-container">
           <div class="page-header">
-            <div class="header-text">
+            <div class="title-block">
               <h1>Financial Management</h1>
               <p>Track budgets, expenses, and financial reports across all organizations</p>
             </div>
@@ -92,8 +92,8 @@ export default {
 .content {
   flex: 1;
   width: 100%;
-  padding: 40px;
-  background-color: #fff;
+  padding: 30px 40px;
+  background-color: #f8fafc;
   box-sizing: border-box;
 
   /* Scrollable logic */
@@ -127,17 +127,15 @@ export default {
   align-items: flex-start;
 }
 
-.header-text h1 {
+.title-block h1 {
   font-family: serif;
   font-size: 2.2rem;
-  margin: 0 0 5px 0;
-  color: #1a1a1a;
+  margin: 0;
 }
 
-.header-text p {
+.title-block p {
   color: #64748b;
-  margin: 0;
-  font-size: 0.95rem;
+  margin-top: 5px;
 }
 
 .org-dropdown {

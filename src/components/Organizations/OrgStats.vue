@@ -1,39 +1,60 @@
 <template>
   <div class="stats-grid">
+
     <div class="stat-card">
-      <div class="icon-box blue"><i class="fas fa-sitemap"></i></div>
-      <div class="stat-info">
+      <div class="stat-left">
+        <div class="icon-box blue">
+          <i class="fas fa-building"></i>
+        </div>
+      </div>
+      <div class="stat-right">
         <h2>{{ stats.totalOrgs }}</h2>
         <p>Total Organizations</p>
       </div>
     </div>
+
     <div class="stat-card">
-      <div class="icon-box green"><i class="fas fa-users"></i></div>
-      <div class="stat-info">
+      <div class="stat-left">
+        <div class="icon-box green">
+          <i class="fas fa-users"></i>
+        </div>
+      </div>
+      <div class="stat-right">
+        <h2>{{ stats.activeOrgs }}</h2>
+        <p>Active Organizations</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-left">
+        <div class="icon-box purple">
+          <i class="fas fa-user-group"></i>
+        </div>
+      </div>
+      <div class="stat-right">
         <h2>{{ stats.totalMembers }}</h2>
         <p>Total Members</p>
       </div>
     </div>
+
     <div class="stat-card">
-      <div class="icon-box purple"><i class="fas fa-calendar-check"></i></div>
-      <div class="stat-info">
-        <h2>{{ stats.activeActivities }}</h2>
-        <p>Active Activities</p>
+      <div class="stat-left">
+        <div class="icon-box red">
+          <i class="fas fa-chart-line"></i>
+        </div>
+      </div>
+      <div class="stat-right">
+        <h2>{{ stats.totalActivities }}</h2>
+        <p>Total Activities</p>
       </div>
     </div>
-    <div class="stat-card">
-      <div class="icon-box orange"><i class="fas fa-coins"></i></div>
-      <div class="stat-info">
-        <h2>{{ stats.totalBudget }}</h2>
-        <p>Total Budget</p>
-      </div>
-    </div>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: 'OrgStats',
+  name: "OrgStats",
   props: {
     stats: {
       type: Object,
@@ -48,18 +69,17 @@ export default {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 }
 
 .stat-card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 24px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px 24px;
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
 }
 
 .icon-box {
@@ -69,39 +89,40 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 .blue {
-  background: #eff6ff;
-  color: #1e40af;
+  background: #e0f2fe;
+  color: #0284c7;
 }
 
 .green {
-  background: #f0fdf4;
-  color: #166534;
+  background: #dcfce7;
+  color: #16a34a;
 }
 
 .purple {
-  background: #faf5ff;
-  color: #6b21a8;
+  background: #f3e8ff;
+  color: #9333ea;
 }
 
-.orange {
-  background: #fff7ed;
-  color: #c2410c;
+.red {
+  background: #fee2e2;
+  color: #dc2626;
 }
 
-.stat-info h2 {
-  font-family: serif;
-  font-size: 2rem;
+.stat-right h2 {
   margin: 0;
+  font-family: Georgia, serif;
+  font-size: 2rem;
   font-weight: 700;
+  color: #111827;
 }
 
-.stat-info p {
-  color: #64748b;
+.stat-right p {
   margin: 5px 0 0 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  color: #6b7280;
 }
 </style>

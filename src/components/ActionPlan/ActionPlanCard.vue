@@ -1,12 +1,7 @@
 <template>
-  <div class="plan-card" :class="{ active }" @click="$emit('select')">
-    <h4>{{ plan.title }}</h4>
-    <span class="year">{{ plan.period }}</span>
-    <span class="status">{{ plan.status }}</span>
-
-    <div class="progress-bar">
-      <div class="fill" :style="{ width: plan.progress + '%' }"></div>
-    </div>
+  <div class="plan-item" :class="{ active }" @click="$emit('select')">
+    <h4 class="title">{{ plan.title }}</h4>
+    <i class="fa-solid fa-trash delete-icon" title="Delete" @click.stop="$emit('delete', plan.id)"></i>
   </div>
 </template>
 
@@ -20,53 +15,44 @@ export default {
 </script>
 
 <style scoped>
-.plan-card {
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 12px;
+.plan-item {
+  padding: 12px 24px;
+  margin: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s ease, border 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
 }
 
-.plan-card:hover {
-  background: #f8fafc;
+.plan-item.active {
+  background: #001b94; /* Dark blue from the image */
 }
 
-.plan-card.active {
-  background: #e0ecff;
-  border-color: #3b82f6;
-}
-
-.plan-card h4 {
-  font-size: 0.95rem;
+.plan-item h4 {
+  font-family: Arial, sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
   margin: 0;
+  color: #111827;
+  flex: 1; /* Pushes the trash icon to the right */
+  text-align: left;
 }
 
-.year {
-  font-size: 0.75rem;
-  color: #64748b;
+.plan-item.active h4 {
+  color: #ffffff;
 }
 
-.status {
-  font-size: 0.7rem;
-  background: #dcfce7;
-  color: #166534;
-  padding: 2px 8px;
-  border-radius: 999px;
-  float: right;
+.delete-icon {
+  color: #ef4444; /* Subtle red */
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 4px;
 }
 
-.progress-bar {
-  height: 6px;
-  background: #e5e7eb;
-  border-radius: 4px;
-  margin-top: 8px;
-}
-
-.fill {
-  height: 100%;
-  background: #f97316;
-  border-radius: 4px;
+.delete-icon:hover {
+  color: #b91c1c; /* Darker red on hover */
 }
 </style>

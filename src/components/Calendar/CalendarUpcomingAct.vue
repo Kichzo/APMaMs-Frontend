@@ -28,10 +28,8 @@
     <div class="sidebar-card legend">
       <h3 class="card-title">Status Legend</h3>
       <ul class="legend-list">
-        <li><span class="dot green"></span> Approved</li>
-        <li><span class="dot blue"></span> Ongoing</li>
+        <li><span class="dot blue"></span> Approved</li>
         <li><span class="dot yellow"></span> Pending</li>
-        <li><span class="dot grey"></span> Completed</li>
       </ul>
     </div>
   </aside>

@@ -3,7 +3,7 @@
     <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
     <div class="dashboard-layout">
-      <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
+      <AppSidebar :visible="isSidebarVisible" />
 
       <main class="content" :class="{ 'content-expanded': !isSidebarVisible }">
         <div class="page-title">
@@ -12,24 +12,23 @@
         </div>
 
         <div class="stats-grid">
-          <DashboardCard value="24" label="Total Activities" color="blue" leftIcon="fa-solid fa-layer-group"
-            rightIcon="fa-solid fa-arrow-up-right-from-square" />
-          <DashboardCard value="5" label="Pending Approvals" color="yellow" leftIcon="fa-regular fa-clock"
-            rightIcon="fa-solid fa-clipboard-list" />
-          <DashboardCard value="12" label="Active Projects" color="green" leftIcon="fa-solid fa-diagram-project"
-            rightIcon="fa-solid fa-cube" />
-          <DashboardCard value="18" label="Completed Activities" color="purple" leftIcon="fa-solid fa-square-check"
-            rightIcon="fa-solid fa-trophy" />
-          <DashboardCard value="₱450,000" label="Total Budget" color="teal" leftIcon="fa-solid fa-wallet"
-            rightIcon="fa-solid fa-eye" />
-          <DashboardCard value="₱285,000" label="Budget Spent" color="orange" leftIcon="fa-solid fa-coins"
-            rightIcon="fa-solid fa-chart-line" />
+          <DashboardCard value="24" label="Total Activities" leftIcon="fa-solid fa-shapes" />
+          <DashboardCard value="5" label="Pending Approvals" leftIcon="fa-regular fa-clock" />
+          <DashboardCard value="12" label="Active Projects" leftIcon="fa-solid fa-check-double" />
+          <DashboardCard value="18" label="Completed Activities" leftIcon="fa-solid fa-list-check" />
+          <DashboardCard value="P450,000" label="Total Budget" leftIcon="fa-solid fa-coins" />
+          <DashboardCard value="P285,000" label="Budget Spent" leftIcon="fa-solid fa-money-bill-transfer" />
         </div>
 
         <div class="dashboard-lower">
-          <RecentActivities />
+          <div class="left-column">
+            <RecentActivities />
+          </div>
+          <div class="right-column">
+            <UpcomingEvents />
+            <QuickActions />
+          </div>
         </div>
-        <QuickActions />
       </main>
     </div>
   </div>
@@ -45,22 +44,21 @@ import QuickActions from '/src/components/Dashboard/QuickActions.vue'
 
 export default {
   components: {
-    AppHeader,      // guys this is header component
-    AppSidebar,     // guys this is sidebar component
-    DashboardCard,  // guys these are cards
-    RecentActivities, // guys this is recent activities component
-    UpcomingEvents,   // guys this is upcoming events component
-    QuickActions      // guys this is quick actions component
+    AppHeader,
+    AppSidebar,
+    DashboardCard,
+    RecentActivities,
+    UpcomingEvents,
+    QuickActions
   },
   data() {
     return {
-      role: localStorage.getItem('role') || 'org',
-      isSidebarVisible: true // guys this controls sidebar visibility
+      role: localStorage.getItem('role') || 'Student Organization',
+      isSidebarVisible: true
     }
   },
   methods: {
     toggleSidebar() {
-      // guys this toggles the sidebar, this is content
       this.isSidebarVisible = !this.isSidebarVisible
     }
   }
@@ -82,49 +80,69 @@ export default {
   overflow: hidden;
 }
 
-/* --- Content Auto-Expansion Logic --- */
 .content {
   flex: 1;
-  padding: 30px;
+  padding: 40px;
   overflow-y: auto;
-  background-color: #fff;
-  transition: all 0.3s ease-in-out; /* Smooth slide when sidebar moves */
+  background-color: #ffffff;
+  transition: all 0.3s ease-in-out;
+  font-family: inherit;
 }
 
-/* Sidebar styling needs to handle the width transition */
 :deep(.sidebar) {
   width: 260px;
   transition: all 0.3s ease;
 }
 
-:deep(.sidebar-hidden) {
-  margin-left: -260px; /* Slides it out of view completely */
+.page-title {
+  margin-bottom: 30px;
+}
+
+.page-title h1 {
+  font-family: Arial, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111827;
+}
+
+.page-title p {
+  color: #64748b;
+  margin-top: 8px;
+  font-family: Arial, sans-serif;
 }
 
 /* --- Stats Grid Responsiveness --- */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns for desktop */
-  gap: 25px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   margin-bottom: 30px;
 }
 
-.page-title h1 {
-  font-family: serif;
-  font-size: 2.5rem;
-  margin-bottom: 5px;
+/* Layout for lower dashboard */
+.dashboard-lower {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr;
+  gap: 24px;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 /* --- Media Queries for Mobile/Tablet --- */
-
-/* Tablet & Smaller Laptops */
 @media (max-width: 1100px) {
   .stats-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dashboard-lower {
+    grid-template-columns: 1fr;
   }
 }
 
-/* Mobile Devices */
 @media (max-width: 768px) {
   .content {
     padding: 20px;
@@ -135,11 +153,10 @@ export default {
   }
 
   .stats-grid {
-    grid-template-columns: 1fr; /* Single column stack */
+    grid-template-columns: 1fr;
     gap: 15px;
   }
 
-  /* On mobile, usually the sidebar should overlay or hide completely */
   :deep(.sidebar) {
     position: absolute;
     z-index: 100;

@@ -8,7 +8,7 @@
 
       <main class="content">
         <div class="page-container">
-          <div class="page-header">
+          <div class="title-block">
             <h1>Approvals</h1>
             <p>Review and manage approval requests</p>
           </div>
@@ -46,27 +46,16 @@ export default {
       requests: [
         {
           id: 1,
-          title: 'Annual Research Symposium 2025',
-          category: 'Activity Proposal',
-          office: 'Research Office',
-          description: 'Request for approval of annual research symposium with international speakers and poster presentations.',
-          submittedBy: 'Dr. Robert Martinez',
-          date: '2024-02-01',
-          amount: 'P300,000',
-          approvers: 'VP for Finance, University President',
-          status: 'Pending'
-        },
-        {
-          id: 2,
-          title: 'Alumni Networking Night',
-          category: 'Activity Proposal',
-          office: 'Research Office',
-          description: 'Request for approval of annual research symposium with international speakers and poster presentations.',
-          submittedBy: 'Dr. Robert Martinez',
-          date: '2024-02-01',
-          amount: 'P300,000',
-          approvers: 'VP for Finance, University President',
-          status: 'Pending'
+          title: "First SSC Regular Meeting",
+          type: "Detailed Activity Design",
+          date: "31/12/2025",
+          approvers: [
+            { role: "Adviser", name: "Prof. Lisa Garcia", status: "Approved", date: "2025-01-16" },
+            { role: "Director", name: "Dr. Juan dela Cruz", status: "Approved", date: "2025-01-17" },
+            { role: "Coordinator", name: "Maria Santos", status: "Approved", date: "2025-01-18" },
+            { role: "Dean", name: "Dr. Ana Reyes", status: "Approved", date: "2025-01-19" },
+            { role: "OVCSAS", name: "Dr. Roberto Mendoza", status: "Approved", date: "2025-01-20" }
+          ]
         }
       ]
     };
@@ -105,15 +94,13 @@ export default {
 }
 
 .content {
-  flex: 1;
-  width: 100%;
-  padding: 40px;
-  background-color: #fff;
-  box-sizing: border-box;
-
-  /* Scrollable logic */
+   flex: 1;
+  padding: 30px 40px;
   overflow-y: auto;
-  height: 100%;
+  background-color: #f8fafc;
+  transition: all 0.3s ease-in-out; 
+  /* Smooth slide sync with sidebar */
+  box-sizing: border-box;
 }
 
 :deep(.sidebar) {
@@ -137,15 +124,15 @@ export default {
   margin: 0 auto;
 }
 
-.page-header h1 {
+.title-block h1 {
   font-family: serif;
   font-size: 2.2rem;
-  margin-bottom: 5px;
+  margin: 0;
 }
 
-.page-header p {
+.title-block p {
   color: #64748b;
-  margin-bottom: 25px;
+  margin-top: 5px;
 }
 
 .approvalcard {

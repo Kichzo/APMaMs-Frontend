@@ -7,15 +7,19 @@
 
       <main class="content">
         <div class="reports-container">
-          <header class="page-intro">
-            <h1>Activity Accomplishment Reports</h1>
-            <p>Create detailed accomplishment reports for completed activities with approval tracking</p>
-          </header>
-
-          <ReportsFilterBar />
-
+            <div class="header-row">
+              <div class="title-block">
+                <h1>Activity Accomplishment Reports</h1>
+                <p>Create detailed accomplishment reports for completed activities with approval tracking</p>
+              </div>
+              
+              <ReportsFilterBar />
+            </div>
           <section class="reports-list">
-            <ReportCard v-for="i in 3" :key="i" />
+            <ReportCard 
+            v-for="report in reports" 
+            :key="report.id" 
+            :report="report" />
           </section>
         </div>
       </main>
@@ -37,17 +41,23 @@ export default {
     ReportsFilterBar,
     ReportCard
   },
-  data() {
-    return {
-      isSidebarVisible: true,
-    }
-  },
-  methods: {
+ data() {
+  return {
+    isSidebarVisible: true,
+    reports: [
+      {
+        id: 1,
+        title: "First SSC Regular Meeting",
+        status: "Waiting..."
+      },
+    ]
+  }
+}, 
+ methods: {
     toggleSidebar() {
       this.isSidebarVisible = !this.isSidebarVisible;
     },
   }
-
 }
 </script>
 
@@ -75,8 +85,8 @@ export default {
 .content {
   flex: 1;
   width: 100%;
-  padding: 40px;
-  background-color: #fff;
+  padding: 30px 40px;
+  background-color: #f8fafc;
   box-sizing: border-box;
 
   /* Scrollable logic */
@@ -101,19 +111,22 @@ export default {
   margin: 0 auto;
 }
 
-.page-intro {
-  margin-bottom: 30px;
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
 }
 
-.page-intro h1 {
+.title-block h1 {
   font-family: serif;
   font-size: 2.2rem;
-  margin: 0 0 8px 0;
+  margin: 0;
 }
 
-.page-intro p {
+.title-block p {
   color: #64748b;
-  margin: 0;
+  margin: 4px 0 0 0;
 }
 
 .reports-list {

@@ -13,46 +13,8 @@
 </template>
 
 <script>
-export default {
-  props: {
-    activities: {
-      type: Array,
-      required: true
-    }
-  },
-  computed: {
-    stats() {
-      return [
-        {
-          value: this.activities.length,
-          label: 'Total Activities',
-          icon: 'fas fa-list-ul',
-          bg: '#e0f2fe'
-        },
-        {
-          value: this.activities.filter(a => a.status.toLowerCase() === 'pending').length,
-          label: 'Pending Approval',
-          icon: 'far fa-clock',
-          bg: '#fef9c3'
-        },
-        {
-          value: this.activities.filter(a => a.status.toLowerCase() === 'ongoing').length,
-          label: 'Ongoing',
-          icon: 'fas fa-play-circle',
-          bg: '#dcfce7'
-        },
-        {
-          value: this.activities.filter(a => a.status.toLowerCase() === 'completed').length,
-          label: 'Completed',
-          icon: 'far fa-check-circle',
-          bg: '#fce7f3'
-        }
-      ]
-    }
-  }
-}
-</script>
 
+</script>
 
 <style scoped>
 .stats-row {

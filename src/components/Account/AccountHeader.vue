@@ -27,7 +27,7 @@
 }
 
 .header-text h1 {
-    font-family: serif;
+    font-family: Arial, sans-serif;
     font-size: 1.8rem;
     margin: 0;
     font-weight: 700;

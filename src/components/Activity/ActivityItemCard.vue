@@ -1,69 +1,52 @@
 <template>
-  <div class="activity-item">
+  <div class="activity-card">
+    
     <div class="card-header">
-      <div class="title-group">
+      <div>
         <h3>{{ data.title }}</h3>
-        <span class="badge" :class="statusClass">{{ data.status }}</span>
-        <span class="badge high">{{ data.priority }}</span>
+        <span class="status approved">{{ data.status }}</span>
       </div>
+
       <button class="view-btn">View Details</button>
     </div>
 
-    <p class="desc">{{ data.description }}</p>
-
-    <div class="meta-grid">
-      <span><i class="far fa-building"></i> {{ data.organization }}</span>
-      <span><i class="far fa-calendar"></i> {{ data.date }}</span>
-      <span><i class="fas fa-map-marker-alt"></i> {{ data.location }}</span>
+    <div class="activity-meta">
+      <span><i class="fas fa-university"></i> {{ data.organization }}</span>
+      <span><i class="fas fa-calendar-alt"></i> {{ data.date }}</span>
       <span><i class="fas fa-users"></i> {{ data.participants }} participants</span>
-    </div>
+      <span><i class="fas fa-coins"></i> {{ data.budget }}</span>
+</div>
 
     <div class="progress-section">
-      <div class="progress-labels">
-        <span>Progress </span>
-        <span>{{ data.progress }}%</span>
+      <label>Progress</label>
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          :style="{ width: data.progress + '%' }"
+        ></div>
       </div>
-      <div class="bar-track">
-        <div class="bar-fill" :style="{ width: data.progress + '%' }"></div>
-      </div>
+      <span class="progress-percent">{{ data.progress }}%</span>
     </div>
 
-    <div class="footer-meta">
-      <span>₱ {{ data.budget }}</span>
-      <span><i class="far fa-user"></i> By {{ data.submittedBy }}</span>
-      <span><i class="far fa-clock"></i> Submitted {{ data.submittedAt }}</span>
-      <span v-if="data.approvedBy" class="check">
-        <i class="fas fa-check"></i> Approved by {{ data.approvedBy }}
-      </span>
-    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ActivityItemCard',
+  name: "ActivityItemCard",
   props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
-  computed: {
-    statusClass() {
-      return this.data.status.toLowerCase()
-    }
+    data: Object
   }
-}
+};
 </script>
 
-
 <style scoped>
-.activity-item {
-  background: #fff;
+.activity-card {
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 24px;
-  margin-top: 16px;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 18px;
+  background: white;
 }
 
 .card-header {
@@ -72,67 +55,61 @@ export default {
   align-items: center;
 }
 
-.title-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.card-header h3 {
+  margin: 0;
+  font-size: 18px;
 }
 
-.title-group h3 {
-  font-family: serif;
-  font-size: 1.25rem;
+.status {
+  margin-left: 10px;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
 }
 
-.badge {
-  font-size: 0.7rem;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-weight: bold;
-}
-
-.approved {
+.status.approved {
   background: #dcfce7;
-  color: #166534;
+  color: #15803d;
 }
 
-.high {
-  background: #fee2e2;
-  color: #991b1b;
+.activity-meta {
+  display: flex;
+  gap: 25px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #475569;
 }
 
 .view-btn {
-  background: #0a21c0;
+  background: #1d4ed8;
   color: white;
+  border: none;
   padding: 8px 16px;
   border-radius: 6px;
-  border: none;
   cursor: pointer;
 }
 
-.meta-grid,
-.footer-meta {
-  display: flex;
-  gap: 20px;
-  font-size: 0.8rem;
-  color: #64748b;
+.progress-section {
   margin-top: 15px;
 }
 
-.footer-meta {
-  border-top: 1px solid #f1f5f9;
-  padding-top: 15px;
-}
-
-.bar-track {
+.progress-bar {
   height: 6px;
   background: #e2e8f0;
-  border-radius: 3px;
+  border-radius: 10px;
   margin-top: 5px;
+  position: relative;
 }
 
-.bar-fill {
-  height: 100%;
-  background: #0a21c0;
-  border-radius: 3px;
+.progress-fill {
+  height: 6px;
+  background: #1d4ed8;
+  border-radius: 10px;
+}
+
+.progress-percent {
+  float: right;
+  font-size: 12px;
+  color: #64748b;
 }
 </style>

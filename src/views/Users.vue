@@ -85,14 +85,10 @@ export default {
 
 .main-content {
     flex: 1;
-    /* This ensures it expands to fill 100% of the remaining width */
-    padding: 40px;
+    padding: 30px 40px;
     overflow-y: auto;
-    background-color: #fff;
-    transition: all 0.3s ease-in-out;
-    /* Smooth slide sync with sidebar */
-    box-sizing: border-box;
-    ;
+    background-color: #f8fafc;
+    transition: all 0.3s ease-in-out; /* Smooth slide when sidebar moves */
 }
 
 .page-header {
@@ -100,16 +96,14 @@ export default {
 }
 
 .page-header h1 {
-    font-family: serif;
-    font-size: 2.2rem;
-    color: #1a1a1a;
-    margin: 0 0 10px 0;
+  font-family: serif;
+  font-size: 2.2rem;
+  margin: 0;
 }
 
 .page-header p {
-    color: #64748b;
-    margin: 0;
-    font-size: 1.05rem;
+  color: #64748b;
+  margin-top: 5px;
 }
 
 .content-container {
