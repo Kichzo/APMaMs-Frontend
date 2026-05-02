@@ -3,7 +3,7 @@
     <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
     <div class="dashboard-layout">
-      <AppSidebar :visible="isSidebarVisible" />
+      <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
 
       <main class="content" :class="{ 'content-expanded': !isSidebarVisible }">
         <div class="page-title">
@@ -69,24 +69,31 @@ export default {
 .app-container {
   display: flex;
   flex-direction: column;
+  /* Lock the container to the screen height */
   height: 100vh;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow: hidden;
 }
 
 .dashboard-layout {
   display: flex;
   flex: 1;
-  position: relative;
+  width: 100%;
+  /* This ensures the sidebar and content stay within the remaining height */
   overflow: hidden;
 }
 
 .content {
   flex: 1;
-  padding: 40px;
+  width: 100%;
+  padding: 30px 40px;
+  background-color: #f8fafc;
+  box-sizing: border-box;
+
+  /* The Magic Sauce: Enable scrolling only here */
   overflow-y: auto;
-  background-color: #ffffff;
-  transition: all 0.3s ease-in-out;
-  font-family: inherit;
+  height: 100%;
 }
 
 :deep(.sidebar) {
@@ -94,12 +101,16 @@ export default {
   transition: all 0.3s ease;
 }
 
+:deep(.sidebar-hidden) {
+  margin-left: -260px;
+}
+
 .page-title {
   margin-bottom: 30px;
 }
 
 .page-title h1 {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
   margin: 0;
@@ -109,7 +120,7 @@ export default {
 .page-title p {
   color: #64748b;
   margin-top: 8px;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* --- Stats Grid Responsiveness --- */
@@ -138,6 +149,7 @@ export default {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .dashboard-lower {
     grid-template-columns: 1fr;
   }

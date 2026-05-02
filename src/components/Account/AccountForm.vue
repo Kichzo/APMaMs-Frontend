@@ -137,13 +137,14 @@ export default {
     font-weight: bold;
     color: #111827;
     border-radius: 8px;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .tab-btn.active {
     background-color: #2b4cff;
     color: white;
 }
+
 .form-row {
     display: flex;
     gap: 20px;
@@ -162,22 +163,23 @@ export default {
     font-size: 0.85rem;
     font-weight: bold;
     margin-bottom: 8px;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.input-group input, 
+.input-group input,
 .input-group textarea,
 .input-group select {
     padding: 12px 15px;
     border: 1px solid #cbd5e0;
     border-radius: 8px;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 0.95rem;
     color: #1a1a1a;
     background-color: #fff;
     width: 100%;
     box-sizing: border-box;
 }
+
 .input-group textarea {
     height: 180px;
     resize: none;
@@ -195,7 +197,7 @@ export default {
     margin-top: 0;
     font-size: 0.95rem;
     font-weight: bold;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .requirements-box ul {
@@ -203,7 +205,7 @@ export default {
     color: #00129a;
     font-size: 0.85rem;
     font-weight: bold;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .requirements-box li {
@@ -230,7 +232,7 @@ export default {
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #111827;
 }
 
@@ -242,7 +244,7 @@ export default {
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 ::placeholder {

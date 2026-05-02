@@ -56,7 +56,7 @@ export default {
 }
 
 .user-identity h2 {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5rem;
     margin: 0;
     font-weight: bold;
@@ -107,7 +107,7 @@ export default {
     width: 100%;
     padding: 12px;
     border-radius: 8px;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;

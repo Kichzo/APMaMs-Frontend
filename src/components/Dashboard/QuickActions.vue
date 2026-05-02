@@ -3,17 +3,31 @@
     <h2 class="section-title">Quick Actions</h2>
 
     <div class="actions-grid">
-      <div v-for="action in actions" :key="action.title" class="action-card" :style="{ backgroundColor: action.bgColor }">
-        <div class="icon-box" :style="{ backgroundColor: action.iconBg }">
-          <i :class="action.icon" :style="{ color: action.iconColor }"></i>
-        </div>
+  <router-link 
+    v-for="action in actions" 
+    :key="action.title" 
+    :to="action.link"
+    custom 
+    v-slot="{ navigate }"
+  >
+    <div 
+      class="action-card" 
+      :style="{ backgroundColor: action.bgColor }"
+      @click="navigate" 
+      role="button"
+    >
+      <!-- ... rest of your internal card content stays the same ... -->
+      <div class="icon-box" :style="{ backgroundColor: action.iconBg }">
+        <i :class="action.icon" :style="{ color: action.iconColor }"></i>
+      </div>
 
-        <div class="action-content">
-          <h3>{{ action.title }}</h3>
-          <p>{{ action.desc }}</p>
-        </div>
+      <div class="action-content">
+        <h3>{{ action.title }}</h3>
+        <p>{{ action.desc }}</p>
       </div>
     </div>
+  </router-link>
+</div>
   </section>
 </template>
 
@@ -29,7 +43,8 @@ export default {
           icon: 'fas fa-calendar-day',
           bgColor: '#d8b4fe', // Light Purple
           iconBg: '#9333ea', // Darker purple box
-          iconColor: '#ffffff'
+          iconColor: '#ffffff',
+          link: '/calendar'
         },
         {
           title: 'Financial Report',
@@ -37,7 +52,8 @@ export default {
           icon: 'fas fa-file-invoice-dollar',
           bgColor: '#fbcfe8', // Light Pink
           iconBg: '#ec4899', // Darker pink box
-          iconColor: '#ffffff'
+          iconColor: '#ffffff',
+          link: '/financial'
         },
         {
           title: 'Generate Report',
@@ -62,7 +78,7 @@ export default {
 }
 
 .section-title {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1.3rem;
   font-weight: 700;
   margin: 0 0 20px 0;
@@ -110,7 +126,7 @@ export default {
 }
 
 .action-content h3 {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
   margin: 0 0 4px 0;
@@ -120,7 +136,7 @@ export default {
 .action-content p {
   font-size: 0.8rem;
   color: #111827;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
 }
 </style>

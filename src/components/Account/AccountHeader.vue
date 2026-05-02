@@ -27,7 +27,7 @@
 }
 
 .header-text h1 {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.8rem;
     margin: 0;
     font-weight: 700;

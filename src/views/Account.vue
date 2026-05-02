@@ -104,6 +104,7 @@ export default {
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .dashboard-body {

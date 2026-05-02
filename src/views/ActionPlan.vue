@@ -14,12 +14,8 @@
         <div class="action-grid">
 
           <!-- LEFT PANEL -->
-          <ActionPlanList
-            :plans="plans"
-            :activePlanId="selectedPlan?.id"
-            @select-plan="selectPlan"
-            @add-plan="showAddForm = true"
-          />
+          <ActionPlanList :plans="plans" :activePlanId="selectedPlan?.id" @select-plan="selectPlan"
+            @add-plan="showAddForm = true" />
 
           <!-- RIGHT PANEL -->
           <div class="right-panel">
@@ -28,9 +24,9 @@
               <div class="details-header">
                 <div class="tab">Action Plan</div>
                 <div class="header-actions">
-                  <button class="add-activity-btn">
+                  <router-link :to="{ name: 'CreateActivity' }" class="add-activity-btn">
                     <i class="fa-solid fa-plus"></i> Add Activity
-                  </button>
+                  </router-link>
                   <button class="import-btn">
                     <i class="fa-solid fa-download"></i> Import
                   </button>
@@ -93,6 +89,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .dashboard-layout {
@@ -105,7 +102,7 @@ export default {
   padding: 30px 40px;
   overflow-y: auto;
   background-color: #f8fafc;
-  transition: all 0.3s ease-in-out; 
+  transition: all 0.3s ease-in-out;
 }
 
 :deep(.sidebar) {
@@ -114,19 +111,19 @@ export default {
 }
 
 :deep(.sidebar-hidden) {
-  margin-left: -260px; 
+  margin-left: -260px;
 }
 
 /* Title */
 .title-block h1 {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 2.2rem;
   margin: 0;
 }
 
 .title-block p {
   color: #64748b;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-top: 5px;
 }
 
@@ -175,11 +172,14 @@ export default {
   display: flex;
   align-items: center;
   height: 100%;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1rem;
-  color: #3b82f6; /* Blue text */
-  border-bottom: 3px solid #3b82f6; /* Blue active underline */
-  margin-bottom: -1px; /* Align border directly over container's bottom border */
+  color: #3b82f6;
+  /* Blue text */
+  border-bottom: 3px solid #3b82f6;
+  /* Blue active underline */
+  margin-bottom: -1px;
+  /* Align border directly over container's bottom border */
 }
 
 .header-actions {
@@ -189,9 +189,10 @@ export default {
 }
 
 .add-activity-btn {
-  background: #3b82f6; /* Blue primary color */
+  background: #3b82f6;
+  /* Blue primary color */
   color: #ffffff;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 0.85rem;
   font-weight: bold;
   border: none;
@@ -201,16 +202,13 @@ export default {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.add-activity-btn:hover {
-  background: #2563eb;
+  text-decoration: none;
 }
 
 .import-btn {
   background: #000000;
   color: #ffffff;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 0.85rem;
   font-weight: bold;
   border: none;
@@ -220,11 +218,9 @@ export default {
   display: flex;
   align-items: center;
   gap: 8px;
+  text-decoration: none;
 }
 
-.import-btn:hover {
-  background: #333333;
-}
 
 .details-content {
   flex: 1;

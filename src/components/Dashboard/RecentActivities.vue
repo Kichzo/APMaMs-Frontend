@@ -7,9 +7,10 @@
 
     <div class="activity-list">
       <div v-for="item in activities" :key="item.id" class="activity-card">
-        
+
         <!-- TITLE -->
-        <h3 class="activity-title"><i class="fas fa-tasks" style="color: #6b7280; margin-right: 8px;"></i>{{ item.title }}</h3>
+        <h3 class="activity-title"><i class="fas fa-tasks" style="color: #6b7280; margin-right: 8px;"></i>{{ item.title
+          }}</h3>
 
         <!-- META INFO -->
         <div class="activity-meta">
@@ -17,18 +18,16 @@
           <span><i class="far fa-calendar"></i> {{ item.date }}</span>
           <span><i class="fas fa-coins"></i> P {{ item.budget.toLocaleString() }}</span>
         </div>
-      
+
         <!-- PROGRESS -->
         <div v-if="item.progress !== null" class="progress-section">
           <div class="progress-labels">
             <span>Progress</span>
             <span>{{ item.progress }}%</span>
           </div>
-          
+
           <div class="progress-bar">
-            <div 
-              class="progress-fill" 
-              :style="{ width: item.progress + '%' }">
+            <div class="progress-fill" :style="{ width: item.progress + '%' }">
             </div>
           </div>
         </div>
@@ -70,7 +69,7 @@ export default {
 }
 
 .panel-header h2 {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1.5rem;
   color: #111827;
   margin: 0;
@@ -82,7 +81,7 @@ export default {
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 600;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .activity-card {
@@ -91,11 +90,11 @@ export default {
   padding: 20px 24px;
   margin-bottom: 20px;
   background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 .activity-title {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
   margin: 0 0 14px 0;
@@ -109,7 +108,7 @@ export default {
   color: #4b5563;
   align-items: center;
   flex-wrap: wrap;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .activity-meta i {
@@ -128,12 +127,12 @@ export default {
   font-size: 0.8rem;
   margin-bottom: 8px;
   color: #111827;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 500;
 }
 
 .progress-bar {
-  height: 6px;             
+  height: 6px;
   background: #e5e7eb;
   border-radius: 999px;
   overflow: hidden;
@@ -141,7 +140,8 @@ export default {
 
 .progress-fill {
   height: 100%;
-  background: #0000a0; /* dark blue like screenshot */        
+  background: #0000a0;
+  /* dark blue like screenshot */
   border-radius: 999px;
   transition: width 0.3s ease;
 }

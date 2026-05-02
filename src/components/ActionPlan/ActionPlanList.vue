@@ -42,7 +42,7 @@ export default {
 }
 
 .panel-header h3 {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1rem;
   font-weight: bold;
   margin: 0;

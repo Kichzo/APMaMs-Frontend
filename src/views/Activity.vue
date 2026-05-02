@@ -6,30 +6,44 @@
       <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
 
       <main class="content">
-        <div class="page-header">
-          <div class="title-block">
-            <h1>Activity Management</h1>
-            <p>Create, manage, and track all organizational activities and proposals</p>
-          </div>
-          <router-link :to="{ name: 'CreateActivity' }" class="new-activity-btn">
-            New Activity
-          </router-link>
+        <!-- 1. THE WIZARD VIEW -->
+        <!-- We show this if showWizard is true, regardless of selectedActivity -->
+        <ActivityReportWizard v-if="showWizard" @close="showWizard = false" />
 
-        </div>
+        <!-- 2. THE DETAIL VIEW -->
+        <!-- We show this if an activity is selected and we aren't in the wizard -->
+        <ActivityDetailView v-else-if="selectedActivity" :data="selectedActivity" @back="selectedActivity = null"
+          @open-report="showWizard = true" />
 
-        <ActivityStats :activities="activities" />
-        <ActivityFilters />
-
-        <div class="activity-list-container">
-          <nav class="tabs">
-            <button v-for="tab in tabs" :key="tab.id" :class="{ active: currentTab === tab.id }"
-              @click="currentTab = tab.id">
-              {{ tab.label }} ({{ tab.count }})
+        <!-- 3. THE LIST VIEW -->
+        <!-- We show this only if BOTH showWizard and selectedActivity are false -->
+        <div v-else>
+          <div class="page-header">
+            <div class="title-block">
+              <h1>Activity Management</h1>
+              <p>Create, manage, and track all organizational activities and proposals</p>
+            </div>
+            <!-- Trigger the wizard from the main button too -->
+            <button class="new-activity-btn" @click="showWizard = true">
+              New Activity
             </button>
-          </nav>
+          </div>
 
-          <div class="activity-items-wrapper">
-            <ActivityItemCard v-for="activity in filteredActivities" :key="activity.id" :data="activity" />
+          <ActivityStats :activities="activities" />
+          <ActivityFilters />
+
+          <div class="activity-list-container">
+            <nav class="tabs">
+              <button v-for="tab in tabs" :key="tab.id" :class="{ active: currentTab === tab.id }"
+                @click="currentTab = tab.id">
+                {{ tab.label }} ({{ tab.count }})
+              </button>
+            </nav>
+
+            <div class="activity-items-wrapper">
+              <ActivityItemCard v-for="activity in filteredActivities" :key="activity.id" :data="activity"
+                @view="selectedActivity = $event" />
+            </div>
           </div>
         </div>
       </main>
@@ -41,6 +55,8 @@
 import ActivityStats from '/src/components/Activity/ActivityStats.vue';
 import ActivityFilters from '/src/components/Activity/ActivityFilters.vue';
 import ActivityItemCard from '/src/components/Activity/ActivityItemCard.vue';
+import ActivityDetailView from '/src/components/Activity/ActivityDetailView.vue';
+import ActivityReportWizard from '/src/components/Activity/ActivityReportWizard.vue';
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
 import CreateActivity from '/src/views/CreateActivity.vue';
@@ -53,11 +69,15 @@ export default {
     AppSidebar,
     ActivityStats,
     ActivityFilters,
-    ActivityItemCard
+    ActivityItemCard,
+    ActivityReportWizard,
+    ActivityDetailView,
   },
   data() {
     return {
+      selectedActivity: null,
       isSidebarVisible: true,
+      showWizard: false,
       role: localStorage.getItem('role') || 'org',
       currentTab: 'all',
       activities: [
@@ -117,7 +137,7 @@ export default {
   /* Lock to viewport height */
   height: 100vh;
   width: 100%;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow: hidden;
   /* Prevent page-level scrolling */
 }
@@ -134,9 +154,7 @@ export default {
 /* Sidebar logic exactly as your working reference */
 :deep(.sidebar) {
   width: 260px;
-  height: 100%;
-  flex-shrink: 0;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease;
 }
 
 /* This pulls the sidebar off-screen so the flex content fills the space */
@@ -149,7 +167,7 @@ export default {
   padding: 30px 40px;
   overflow-y: auto;
   background-color: #f8fafc;
-  transition: all 0.3s ease-in-out; 
+  transition: all 0.3s ease-in-out;
   /* Smooth slide sync with sidebar */
   box-sizing: border-box;
 }
@@ -164,7 +182,7 @@ export default {
 }
 
 .title-block h1 {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 2.2rem;
   margin: 0;
 }
@@ -191,11 +209,11 @@ export default {
   width: 100%;
 }
 
-.activity-items-wrapper{
-  padding-top:20px;
-  display:flex;
-  flex-direction:column;
-  gap:15px;
+.activity-items-wrapper {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .tabs {

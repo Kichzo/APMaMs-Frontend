@@ -8,7 +8,6 @@
       </div>
       <div class="view-controls">
         <button class="btn-outline"><i class="fas fa-download"></i> Calendar</button>
-        <button class="btn-outline">Today</button>
       </div>
     </div>
 

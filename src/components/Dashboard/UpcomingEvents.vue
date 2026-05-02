@@ -50,7 +50,7 @@ export default {
 }
 
 .panel-header h2 {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1.3rem;
   color: #111827;
   margin: 0;
@@ -62,7 +62,7 @@ export default {
   text-decoration: none;
   font-size: 0.75rem;
   font-weight: 600;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .event-item {
@@ -86,7 +86,7 @@ export default {
 .event-content h4 {
   margin: 0 0 10px 0;
   font-size: 0.95rem;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 700;
   color: #111827;
 }
@@ -94,7 +94,7 @@ export default {
 .event-content p {
   color: #6b7280;
   margin: 6px 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   align-items: center;
 }

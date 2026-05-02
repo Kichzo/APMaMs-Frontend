@@ -31,7 +31,7 @@ export default {
 }
 
 .plan-item h4 {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 0.85rem;
   font-weight: bold;
   margin: 0;

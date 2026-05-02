@@ -146,7 +146,7 @@ export default {
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow: hidden;
   /* Keeps the main window locked */
 }
@@ -173,11 +173,8 @@ export default {
 
 :deep(.sidebar) {
   width: 260px;
-  height: 100%;
-  flex-shrink: 0;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease;
 }
-
 /* This pulls the sidebar off-screen so the flex content fills the space */
 :deep(.sidebar-hidden) {
   margin-left: -260px;
@@ -199,7 +196,7 @@ export default {
 }
 
 .title-block h1 {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 2.2rem;
   margin: 0;
 }

@@ -1,13 +1,15 @@
 <template>
   <div class="activity-card">
-    
+
     <div class="card-header">
       <div>
         <h3>{{ data.title }}</h3>
         <span class="status approved">{{ data.status }}</span>
       </div>
 
-      <button class="view-btn">View Details</button>
+      <button class="view-btn" @click="$emit('view', data)">
+        View Details
+      </button>
     </div>
 
     <div class="activity-meta">
@@ -15,15 +17,12 @@
       <span><i class="fas fa-calendar-alt"></i> {{ data.date }}</span>
       <span><i class="fas fa-users"></i> {{ data.participants }} participants</span>
       <span><i class="fas fa-coins"></i> {{ data.budget }}</span>
-</div>
+    </div>
 
     <div class="progress-section">
       <label>Progress</label>
       <div class="progress-bar">
-        <div
-          class="progress-fill"
-          :style="{ width: data.progress + '%' }"
-        ></div>
+        <div class="progress-fill" :style="{ width: data.progress + '%' }"></div>
       </div>
       <span class="progress-percent">{{ data.progress }}%</span>
     </div>

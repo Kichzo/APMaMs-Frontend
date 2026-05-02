@@ -114,7 +114,7 @@ export default {
 
 .header-text h2 {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.8rem;
     color: #1a1a1a;
 }
