@@ -3,10 +3,11 @@
     <div class="sidebar-card">
       <h3 class="card-title">View Mode</h3>
       <div class="view-mode-list">
-        <button class="mode-item active">
+        <button :class="['mode-item', { active: currentView === 'month' }]" @click="$emit('change-view', 'month')">
           <i class="far fa-calendar-alt"></i> Month View
         </button>
-        <button class="mode-item">
+
+        <button :class="['mode-item', { active: currentView === 'week' }]" @click="$emit('change-view', 'week')">
           <i class="fas fa-list"></i> Week View
         </button>
       </div>
@@ -37,6 +38,8 @@
 
 <script>
 export default {
+  // Add props so the sidebar knows which button to highlight
+  props: ['currentView'],
   data() {
     return {
       upcoming: [

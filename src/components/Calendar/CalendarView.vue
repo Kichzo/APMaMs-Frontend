@@ -2,15 +2,25 @@
   <div class="calendar-container">
     <div class="calendar-header">
       <div class="month-nav">
-        <button class="nav-btn"><i class="fas fa-chevron-left"></i></button>
-        <h2>January 2025</h2>
-        <button class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+        <!-- Changed to changeStep to handle both view modes -->
+        <button class="nav-btn" @click="changeStep(-1)">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <!-- Logic to show a date range if in Week View, otherwise show Month -->
+        <h2 v-if="viewMode === 'month'">{{ monthNames[currentMonth] }} {{ currentYear }}</h2>
+        <h2 v-else>Week of {{ monthNames[visibleDays[0].month] }} {{ visibleDays[0].dayNum }}</h2>
+
+        <button class="nav-btn" @click="changeStep(1)">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
       <div class="view-controls">
         <button class="btn-outline"><i class="fas fa-download"></i> Calendar</button>
       </div>
     </div>
 
+    <!-- Organization Filters -->
     <div class="org-filters">
       <button v-for="org in orgs" :key="org" :class="['filter-chip', { active: selectedOrg === org }]"
         @click="selectedOrg = org">
@@ -18,28 +28,25 @@
       </button>
     </div>
 
-    <div class="calendar-grid">
+    <!-- Unified Calendar Grid -->
+    <div class="calendar-grid" :class="{ 'week-view': viewMode === 'week' }">
+      <!-- Weekday Headers (Always shown) -->
       <div v-for="day in daysOfWeek" :key="day" class="day-header">{{ day }}</div>
 
-      <div v-for="date in 31" :key="date" class="date-cell">
-        <span class="date-num">{{ date }}</span>
+      <!-- Only show blanks in Month View -->
+      <template v-if="viewMode === 'month'">
+        <div v-for="blank in firstDayOfMonth" :key="'blank-' + blank" class="date-cell empty"></div>
+      </template>
 
-        <template v-if="selectedOrg === 'All Organizations' || selectedOrg === 'SSC'">
-          <div v-if="date === 10" class="event-tag ongoing">Community..</div>
-          <div v-if="date === 15" class="event-tag ongoing">Leadership..</div>
-        </template>
+      <!-- Dynamic Date Cells (Handles both Month and Week) -->
+      <div v-for="dateObj in visibleDays" :key="dateObj.fullDate" class="date-cell">
+        <span class="date-num">{{ dateObj.dayNum }}</span>
 
-        <template v-if="selectedOrg === 'All Organizations' || selectedOrg === 'CBIT College'">
-          <div v-if="date === 18" class="event-tag pending">Coding Boo..</div>
-        </template>
-
-        <template v-if="selectedOrg === 'All Organizations' || selectedOrg === 'CELS College'">
-          <div v-if="date === 20" class="event-tag pending">Techn Inno..</div>
-        </template>
-
-        <template v-if="selectedOrg === 'All Organizations' || selectedOrg === 'CESS College'">
-          <div v-if="date === 28" class="event-tag pending">Business.......</div>
-        </template>
+        <!-- Event Logic -->
+        <div v-for="event in filteredEvents(dateObj.dayNum, dateObj.month)" :key="event.title"
+          :class="['event-tag', event.status]">
+          {{ event.title }}
+        </div>
       </div>
     </div>
   </div>
@@ -47,17 +54,82 @@
 
 <script>
 export default {
+  props: {
+    viewMode: {
+      type: String,
+      default: 'month'
+    },
+    events: Array
+  },
   data() {
     return {
+      // !!! IMPORTANT: NO viewMode here !!!
+      currentDate: new Date(),
       selectedOrg: 'All Organizations',
       daysOfWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      orgs: ['All Organizations', 'SSC', 'CBIT College', 'CELS College', 'CESS College', 'CMFS College']
+      monthNames: ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"],
+      orgs: ['All Organizations', 'SSC', 'CBIT College', 'CELS College', 'CESS College', 'CMFS College'],
+    }
+  },
+  computed: {
+    currentMonth() { return this.currentDate.getMonth(); },
+    currentYear() { return this.currentDate.getFullYear(); },
+    daysInMonth() { return new Date(this.currentYear, this.currentMonth + 1, 0).getDate(); },
+    firstDayOfMonth() { return new Date(this.currentYear, this.currentMonth, 1).getDay(); },
+
+    visibleDays() {
+      // This refers to the PROP now
+      if (this.viewMode === 'month') {
+        return Array.from({ length: this.daysInMonth }, (_, i) => ({
+          dayNum: i + 1,
+          month: this.currentMonth,
+          fullDate: `${this.currentYear}-${(this.currentMonth + 1).toString().padStart(2, '0')}-${(i + 1).toString().padStart(2, '0')}`
+        }));
+      } else {
+        // WEEK VIEW: Logic to get the 7 days of the current week
+        const startOfWeek = new Date(this.currentDate);
+        startOfWeek.setDate(this.currentDate.getDate() - this.currentDate.getDay());
+
+        return Array.from({ length: 7 }, (_, i) => {
+          const d = new Date(startOfWeek);
+          d.setDate(startOfWeek.getDate() + i);
+          return {
+            dayNum: d.getDate(),
+            month: d.getMonth(),
+            fullDate: `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`
+          };
+        });
+      }
+    }
+  },
+  methods: {
+    changeStep(step) {
+      if (this.viewMode === 'month') {
+        this.currentDate = new Date(this.currentYear, this.currentMonth + step, 1);
+      } else {
+        const newDate = new Date(this.currentDate);
+        newDate.setDate(this.currentDate.getDate() + (step * 7));
+        this.currentDate = newDate;
+      }
+    },
+    filteredEvents(day, month) {
+      const monthStr = month.toString().padStart(2, '0');
+      const dayStr = day.toString().padStart(2, '0');
+      const dateKey = `${this.currentYear}-${monthStr}-${dayStr}`;
+
+      return this.events.filter(event => {
+        const matchDate = event.date === dateKey;
+        const matchOrg = this.selectedOrg === 'All Organizations' || event.org === this.selectedOrg;
+        return matchDate && matchOrg;
+      });
     }
   }
 }
 </script>
 
 <style scoped>
+/* Main Container */
 .calendar-container {
   background: #fff;
   border: 1px solid #e2e8f0;
@@ -66,6 +138,7 @@ export default {
   flex: 3;
 }
 
+/* Header & Nav */
 .calendar-header {
   display: flex;
   justify-content: space-between;
@@ -91,6 +164,7 @@ export default {
   border: none;
   cursor: pointer;
   color: #64748b;
+  padding: 5px;
 }
 
 .btn-outline {
@@ -98,16 +172,18 @@ export default {
   border: 1px solid #e2e8f0;
   background: white;
   border-radius: 8px;
-  margin-left: 10px;
   font-size: 0.9rem;
   cursor: pointer;
   color: #334155;
 }
 
+/* Filters */
 .org-filters {
   display: flex;
   gap: 10px;
   margin-bottom: 35px;
+  overflow-x: auto;
+  padding-bottom: 5px;
 }
 
 .filter-chip {
@@ -118,7 +194,7 @@ export default {
   font-size: 0.85rem;
   color: #475569;
   cursor: pointer;
-  transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .filter-chip.active {
@@ -128,6 +204,7 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* Grid Layout */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -142,30 +219,37 @@ export default {
 }
 
 .date-cell {
-  min-height: 100px;
+  min-height: 110px;
   border: 1px solid #f1f5f9;
   border-radius: 10px;
   padding: 10px;
-  position: relative;
+  transition: background 0.2s;
+}
+
+.date-cell.empty {
+  border: none;
+  background: transparent;
 }
 
 .date-num {
   font-size: 0.9rem;
   color: #1e293b;
   font-weight: 500;
+  display: block;
+  margin-bottom: 8px;
 }
 
+/* Tags */
 .event-tag {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   padding: 4px 6px;
   border-radius: 4px;
-  margin-top: 6px;
+  margin-top: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Status Colors from design */
 .event-tag.ongoing {
   background: #dbeafe;
   color: #1e40af;

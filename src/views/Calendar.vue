@@ -1,9 +1,4 @@
 <template>
-
-
-  <!--HMMMMM might use google calendar to sync other stuff-->
-
-
   <div class="app-container">
     <!-- guys this is top header, this is content -->
     <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
@@ -23,9 +18,12 @@
         </div>
         <div class="calendar-page">
           <div class="calendar-layout">
-            <CalendarView :events="events" @org-change="selectedOrg = $event" />
+            <!-- We send 'currentViewMode' DOWN to the Grid -->
+            <CalendarView :viewMode="currentViewMode" :events="events" @org-change="selectedOrg = $event" />
 
-            <CalendarUpcomingAct :events="events" :selectedOrg="selectedOrg" />
+            <!-- We send 'currentViewMode' DOWN and listen for 'change-view' UP -->
+            <CalendarUpcomingAct :currentView="currentViewMode" @change-view="currentViewMode = $event" :events="events"
+              :selectedOrg="selectedOrg" />
           </div>
         </div>
 
@@ -49,6 +47,7 @@ export default {
   },
   data() {
     return {
+      currentViewMode: 'month',
       isSidebarVisible: true,
       role: localStorage.getItem('role') || 'org',
       selectedOrg: 'All Organizations',

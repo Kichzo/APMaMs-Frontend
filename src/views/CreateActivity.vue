@@ -1,16 +1,4 @@
 <template>
-
-
-
-
-
-LA PA NAHUMAN
-
-
-
-
-
-
     <div class="app-container">
         <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
         <div class="dashboard-layout">
