@@ -19,7 +19,7 @@
 
         <div class="action-buttons">
             <button class="btn btn-primary" @click="$emit('edit')">Edit Profile</button>
-            <button class="btn btn-danger" @click="$emit('delete')">Deleted Account</button>
+            <button class="btn btn-logout" @click="$emit('logout')">Log Out</button>
         </div>
     </div>
 </template>
@@ -111,8 +111,7 @@ export default {
     font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
-    border: 2px solid #000;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    border: none;
 }
 
 .btn-primary {
@@ -120,8 +119,9 @@ export default {
     color: white;
 }
 
-.btn-danger {
-    background-color: #c02c1d;
-    color: white;
+.btn-logout {
+    background-color: #CDE4FA;
+    color: #000;
+    border: none;
 }
 </style>

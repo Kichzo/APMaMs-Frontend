@@ -153,7 +153,7 @@ export default {
 }
 
 .month-nav h2 {
-  font-family: serif;
+  font-family: Arial, sans-serif;
   font-size: 1.6rem;
   font-weight: 700;
   margin: 0;

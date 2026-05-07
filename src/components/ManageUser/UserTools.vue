@@ -4,7 +4,7 @@
             <i class="fas fa-search search-icon"></i>
             <input type="text" placeholder="Search by name or organization" class="search-input" />
         </div>
-        <button class="add-user-btn">
+        <button class="add-user-btn" @click="$emit('add-user')">
             <i class="fas fa-user-plus"></i> Add New User
         </button>
     </div>

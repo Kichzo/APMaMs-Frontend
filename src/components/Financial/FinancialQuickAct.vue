@@ -67,7 +67,7 @@ export default {
 
 .action-info h4 {
   margin: 0;
-  font-family: serif;
+  font-family: Arial, sans-serif;
   font-size: 1.1rem;
 }
 

@@ -5,13 +5,13 @@
                 <span></span><span></span><span></span>
             </button>
 
-            <div class="brand">
+            <router-link to="/" class="brand" style="text-decoration: none; color: inherit;">
                 <div class="brand-main">APMaMS</div>
                 <div class="brand-sub">MSUN</div>
-            </div>
+            </router-link>
         </div>
 
-        <router-link to="/account" class="user-profile">
+        <router-link v-if="role !== 'guest'" to="/account" class="user-profile">
             <div class="user-profile">
                 <div class="user-avatar">
                     <i class="fas fa-user"></i>
@@ -44,9 +44,9 @@ export default {
     },
     computed: {
         roleLabel() {
-            return this.role === 'admin'
-                ? 'System Administrator'
-                : 'Student Organization'
+            if (this.role === 'admin') return 'System Administrator';
+            if (this.role === 'adviser') return 'Adviser / Dean / Coordinator';
+            return 'Student Organization';
         }
     }
 }
@@ -72,7 +72,7 @@ export default {
     font-weight: bold;
     font-size: 1.4rem;
     color: #1a1a1a;
-    font-family: serif;
+    font-family: Arial, sans-serif;
 }
 
 .brand-sub {

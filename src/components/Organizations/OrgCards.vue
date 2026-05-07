@@ -8,7 +8,7 @@
         <input type="text" placeholder="Search organization" />
       </div>
 
-      <button class="add-org-btn">
+      <button v-if="showAddOrg" class="add-org-btn" @click="$emit('add-org')">
         <i class="fas fa-plus"></i>
         Add Organization
       </button>
@@ -51,8 +51,8 @@
 
         <!-- Buttons -->
         <div class="button-row">
-          <button class="btn-primary">View Profile</button>
-          <button v-if="showManage" class="btn-secondary">Manage</button>
+          <button class="btn-primary" @click="$emit('view-profile', org)">View Profile</button>
+          <button v-if="showManage" class="btn-secondary" @click="$emit('manage', org)">Manage</button>
         </div>
 
       </div>
@@ -69,6 +69,10 @@ export default {
       required: true
     },
     showManage: {
+      type: Boolean,
+      default: true
+    },
+    showAddOrg: {
       type: Boolean,
       default: true
     }

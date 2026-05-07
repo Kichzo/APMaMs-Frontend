@@ -25,15 +25,16 @@
         <div class="form-card">
             <transition name="fade" mode="out-in">
                 <div :key="currentStep" class="step-content">
-                    <h2 class="form-section-title">{{ steps[currentStep - 1].label }}</h2>
+                    <h2 class="form-section-title">
+                        {{ currentStep === 2 ? 'Details & Schedule' : steps[currentStep - 1].label }}
+                    </h2>
 
                     <!-- STEP 1: BASIC INFORMATION (Merged from image_3e1c9e.png) -->
                     <div v-if="currentStep === 1" class="form-body">
                         <!-- Activity Title (Full Width) -->
                         <div class="input-block">
                             <label>Activity Title *</label>
-                            <!-- Removed specific placeholder, data still binds to form.title -->
-                            <input v-model="form.title" type="text" placeholder="Enter the name of your activity" />
+                            <input v-model="form.title" type="text" placeholder="First SSC Regular Meeting" />
                         </div>
 
                         <!-- Grid for Office Code and Unit -->
@@ -75,20 +76,30 @@
                             <label>Objectives *</label>
                             <div v-for="(obj, idx) in form.objectives" :key="'obj-' + idx"
                                 class="dynamic-input-wrapper">
-                                <input v-model="form.objectives[idx]"
-                                    placeholder="To evaluate the previous year's output..." />
+                                <div class="input-with-action">
+                                    <input v-model="obj.value"
+                                        placeholder="To evaluate the previous year's output and prepare for the 2nd semester's student general assembly and Arts Month Celebration." />
+                                    <button v-if="form.objectives.length > 1" class="delete-btn" @click="removeRow('objectives', idx)" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button class="add-link-btn" @click="form.objectives.push('')">+ Add Objectives</button>
+                            <button class="add-link-btn" @click="form.objectives.push({ value: '' })">+ Add Objectives</button>
                         </div>
 
-                        <!-- NEW: Expected Output (Added right after Objectives) -->
+                        <!-- Expected Output -->
                         <div class="input-block">
                             <label>Expected Output *</label>
                             <div v-for="(out, idx) in form.outputs" :key="'out-' + idx" class="dynamic-input-wrapper">
-                                <input v-model="form.outputs[idx]"
-                                    placeholder="Efficient implementation of planned activities/accomplishment report/attendance sheet." />
+                                <div class="input-with-action">
+                                    <input v-model="out.value"
+                                        placeholder="Efficient implementation of planned activities/accomplishment report/attendance sheet." />
+                                    <button v-if="form.outputs.length > 1" class="delete-btn" @click="removeRow('outputs', idx)" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button class="add-link-btn" @click="form.outputs.push('')">+ Add Expected Output</button>
+                            <button class="add-link-btn" @click="form.outputs.push({ value: '' })">+ Add Expected Output</button>
                         </div>
 
                         <!-- Optional subtle divider to match image_3e1c9e.png bottom -->
@@ -108,7 +119,7 @@
                                 </div>
                             </div>
                             <div class="input-block">
-                                <label>Date of Implementation *</label>
+                                <label>Date of Implementation*</label>
                                 <input type="date" v-model="form.dateImplementation" />
                             </div>
                         </div>
@@ -117,9 +128,14 @@
                         <div class="input-block">
                             <label>Program of Activities *</label>
                             <div v-for="(item, idx) in form.program" :key="'prog-' + idx" class="form-grid-3">
-                                <input v-model="item.time" placeholder="Time (e.g., 9:00 AM - 12:00 PM)" />
+                                <input v-model="item.time" placeholder="Time (e.g. , 9:00 AM - 12:00 PM)" />
                                 <input v-model="item.description" placeholder="Activity Description" />
-                                <input v-model="item.pic" placeholder="Person-In-Charge" />
+                                <div class="input-with-action">
+                                    <input v-model="item.pic" placeholder="Person-In-Charge" />
+                                    <button v-if="form.program.length > 1" class="delete-btn" @click="removeRow('program', idx)" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
                             <button class="add-link-btn" @click="form.program.push({})">+ Add Schedule Item</button>
                         </div>
@@ -128,11 +144,16 @@
                         <div class="form-grid-2-1">
                             <div class="input-block">
                                 <label>Participants *</label>
-                                <div class="dual-input">
-                                    <input v-model="form.participantName" placeholder="Enter name" />
-                                    <input v-model="form.participantPosition" placeholder="Enter position" />
+                                <div v-for="(part, idx) in form.participants" :key="'part-' + idx" class="dual-input mb-2">
+                                    <input v-model="part.name" placeholder="Enter name" />
+                                    <div class="input-with-action">
+                                        <input v-model="part.position" placeholder="Enter position" />
+                                        <button v-if="form.participants.length > 1" class="delete-btn" @click="removeRow('participants', idx)" title="Remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <button class="add-link-btn" @click="addParticipant">+ Add Participants</button>
+                                <button class="add-link-btn" @click="form.participants.push({ name: '', position: '' })">+ Add Participants</button>
                             </div>
                             <div class="input-block">
                                 <label>Expected Participants *</label>
@@ -165,10 +186,16 @@
                                         v-model="venue.duration" placeholder="e.g. 1:00PM-4:00PM" /></div>
                                 <div class="input-block"><label v-if="idx === 0">Remarks *</label><input
                                         v-model="venue.remarks" placeholder="Enter remarks" /></div>
-                                <div class="input-block"><label v-if="idx === 0">Signature *</label><input
-                                        class="sig-box" readonly /></div>
+                                <div class="input-block"><label v-if="idx === 0">Signature *</label>
+                                    <div class="input-with-action">
+                                        <input class="sig-box" readonly />
+                                        <button v-if="form.venues.length > 1" class="delete-btn" @click="removeRow('venues', idx)" title="Remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <button class="add-link-btn mb-4" @click="form.venues.push({})">+ Add Row</button>
+                            <button class="add-link-btn mb-4" style="margin-top: -10px;" @click="form.venues.push({})">+ Add Row</button>
 
                             <div class="five-col-grid" v-for="(fac, idx) in form.facilities" :key="'fac-' + idx">
                                 <div class="input-block"><label v-if="idx === 0">Campus Facilities *</label><input
@@ -176,13 +203,19 @@
                                 <div class="input-block"><label v-if="idx === 0">Quantity *</label><input type="number"
                                         v-model="fac.qty" /></div>
                                 <div class="input-block"><label v-if="idx === 0">Duration *</label><input
-                                        v-model="fac.duration" placeholder="e.g. 1:00PM-4:00PM" /></div>
+                                        v-model="fac.duration" placeholder="e.g. 1:00AM-4:00PM" /></div>
                                 <div class="input-block"><label v-if="idx === 0">Remarks *</label><input
                                         v-model="fac.remarks" placeholder="Enter remarks" /></div>
-                                <div class="input-block"><label v-if="idx === 0">Signature *</label><input
-                                        class="sig-box" readonly /></div>
+                                <div class="input-block"><label v-if="idx === 0">Signature *</label>
+                                    <div class="input-with-action">
+                                        <input class="sig-box" readonly />
+                                        <button v-if="form.facilities.length > 1" class="delete-btn" @click="removeRow('facilities', idx)" title="Remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <button class="add-link-btn" @click="form.facilities.push({})">+ Add Row</button>
+                            <button class="add-link-btn" style="margin-top: -10px;" @click="form.facilities.push({})">+ Add Row</button>
                         </div>
 
                         <hr class="form-divider" />
@@ -213,7 +246,12 @@
                                 </div>
                                 <div class="input-block">
                                     <label v-if="idx === 0">Budget Source *</label>
-                                    <input v-model="item.source" placeholder="Enter budget source" />
+                                    <div class="input-with-action">
+                                        <input v-model="item.source" placeholder="Enter budget source" />
+                                        <button v-if="form.budgetItems.length > 1" class="delete-btn" @click="removeRow('budgetItems', idx)" title="Remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <button class="add-link-btn" @click="form.budgetItems.push({})">+ Add Row</button>
@@ -272,12 +310,12 @@
                         </div>
                         <div class="review-item full">
                             <label>Objectives:</label>
-                            <div class="review-box" v-for="(obj, i) in form.objectives" :key="'rev-obj-' + i">{{ obj }}
+                            <div class="review-box" v-for="(obj, i) in form.objectives" :key="'rev-obj-' + i">{{ obj.value }}
                             </div>
                         </div>
                         <div class="review-item full">
                             <label>Expected Output:</label>
-                            <div class="review-box" v-for="(out, i) in form.outputs" :key="'rev-out-' + i">{{ out }}
+                            <div class="review-box" v-for="(out, i) in form.outputs" :key="'rev-out-' + i">{{ out.value }}
                             </div>
                         </div>
 
@@ -292,20 +330,25 @@
                             </div>
                         </div>
 
-                        <label class="review-label-small">Program of Activities:</label>
+                        <label class="review-label-small">Program of Activities</label>
                         <div v-for="(p, i) in form.program" :key="'rev-prog-' + i" class="form-grid-3 mb-2">
                             <div class="review-box">{{ p.time }}</div>
                             <div class="review-box">{{ p.description }}</div>
                             <div class="review-box">{{ p.pic }}</div>
                         </div>
 
-                        <label class="review-label-small">Participants:</label>
-                        <div v-for="(part, i) in form.participants" :key="'rev-part-' + i" class="dual-input mb-2">
-                            <div class="review-box">{{ part.name }}</div>
-                            <div class="review-box">{{ part.position }}</div>
-                        </div>
-                        <div class="review-item"><label>Expected Participants:</label>
-                            <p>{{ form.expectedCount }}</p>
+                        <div class="form-grid-2-1">
+                            <div class="review-item">
+                                <label>Participants</label>
+                                <div v-for="(part, i) in form.participants" :key="'rev-part-' + i" class="dual-input mb-2">
+                                    <div class="review-box">{{ part.name }}</div>
+                                    <div class="review-box">{{ part.position }}</div>
+                                </div>
+                            </div>
+                            <div class="review-item">
+                                <label>Expected Participants:</label>
+                                <p>{{ form.expectedCount }}</p>
+                            </div>
                         </div>
                         <div class="review-item"><label>Type of Activity:</label>
                             <p>{{ form.activityType }}</p>
@@ -314,22 +357,40 @@
                         <!-- IN-CAMPUS ONLY SECTION (Venue & Facility) -->
                         <p class="review-note">Fill-out below for In-Campus only:</p>
 
-                        <label class="review-label-small">Venue:</label>
                         <div v-for="(v, i) in form.venues" :key="'rev-ven-' + i" class="five-col-grid mb-2">
-                            <div class="review-box">{{ v.name }}</div>
-                            <div class="review-box">{{ v.date }}</div>
-                            <div class="review-box">{{ v.duration }}</div>
-                            <div class="review-box">{{ v.remarks }}</div>
-                            <div class="review-box">Signature</div> <!-- Placeholder as per image -->
+                            <div class="review-item"><label v-if="i === 0">Venue</label>
+                                <div class="review-box">{{ v.name }}</div>
+                            </div>
+                            <div class="review-item"><label v-if="i === 0">Specific Date</label>
+                                <div class="review-box">{{ v.date }}</div>
+                            </div>
+                            <div class="review-item"><label v-if="i === 0">Duration</label>
+                                <div class="review-box">{{ v.duration }}</div>
+                            </div>
+                            <div class="review-item"><label v-if="i === 0">Remarks</label>
+                                <div class="review-box">{{ v.remarks }}</div>
+                            </div>
+                            <div class="review-item"><label v-if="i === 0">Signature</label>
+                                <div class="review-box">Signature</div>
+                            </div>
                         </div>
 
-                        <label class="review-label-small">Campus Facility:</label>
                         <div v-for="(f, i) in form.facilities" :key="'rev-fac-' + i" class="five-col-grid mb-2">
-                            <div class="review-box">{{ f.name }}</div>
-                            <div class="review-box">{{ f.qty }}</div>
-                            <div class="review-box">{{ f.duration }}</div>
-                            <div class="review-box">{{ f.remarks }}</div>
-                            <div class="review-box">Signature</div>
+                            <div class="review-item"><label v-if="i === 0">Campus Facility</label>
+                                <div class="review-box">{{ f.name }}</div>
+                            </div>
+                            <div class="review-item"><label v-if="i === 0">Quantity</label>
+                                <div class="review-box">{{ f.qty }}</div>
+                            </div>
+                            <div class="review-item"><label v-if="i === 0">Duration</label>
+                                <div class="review-box">{{ f.duration }}</div>
+                            </div>
+                            <div class="review-item"><label v-if="i === 0">Remarks</label>
+                                <div class="review-box">{{ f.remarks }}</div>
+                            </div>
+                            <div class="review-item"><label v-if="i === 0">Signature</label>
+                                <div class="review-box">Signature</div>
+                            </div>
                         </div>
 
                         <!-- BUDGET & REQUIREMENTS -->
@@ -393,8 +454,12 @@
                     <i class="fas fa-arrow-left"></i> Previous
                 </button>
 
-                <button class="btn-next-blue" @click="handleNext">
-                    {{ currentStep === 4 ? 'Submit' : 'Next' }} <i class="fas fa-arrow-right"></i>
+                <div v-if="currentStep === 4" style="display: flex; gap: 10px;">
+                    <button class="btn-cancel" @click="$emit('close')">Cancel</button>
+                    <button class="btn-next-blue" @click="submitForm">Submit for Approval</button>
+                </div>
+                <button v-else class="btn-next-blue" @click="handleNext">
+                    Next <i class="fas fa-arrow-right"></i>
                 </button>
             </footer>
         </div>
@@ -427,7 +492,7 @@ export default {
             steps: [
                 { label: 'Basic Information', icon: 'fas fa-info-circle' },
                 { label: 'Details & Schedules', icon: 'fas fa-calendar-alt' },
-                { label: 'Budgetary Requirements', icon: 'fas fa-ruble-sign' },
+                { label: 'Budgetary Requirements', icon: 'fas fa-coins' },
                 { label: 'Review & Submit', icon: 'fas fa-check' }
             ],
             form: {
@@ -437,14 +502,13 @@ export default {
                 resultCode: '',
                 email: '',
                 rationale: '',
-                objectives: [''],
-                outputs: [''],
+                objectives: [{ value: '' }],
+                outputs: [{ value: '' }],
                 datePreparedStart: '',
                 datePreparedEnd: '',
                 dateImplementation: '',
                 program: [{ time: '', description: '', pic: '' }],
-                participantName: '',
-                participantPosition: '',
+                participants: [{ name: '', position: '' }],
                 expectedCount: 50,
                 activityType: 'In-Campus',
                 venues: [{ name: '', date: '', duration: '', remarks: '' }],
@@ -457,6 +521,11 @@ export default {
         }
     },
     methods: {
+        removeRow(field, idx) {
+            if (this.form[field].length > 1) {
+                this.form[field].splice(idx, 1);
+            }
+        },
         handleNext() {
             if (this.currentStep < 4) {
                 this.currentStep++;
@@ -472,9 +541,8 @@ export default {
             this.showSuccessModal = true;
         },
         goToApprovals() {
-            // Redirect logic (e.g., using Vue Router)
-            // this.$router.push('/approvals');
-            this.$emit('close'); // or just close the wizard
+            this.$router.push('/approvals');
+            this.$emit('close');
         },
         getSDGLabel(n) {
             const labels = [
@@ -503,6 +571,14 @@ export default {
     max-width: 1100px;
     margin: 0 auto;
     padding: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.wizard-container input,
+.wizard-container select,
+.wizard-container textarea,
+.wizard-container button {
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .wizard-header {
@@ -523,8 +599,8 @@ export default {
 }
 
 .header-text h1 {
-    font-family: 'Playfair Display', serif;
     font-size: 2.2rem;
+    font-weight: bold;
     margin: 0;
 }
 
@@ -590,8 +666,8 @@ export default {
 }
 
 .form-section-title {
-    font-family: 'Playfair Display', serif;
     font-size: 1.4rem;
+    font-weight: bold;
     margin-bottom: 30px;
     color: #1a1a1a;
 }
@@ -668,6 +744,30 @@ export default {
     margin-bottom: 12px;
 }
 
+.input-with-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 5px;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-btn:hover {
+    color: #dc2626;
+}
+
 /* FOOTER & BUTTONS */
 .form-footer {
     display: flex;
@@ -716,6 +816,20 @@ export default {
     gap: 8px;
 }
 
+.btn-cancel {
+    background: #000000;
+    color: white;
+    border: none;
+    padding: 12px 45px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
 /* Custom Grids for Step 2 */
 .form-grid-3 {
     display: grid;
@@ -747,8 +861,9 @@ export default {
     width: 100%;
 }
 
-.dual-input input {
+.dual-input > * {
     flex: 1;
+    min-width: 0;
 }
 
 /* Activity Type Section Styling */
@@ -1007,8 +1122,7 @@ export default {
 }
 
 .success-card h2 {
-    font-family: 'Playfair Display', serif;
-    /* Or your chosen heading font */
+    font-family:Arial, sans-serif;
     font-size: 1.8rem;
     margin-bottom: 15px;
     color: #1a1a1a;

@@ -8,16 +8,18 @@
 
       <main class="content">
         <div class="page-container">
-          <div class="title-block">
-            <h1>Approvals</h1>
-            <p>Review and manage approval requests</p>
+          <div v-if="!showReportAccomplishment">
+            <div class="title-block">
+              <h1>Approvals</h1>
+              <p>Review and manage approval requests</p>
+            </div>
+
+            <div class="approvalcard">
+              <ApprovalCard v-for="request in requests" :key="request.id" :data="request" @view-details="handleViewDetails" />
+            </div>
           </div>
 
-          <ApprovalTabs :currentTab="activeTab" />
-
-          <div class="approvalcard">
-            <ApprovalCard v-for="request in requests" :key="request.id" :data="request" />
-          </div>
+          <ReportAccomplishment v-else :userRole="role" @back="showReportAccomplishment = false" />
         </div>
 
       </main>
@@ -26,10 +28,10 @@
 </template>
 
 <script>
-import ApprovalTabs from '/src/components/Approval/ApprovalTabs.vue';
 import ApprovalCard from '/src/components/Approval/ApprovalCard.vue';
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
+import ReportAccomplishment from '/src/components/Report/ReportAccomplishment.vue'
 
 export default {
   name: 'Activity',
@@ -37,17 +39,19 @@ export default {
     AppHeader,
     AppSidebar,
     ApprovalCard,
-    ApprovalTabs
+    ReportAccomplishment
   },
   data() {
     return {
+      role: localStorage.getItem('role') || 'org',
       isSidebarVisible: true,
       activeTab: 'Pending',
+      showReportAccomplishment: false,
       requests: [
         {
           id: 1,
           title: "First SSC Regular Meeting",
-          type: "Detailed Activity Design",
+          type: "Accomplishment Report",
           date: "31/12/2025",
           approvers: [
             { role: "Adviser", name: "Prof. Lisa Garcia", status: "Approved", date: "2025-01-16" },
@@ -66,6 +70,9 @@ export default {
     },
     handleTabChange(tabName) {
       this.activeTab = tabName;
+    },
+    handleViewDetails(report) {
+      this.showReportAccomplishment = true;
     }
   }
 
@@ -76,12 +83,7 @@ export default {
 .app-container {
   display: flex;
   flex-direction: column;
-  /* Lock to viewport height */
   height: 100vh;
-  width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden;
-  /* Prevent page-level scrolling */
 }
 
 .dashboard-layout {
@@ -125,7 +127,7 @@ export default {
 }
 
 .title-block h1 {
-  font-family: serif;
+  font-family: Arial, sans-serif;
   font-size: 2.2rem;
   margin: 0;
 }

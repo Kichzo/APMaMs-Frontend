@@ -12,25 +12,41 @@
               <h1>Financial Management</h1>
               <p>Track budgets, expenses, and financial reports across all organizations</p>
             </div>
-            <div class="org-dropdown">
-              <span>All Organization</span>
-              <i class="fas fa-chevron-down"></i>
-            </div>
+            <select class="org-dropdown" v-model="selectedOrg">
+              <option value="All Organization">All Organization</option>
+              <option value="SSC">SSC</option>
+              <option value="CBIT">CBIT</option>
+              <option value="CELS">CELS</option>
+              <option value="CESS">CESS</option>
+              <option value="CMFS">CMFS</option>
+              <option value="KAABAG">KAABAG</option>
+              <option value="TME">TME</option>
+              <option value="SenSo">SenSo</option>
+            </select>
           </div>
 
           <FinancialStats />
 
           <div class="nav-tabs">
-            <button class="tab active">Overview</button>
-            <button class="tab">Transaction</button>
-            <button class="tab">Budget Allocation</button>
-            <button class="tab">Statistic</button>
+            <button class="tab" :class="{ active: activeTab === 'Overview' }" @click="activeTab = 'Overview'">Overview</button>
+            <button class="tab" :class="{ active: activeTab === 'Transaction' }" @click="activeTab = 'Transaction'">Transaction</button>
+            <button class="tab" :class="{ active: activeTab === 'Budget Allocation' }" @click="activeTab = 'Budget Allocation'">Budget Allocation</button>
+            <button class="tab" :class="{ active: activeTab === 'Statistic' }" @click="activeTab = 'Statistic'">Statistic</button>
           </div>
 
-          <div class="content-grid">
-            <FinancialStatus />
+          <div class="content-grid" :class="{ 'full-width': isOrgSelected }" v-if="activeTab === 'Overview'">
+            <FinancialStatus @org-selected="isOrgSelected = $event" />
 
-            <FinancialSidebar />
+            <FinancialSidebar v-if="!isOrgSelected" />
+          </div>
+          <div v-else-if="activeTab === 'Transaction'">
+            <FinancialTransaction />
+          </div>
+          <div v-else-if="activeTab === 'Budget Allocation'">
+            <FinancialBudget />
+          </div>
+          <div v-else-if="activeTab === 'Statistic'">
+            <FinancialStatistics />
           </div>
         </div>
       </main>
@@ -45,7 +61,9 @@ import FinancialQuickAct from '/src/components/Financial/FinancialQuickAct.vue'
 import FinancialStats from '/src/components/Financial/FinancialStats.vue'
 import FinancialStatus from '/src/components/Financial/FinancialStatus.vue'
 import FinancialSidebar from '/src/components/Financial/FinancialSidebar.vue'
-
+import FinancialTransaction from '/src/components/Financial/FinancialTransaction.vue'
+import FinancialBudget from '/src/components/Financial/FinancialBudget.vue'
+import FinancialStatistics from '/src/components/Financial/FinancialStatistics.vue'
 
 export default {
   components: {
@@ -55,10 +73,16 @@ export default {
     FinancialStats,
     FinancialStatus,
     FinancialSidebar,
+    FinancialTransaction,
+    FinancialBudget,
+    FinancialStatistics,
   },
   data() {
     return {
       isSidebarVisible: true,
+      selectedOrg: 'All Organization',
+      activeTab: 'Overview',
+      isOrgSelected: false,
     }
   },
   methods: {
@@ -72,12 +96,7 @@ export default {
 .app-container {
   display: flex;
   flex-direction: column;
-  /* Lock to viewport height */
   height: 100vh;
-  width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden;
-  /* Prevent page-level scrolling */
 }
 
 .dashboard-layout {
@@ -128,7 +147,7 @@ export default {
 }
 
 .title-block h1 {
-  font-family: serif;
+  font-family: Arial, sans-serif;
   font-size: 2.2rem;
   margin: 0;
 }
@@ -143,12 +162,10 @@ export default {
   border: 1px solid #e2e8f0;
   padding: 10px 16px;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
   cursor: pointer;
   font-size: 0.9rem;
   color: #333;
+  outline: none;
 }
 
 .nav-tabs {
@@ -157,21 +174,22 @@ export default {
 }
 
 .tab {
-  padding: 8px 24px;
-  border-radius: 20px;
-  /* Rounded pill shape */
+  padding: 10px 24px;
+  border-radius: 8px;
   border: 1px solid #e2e8f0;
   background: white;
   cursor: pointer;
   font-weight: 500;
-  color: #64748b;
-  font-family: serif;
+  color: #1a1a1a;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
 }
 
 .tab.active {
-  background: #0a21c0;
+  background: #001ba0;
   color: white;
-  border-color: #0a21c0;
+  border-color: #001ba0;
+  font-weight: 600;
 }
 
 .content-grid {
@@ -179,5 +197,9 @@ export default {
   grid-template-columns: 2fr 1fr;
   /* 2/3 for Main, 1/3 for Sidebar */
   gap: 24px;
+}
+
+.content-grid.full-width {
+  grid-template-columns: 1fr;
 }
 </style>

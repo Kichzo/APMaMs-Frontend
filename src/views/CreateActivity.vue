@@ -1,330 +1,373 @@
 <template>
-    <div class="app-container">
-        <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
-        <div class="dashboard-layout">
-            <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
+  <div class="app-container">
+    <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
+    <div class="dashboard-layout">
+      <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
 
-            <main class="content">
-                <div class="create-wrapper">
-                    <header class="page-header-inline">
-                        <button class="back-btn" @click="$router.push('/activity')">
-                            <i class="fas fa-arrow-left"></i>
-                        </button>
-                        <div class="title-text">
-                            <h1>Create New Activity</h1>
-                            <p>Step {{ currentStep }} of 4</p>
-                        </div>
-                    </header>
+      <main class="content">
+        <div class="create-wrapper">
+          <header class="page-header-inline">
+            <button class="back-btn" @click="$router.push('/activity')">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="title-text">
+              <h1>New Activity</h1>
+            </div>
+          </header>
 
-                    <div class="stepper-box">
-                        <div class="step">
-                            <div :class="['step-circle', { active: currentStep >= 1 }]">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </div>
-                            <span class="step-label">Basic Information</span>
-                        </div>
-
-                        <div :class="['step-connector', { active: currentStep >= 2 }]"></div>
-
-                        <div class="step">
-                            <div :class="['step-circle', { active: currentStep >= 2 }]">
-                                <i class="fas fa-calendar-alt"></i>
-                            </div>
-                            <span class="step-label">Details & Schedules</span>
-                        </div>
-
-                        <div :class="['step-connector', { active: currentStep >= 3 }]"></div>
-
-                        <div class="step">
-                            <div :class="['step-circle', { active: currentStep >= 3 }]">
-                                <i class="fas fa-ruble-sign"></i>
-                            </div>
-                            <span class="step-label">Budget & Requirements</span>
-                        </div>
-
-                        <div :class="['step-connector', { active: currentStep >= 4 }]"></div>
-
-                        <div class="step">
-                            <div :class="['step-circle', { active: currentStep >= 4 }]">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <span class="step-label">Review & Submit</span>
-                        </div>
-                    </div>
-                    <keep-alive>
-                        <component :is="currentComponent" :formData="formData" @next="currentStep++"
-                            @prev="currentStep--" />
-                    </keep-alive>
+          <div class="form-card">
+            <!-- Programs & Activities | Timeframe -->
+            <div class="input-grid">
+              <div class="field-column">
+                <label>Programs & Activities</label>
+                <div v-for="(item, index) in formData.programs" :key="'prog-'+index" class="input-block-dynamic">
+                  <div class="input-with-action">
+                    <input type="text" v-model="formData.programs[index]" />
+                    <button v-if="formData.programs.length > 1" class="delete-btn" @click="removeRow('programs', index)" title="Remove row">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
                 </div>
-            </main>
+                <button class="add-btn" @click="addRow('programs')">+ Add Row</button>
+              </div>
+              <div class="field-column">
+                <label>Timeframe</label>
+                <input type="text" v-model="formData.timeframe" />
+              </div>
+            </div>
+
+            <!-- Strategic Objectives | Expected Output -->
+            <div class="input-grid mt-4">
+              <div class="field-column">
+                <label>Strategic Objectives</label>
+                <div v-for="(item, index) in formData.objectives" :key="'obj-'+index" class="input-block-dynamic">
+                  <div class="input-with-action">
+                    <input type="text" v-model="formData.objectives[index]" />
+                    <button v-if="formData.objectives.length > 1" class="delete-btn" @click="removeRow('objectives', index)" title="Remove row">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <button class="add-btn" @click="addRow('objectives')">+ Add Row</button>
+              </div>
+              <div class="field-column">
+                <label>Expected Output</label>
+                <div v-for="(item, index) in formData.outputs" :key="'out-'+index" class="input-block-dynamic">
+                  <div class="input-with-action">
+                    <input type="text" v-model="formData.outputs[index]" />
+                    <button v-if="formData.outputs.length > 1" class="delete-btn" @click="removeRow('outputs', index)" title="Remove row">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <button class="add-btn" @click="addRow('outputs')">+ Add Row</button>
+              </div>
+            </div>
+
+            <!-- Office | Fund Source -->
+            <div class="input-grid mt-4">
+              <div class="field-column">
+                <label>Office</label>
+                <input type="text" v-model="formData.office" />
+              </div>
+              <div class="field-column">
+                <label>Fund Source</label>
+                <input type="text" v-model="formData.fundSource" />
+              </div>
+            </div>
+
+            <!-- Budget Section -->
+            <div class="budget-grid mt-4">
+              <div class="field-column">
+                <label>Line of Budget</label>
+                <div v-for="(item, index) in formData.budgets" :key="'budg-line-'+index" class="input-block-dynamic">
+                  <input type="text" v-model="item.lineOfBudget" />
+                </div>
+                <button class="add-btn" @click="addRow('budgets')">+ Add Row</button>
+              </div>
+              <div class="field-column">
+                <label>Amount</label>
+                <div v-for="(item, index) in formData.budgets" :key="'budg-amt-'+index" class="input-block-dynamic">
+                  <div class="input-with-action">
+                    <input type="text" v-model="item.amount" @input="calculateTotal" />
+                    <button v-if="formData.budgets.length > 1" class="delete-btn" @click="removeRow('budgets', index)" title="Remove row">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="field-column">
+                <label>Total Budget</label>
+                <input type="text" v-model="formData.totalBudget" readonly class="readonly-input" />
+              </div>
+            </div>
+
+            <!-- Form Footer -->
+            <div class="form-footer">
+              <div class="spacer"></div>
+              <div class="actions">
+                <button class="btn-cancel" @click="$router.push('/activity')">Cancel</button>
+                <button class="btn-save" @click="saveActivity">Save</button>
+              </div>
+            </div>
+          </div>
         </div>
+      </main>
     </div>
+  </div>
 </template>
+
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import StepBasicInfo from '/src/components/CreateActivity/StepBasicInfo.vue'
-import StepDetailsSchedule from '/src/components/CreateActivity/StepDetailsSchedule.vue'
 
 export default {
-    components: { AppHeader, AppSidebar, StepBasicInfo, StepDetailsSchedule },
-    data() {
-        return {
-            currentStep: 1,
-            formData: {
-                title: '',
-                category: '',
-                organization: '',
-                priority: 'Medium',
-                description: '',
-                objectives: [''], // Starts with one empty field
-                outputs: [''],
-            }
-        }
-    },
-    computed: {
-        currentComponent() {
-            // This ensures the right component shows up as you click Next/Previous
-            switch (this.currentStep) {
-                case 1: return 'StepBasicInfo';
-                case 2: return 'StepDetailsSchedule';
-                case 3: return 'StepBudget'; // Placeholder for your next step
-                case 4: return 'StepReview'; // Placeholder for the final step
-                default: return 'StepBasicInfo';
-            }
-        }
-    },
-    methods: {
-        toggleSidebar() { this.isSidebarVisible = !this.isSidebarVisible }
+  components: { AppHeader, AppSidebar },
+  data() {
+    return {
+      role: localStorage.getItem('role') || 'org',
+      isSidebarVisible: true,
+      formData: {
+        programs: [''],
+        timeframe: '',
+        objectives: [''],
+        outputs: [''],
+        office: '',
+        fundSource: '',
+        budgets: [{ lineOfBudget: '', amount: '' }],
+        totalBudget: ''
+      }
     }
+  },
+  methods: {
+    toggleSidebar() {
+      this.isSidebarVisible = !this.isSidebarVisible;
+    },
+    addRow(field) {
+      if (field === 'programs') this.formData.programs.push('');
+      if (field === 'objectives') this.formData.objectives.push('');
+      if (field === 'outputs') this.formData.outputs.push('');
+      if (field === 'budgets') this.formData.budgets.push({ lineOfBudget: '', amount: '' });
+    },
+    removeRow(field, index) {
+      if (this.formData[field].length > 1) {
+        this.formData[field].splice(index, 1);
+        if (field === 'budgets') {
+          this.calculateTotal();
+        }
+      }
+    },
+    calculateTotal() {
+      let total = 0;
+      this.formData.budgets.forEach(b => {
+        let amt = parseFloat(b.amount);
+        if (!isNaN(amt)) total += amt;
+      });
+      this.formData.totalBudget = total > 0 ? total.toString() : '';
+    },
+    saveActivity() {
+      // Save logic
+      console.log('Saved data:', this.formData);
+      this.$router.push('/activity');
+    }
+  }
 }
 </script>
 
 <style scoped>
 .app-container {
-    display: flex;
-    flex-direction: column;
-    /* Lock to viewport height */
-    height: 100vh;
-    width: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden;
-    /* Prevent page-level scrolling */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .dashboard-layout {
-    display: flex;
-    flex: 1;
-    /* Take up remaining height below header */
-    width: 100%;
-    overflow: hidden;
-    /* Keeps sidebar and content contained */
+  display: flex;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
 }
 
 .content {
-    flex: 1;
-    /* This ensures it expands to fill 100% of the remaining width */
-    padding: 40px;
-    overflow-y: auto;
-    background-color: #fff;
-    transition: all 0.3s ease-in-out;
-    /* Smooth slide sync with sidebar */
-    box-sizing: border-box;
-}
-
-.step-connector.active {
-    background: #3b59ff;
-}
-
-.step-circle.blue {
-    background: #3b59ff;
-    color: white;
-}
-
-.step-circle.grey {
-    background: #e2e8f0;
-    color: #64748b;
+  flex: 1;
+  padding:30px 40px;
+  overflow-y: auto;
+  background-color: #f8fafc;
+  transition: all 0.3s ease-in-out;
+  box-sizing: border-box;
 }
 
 .create-wrapper {
-    max-width: 950px;
-    margin: 0 auto;
-    padding: 20px;
+  width: 100%;
+  margin: 0;
 }
 
 .page-header-inline {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .back-btn {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #000;
 }
 
 .title-text h1 {
-    font-family: serif;
-    font-size: 2rem;
-    margin: 0;
+  font-size: 2.2rem;
+  margin: 0;
+  font-weight: bold;
 }
 
-.title-text p {
-    color: #666;
-    margin: 0;
-    font-size: 0.9rem;
-}
-
-/* Stepper Styling */
-.stepper-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* Vertical center */
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 30px 40px;
-    margin-bottom: 30px;
-}
-
-.step-connector {
-    height: 2px;
-    background: #e2e8f0;
-    flex: 1;
-    margin: 0 15px;
-    /* Add horizontal space */
-    /* Remove the negative margin-top */
-}
-
-.step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-}
-
-.step-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.step-circle.blue {
-    background: #3b59ff;
-    color: white;
-}
-
-.step-circle.grey {
-    background: #e2e8f0;
-    color: #64748b;
-}
-
-.step span {
-    font-size: 0.7rem;
-    font-weight: bold;
-    color: #475569;
-}
-
-.step-connector {
-    height: 2px;
-    background: #e2e8f0;
-    flex: 1;
-    margin-top: -20px;
-}
-
-/* Form Styling */
 .form-card {
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 40px;
-}
-
-.form-section-title {
-    font-family: serif;
-    font-size: 1.3rem;
-    margin-bottom: 25px;
-}
-
-.input-block {
-    margin-bottom: 25px;
+  background: #fdfdfd;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 40px;
 }
 
 .input-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
 }
+
+.budget-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+}
+
+.mt-2 { margin-top: 10px; }
+.mt-4 { margin-top: 30px; }
 
 label {
-    display: block;
-    font-weight: bold;
-    font-size: 0.85rem;
-    margin-bottom: 8px;
+  display: block;
+  font-weight: bold;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  color: #000;
 }
 
-input,
-select,
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #cbd5e0;
-    border-radius: 6px;
-    font-size: 0.9rem;
+.sr-only {
+  visibility: hidden;
+  margin-bottom: 0;
+  height: 0;
+  display: block;
 }
 
-textarea {
-    height: 150px;
-    resize: none;
+input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  outline: none;
 }
 
-.priority-options {
-    display: flex;
-    gap: 20px;
+input:focus {
+  border-color: #3b59ff;
+  box-shadow: 0 0 0 2px rgba(59, 89, 255, 0.1);
+}
+
+.readonly-input {
+  background-color: #f8fafc;
+  color: #4a5568;
+  cursor: not-allowed;
+}
+
+.readonly-input:focus {
+  border-color: #cbd5e0;
+  box-shadow: none;
+}
+
+.input-block-dynamic {
+  margin-bottom: 10px;
+}
+
+.input-with-action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 5px;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn:hover {
+  color: #dc2626;
 }
 
 .add-btn {
-    background: none;
-    border: none;
-    color: #3b59ff;
-    font-size: 0.8rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
+  background: none;
+  border: none;
+  color: #3b59ff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 5px 0 0 0;
+  text-align: left;
+  font-weight: bold;
 }
 
 .form-footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 40px;
+  padding-top: 20px;
 }
 
-.btn-prev-outline {
-    border: 1px solid #e2e8f0;
-    background: #f8fafc;
-    color: #94a3b8;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: bold;
+.actions {
+  display: flex;
+  gap: 15px;
 }
 
-.btn-next-solid {
-    background: #001ba0;
-    color: white;
-    border: none;
-    padding: 12px 40px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
+.btn-cancel {
+  background: #e2e8f0;
+  color: #000;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-cancel:hover {
+  background: #cbd5e0;
+}
+
+.btn-save {
+  background: #00129a;
+  color: white;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-save:hover {
+  background: #000c66;
 }
 </style>

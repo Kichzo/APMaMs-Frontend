@@ -70,7 +70,7 @@ export default {
 }
 
 .card-title {
-  font-family: serif;
+  font-family: Arial, sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
   margin: 0 0 15px 0;

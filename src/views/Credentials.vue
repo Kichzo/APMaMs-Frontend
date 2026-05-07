@@ -43,7 +43,7 @@ export default {
   display: flex;
   flex-direction: column;
   animation: pageFade 0.6s ease-out forwards;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 /* Main content grows to push footer to the bottom */

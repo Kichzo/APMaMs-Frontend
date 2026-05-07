@@ -1,7 +1,7 @@
 <template>
   <div class="filter-bar">
     
-    <button class="btn-create">
+    <button class="btn-create" @click="$emit('create-new')">
       <span>Create New Report</span>
     </button>
   </div>

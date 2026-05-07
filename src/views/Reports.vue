@@ -7,22 +7,45 @@
 
       <main class="content">
         <div class="reports-container">
-            <div class="header-row">
+            <div class="header-row" v-if="!showReportDetails && !showReportAccomplishment">
               <div class="title-block">
                 <h1>Activity Accomplishment Reports</h1>
                 <p>Create detailed accomplishment reports for completed activities with approval tracking</p>
               </div>
               
-              <ReportsFilterBar />
+              <ReportsFilterBar v-if="!showCreateForm" @create-new="isCreateModalVisible = true" />
             </div>
-          <section class="reports-list">
+
+          <section v-if="!showCreateForm && !showReportDetails && !showReportAccomplishment" class="reports-list">
             <ReportCard 
             v-for="report in reports" 
             :key="report.id" 
-            :report="report" />
+            :report="report"
+            @view-details="handleViewDetails"
+            @edit-request="isEditModalVisible = true" />
           </section>
+
+          <CreateReport v-else-if="showCreateForm" @cancel="showCreateForm = false" />
+          
+          <ReportDetails v-else-if="showReportDetails" @back="showReportDetails = false" />
+          
+          <ReportAccomplishment v-else-if="showReportAccomplishment" @back="showReportAccomplishment = false" :userRole="role" />
         </div>
       </main>
+    </div>
+
+    <!-- Modals -->
+    <CreateNewReport v-if="isCreateModalVisible" @close="isCreateModalVisible = false" @create="handleCreateReport" />
+
+    <!-- Edit Request Modal -->
+    <div class="modal-overlay" v-if="isEditModalVisible">
+      <div class="edit-modal">
+        <h3 class="modal-title">Requesting for Edit...</h3>
+        <div class="modal-actions">
+          <button class="btn-cancel-edit" @click="isEditModalVisible = false">Cancel</button>
+          <button class="btn-send-edit" @click="handleSendEdit">Send</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -32,6 +55,10 @@ import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
 import ReportsFilterBar from '/src/components/Report/ReportsFilterBar.vue'
 import ReportCard from '/src/components/Report/ReportCard.vue'
+import CreateNewReport from '/src/components/Report/CreateNewReport.vue'
+import CreateReport from '/src/components/Report/CreateReport.vue'
+import ReportDetails from '/src/components/Report/ReportDetails.vue'
+import ReportAccomplishment from '/src/components/Report/ReportAccomplishment.vue'
 
 export default {
   name: 'Activity',
@@ -39,17 +66,34 @@ export default {
     AppHeader,
     AppSidebar,
     ReportsFilterBar,
-    ReportCard
+    ReportCard,
+    CreateNewReport,
+    CreateReport,
+    ReportDetails,
+    ReportAccomplishment
   },
- data() {
+  data() {
   return {
+    role: localStorage.getItem('role') || 'org',
     isSidebarVisible: true,
+    isCreateModalVisible: false,
+    showCreateForm: false,
+    showReportDetails: false,
+    showReportAccomplishment: false,
+    isEditModalVisible: false,
     reports: [
       {
         id: 1,
         title: "First SSC Regular Meeting",
-        status: "Waiting..."
+        status: "Approved",
+        subtitle: "Detailed Activity Design"
       },
+      {
+        id: 2,
+        title: "First SSC Regular Meeting",
+        status: "",
+        subtitle: "Accomplishment Report"
+      }
     ]
   }
 }, 
@@ -57,6 +101,30 @@ export default {
     toggleSidebar() {
       this.isSidebarVisible = !this.isSidebarVisible;
     },
+    handleCreateReport() {
+      this.isCreateModalVisible = false;
+      this.showCreateForm = true;
+      this.showReportDetails = false;
+      this.showReportAccomplishment = false;
+    },
+    handleViewDetails(report) {
+      if (report.subtitle === "Detailed Activity Design") {
+        this.showReportDetails = true;
+        this.showReportAccomplishment = false;
+        this.showCreateForm = false;
+      } else if (report.subtitle === "Accomplishment Report") {
+        this.showReportAccomplishment = true;
+        this.showReportDetails = false;
+        this.showCreateForm = false;
+      } else {
+        alert("Details view is not available for this report type.");
+      }
+    },
+    handleSendEdit() {
+      // Add send logic here
+      this.isEditModalVisible = false;
+      alert('Edit request sent!');
+    }
   }
 }
 </script>
@@ -65,12 +133,7 @@ export default {
 .app-container {
   display: flex;
   flex-direction: column;
-  /* Lock to viewport height */
   height: 100vh;
-  width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden;
-  /* Prevent page-level scrolling */
 }
 
 .dashboard-layout {
@@ -114,25 +177,96 @@ export default {
 .header-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 20px;
 }
 
 .title-block h1 {
-  font-family: serif;
+  font-family: Arial, sans-serif;
   font-size: 2.2rem;
   margin: 0;
 }
 
 .title-block p {
   color: #64748b;
-  margin: 4px 0 0 0;
+  margin-top: 5px;
 }
 
 .reports-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   margin-top: 24px;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.edit-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.modal-title {
+  font-family: Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 30px 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.btn-cancel-edit {
+  background: #eef2ff;
+  color: #0f172a;
+  border: none;
+  padding: 10px 32px;
+  border-radius: 20px;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-cancel-edit:hover {
+  background: #e0e7ff;
+}
+
+.btn-send-edit {
+  background: #0a21c0;
+  color: white;
+  border: none;
+  padding: 10px 32px;
+  border-radius: 20px;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-send-edit:hover {
+  background: #081a99;
 }
 </style>

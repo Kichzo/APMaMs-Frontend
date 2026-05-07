@@ -14,27 +14,47 @@
         <div class="action-grid">
 
           <!-- LEFT PANEL -->
-          <ActionPlanList :plans="plans" :activePlanId="selectedPlan?.id" @select-plan="selectPlan"
-            @add-plan="showAddForm = true" />
+          <ActionPlanList :plans="plans" :activePlanId="selectedPlan?.id" :role="role" @select-plan="selectPlan"
+            @add-plan="showAddForm = true" @edit-plan="handleEditPlan" />
 
           <!-- RIGHT PANEL -->
           <div class="right-panel">
 
             <div v-if="selectedPlan" class="details-panel">
-              <div class="details-header">
-                <div class="tab">Action Plan</div>
-                <div class="header-actions">
-                  <router-link :to="{ name: 'CreateActivity' }" class="add-activity-btn">
-                    <i class="fa-solid fa-plus"></i> Add Activity
-                  </router-link>
-                  <button class="import-btn">
-                    <i class="fa-solid fa-download"></i> Import
-                  </button>
-                </div>
-              </div>
-              <div class="details-content">
-                <!-- Content gets shown here later -->
-              </div>
+                <template v-if="!showFileData">
+                  <div class="details-header">
+                    <div class="header-left">
+                      <i class="fa-solid fa-arrow-left back-icon" @click="goBack"></i>
+                      <div class="tab">Action Plan</div>
+                    </div>
+                    <div class="header-actions">
+                      <router-link v-if="role === 'org'" :to="{ name: 'CreateActivity' }" class="add-activity-btn">
+                        <i class="fa-solid fa-plus"></i> Add Activity
+                      </router-link>
+                      <button v-if="role === 'org'" class="import-btn" @click="handleImport">
+                        <i class="fa-solid fa-download"></i> Import
+                      </button>
+                    </div>
+                  </div>
+                  <div class="details-content">
+                    <!-- LIST OF IMPORTED FILES -->
+                    <div v-if="showImported" class="imported-file-card">
+                      <div class="file-info" @click="showFileData = true">
+                        <div class="file-icon-box">
+                          <i class="fa-regular fa-file-lines"></i>
+                        </div>
+                        <span class="file-name clickable">Supreme Student Council 2026</span>
+                      </div>
+                      <div class="file-actions">
+                        <i class="fa-solid fa-download download-btn" title="Download"></i>
+                        <i class="fa-solid fa-trash-can delete-btn" title="Delete" @click.stop="showImported = false"></i>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+
+                <!-- FILE CONTENT VIEW (Full width) -->
+                <ActionPlanData v-else @back="showFileData = false" />
             </div>
 
             <!-- EMPTY STATE (default) -->
@@ -45,19 +65,30 @@
         </div>
       </main>
     </div>
+
+    <ActionPlanAdd v-if="showAddForm" @close="showAddForm = false" @save="handleSavePlan" />
+    <ActionPlanEdit v-if="showEditForm" :plan="editingPlan" @close="showEditForm = false" @save="handleUpdatePlan" />
   </div>
 </template>
 
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import ActionPlanList from '/src/components/ActionPlan/ActionPlanList.vue'
+import ActionPlanCard from '../components/ActionPlan/ActionPlanCard.vue'
+import ActionPlanList from '../components/ActionPlan/ActionPlanList.vue'
+import ActionPlanAdd from '../components/ActionPlan/ActionPlanAdd.vue'
+import ActionPlanEdit from '../components/ActionPlan/ActionPlanEdit.vue'
+import ActionPlanData from '../components/ActionPlan/ActionPlanData.vue'
 
 export default {
   components: {
     AppHeader,
     AppSidebar,
-    ActionPlanList
+    ActionPlanCard,
+    ActionPlanList,
+    ActionPlanAdd,
+    ActionPlanEdit,
+    ActionPlanData
   },
   data() {
     return {
@@ -70,7 +101,12 @@ export default {
         { id: 3, title: 'Fiscal Year 2027' }
       ],
 
-      selectedPlan: null
+      selectedPlan: null,
+      showAddForm: false,
+      showEditForm: false,
+      editingPlan: null,
+      showImported: (localStorage.getItem('role') || 'org') !== 'org',
+      showFileData: false
     }
   },
   methods: {
@@ -79,6 +115,27 @@ export default {
     },
     selectPlan(plan) {
       this.selectedPlan = plan
+    },
+    goBack() {
+      this.selectedPlan = null
+    },
+    handleSavePlan(newPlan) {
+      this.plans.push(newPlan)
+    },
+    handleEditPlan(plan) {
+      this.editingPlan = plan
+      this.showEditForm = true
+    },
+    handleUpdatePlan(updatedPlan) {
+      const index = this.plans.findIndex(p => p.id === updatedPlan.id)
+      if (index !== -1) {
+        this.plans.splice(index, 1, updatedPlan)
+      }
+      this.showEditForm = false
+      this.editingPlan = null
+    },
+    handleImport() {
+      this.showImported = true
     }
   }
 }
@@ -89,12 +146,13 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .dashboard-layout {
   display: flex;
   flex: 1;
+  position: relative;
+  overflow: hidden;
 }
 
 .content {
@@ -116,14 +174,14 @@ export default {
 
 /* Title */
 .title-block h1 {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 2.2rem;
   margin: 0;
 }
 
 .title-block p {
   color: #64748b;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
   margin-top: 5px;
 }
 
@@ -168,11 +226,28 @@ export default {
   height: 60px;
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 24px;
+}
+
+.back-icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #000;
+}
+
+.back-icon:hover {
+  color: #3b82f6;
+}
+
 .tab {
   display: flex;
   align-items: center;
   height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 1rem;
   color: #3b82f6;
   /* Blue text */
@@ -192,7 +267,7 @@ export default {
   background: #3b82f6;
   /* Blue primary color */
   color: #ffffff;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 0.85rem;
   font-weight: bold;
   border: none;
@@ -208,7 +283,7 @@ export default {
 .import-btn {
   background: #000000;
   color: #ffffff;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 0.85rem;
   font-weight: bold;
   border: none;
@@ -225,5 +300,72 @@ export default {
 .details-content {
   flex: 1;
   padding: 24px;
+}
+
+.imported-file-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.file-info:hover .file-name {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.file-icon-box {
+  width: 40px;
+  height: 44px;
+  background: #eff6ff;
+  color: #2563eb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  font-size: 1.4rem;
+}
+
+.file-name {
+  font-family: Arial, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  transition: color 0.2s;
+}
+
+.file-name.clickable {
+  cursor: pointer;
+}
+
+.file-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.download-btn, .delete-btn {
+  font-size: 1.2rem;
+  color: #000000;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.download-btn:hover {
+  color: #3b82f6;
+}
+
+.delete-btn:hover {
+  color: #ef4444;
 }
 </style>

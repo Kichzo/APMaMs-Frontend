@@ -9,7 +9,6 @@
                 </button>
                 <div class="header-text">
                     <h1>{{ data.title }}</h1>
-                    <p>Activity Details & Submission Status</p>
                 </div>
             </div>
             <div class="right-head">
@@ -17,8 +16,8 @@
                     <i class="fas fa-download"></i> Download
                 </button>
 
-                <button class="btn-report-blue" @click="$emit('open-report')">
-                    New Report
+                <button v-if="role === 'org'" class="btn-report-blue" @click="$emit('open-report')">
+                    Edit Report
                 </button>
             </div>
         </header>
@@ -39,7 +38,13 @@
 
                 <!-- CONTENT SECTIONS -->
                 <div class="section-card" v-for="section in sections" :key="section.title">
-                    <h3>{{ section.title }}</h3>
+                    <div class="section-header-row">
+                        <h3>{{ section.title }}</h3>
+                        <button v-if="section.title === 'Comments & Feedback' && (role === 'admin' || role === 'adviser')"
+                            class="btn-add-comment" @click="handleAddComment">
+                            <i class="fas fa-comment-plus"></i> Add Comment
+                        </button>
+                    </div>
                     <div class="section-content">
                         <p v-if="section.text">{{ section.text }}</p>
                         <div v-if="section.list" class="check-list">
@@ -73,22 +78,38 @@
 
 <script>
 export default {
-    props: ['data'],
+    props: ['data', 'role'],
     computed: {
         infoPills() {
             return [
-                { label: 'Office Code', value: 'OVCSA-OSD-SSC', icon: 'fas fa-building' },
-                { label: 'Date Prepared', value: this.data.date, icon: 'fas fa-calendar-alt' },
-                { label: 'Unit/College', value: this.data.organization, icon: 'fas fa-university' },
-                { label: 'Proposed Budget', value: '₱' + this.data.budget, icon: 'fas fa-wallet' },
+                { label: 'Office Code', value: 'OVCSAS-OSD-SSC', icon: 'fas fa-building' },
+                { label: 'Date Prepared', value: '05/01/2026 - 09/01/2026', icon: 'fas fa-calendar-alt' },
+                { label: 'Unit/College', value: 'Supreme Student Council', icon: 'fas fa-building' },
+                { label: 'Venue', value: 'OSD-SSC Office', icon: 'fas fa-map-marker-alt' },
+                { label: 'Result Code / OPCR / IPCR Code', value: '', icon: 'fas fa-qrcode' },
+                { label: 'Proposed Budget', value: '₱5,000', icon: 'fas fa-wallet' },
+                { label: 'Date of Implementation', value: '', icon: 'fas fa-calendar-check' },
+                { label: 'Budget Source', value: 'OSKD-01: LEADERSHIP AND SKILLS DEVELOPMENT TRAINING', icon: 'fas fa-folder' },
+                { label: 'Email Address', value: '', icon: 'fas fa-envelope' },
+                { label: 'Duration', value: '', icon: 'fas fa-clock' },
             ];
         },
         sections() {
             return [
-                { title: 'Rationale', text: 'To evaluate the previous year\'s output and prepare for the 2nd semester\'s student general assembly...' },
-                { title: 'Objectives', list: ['Evaluate previous outputs', 'Prepare for student general assembly'] },
-                { title: 'Expected Output', list: ['Efficient implementation of planned activities'] }
+                { title: 'Rationale', text: '' },
+                { title: 'Objectives', list: ['To evaluate the previous year\'s output and prepare for the 2nd semester\'s student general assembly and Arts Month Celebration'] },
+                { title: 'Expected Output', list: ['Efficient implementation of planned activities/accomplishment report/attendance sheet'] },
+                { title: 'Program of Activities', text: '' },
+                { title: 'Participants', text: '' },
+                { title: 'Budgetary Requirements', text: '' },
+                { title: 'Sustainable Development Goals Achieved', text: '' },
+                { title: 'Comments & Feedback', text: '' }
             ];
+        }
+    },
+    methods: {
+        handleAddComment() {
+            alert('Add comment feature coming soon!');
         }
     }
 }
@@ -171,20 +192,13 @@ export default {
 
 .header-text h1 {
     font-size: clamp(1.2rem, 3vw, 2.2rem);
-    font-family: 'Playfair Display', serif;
-    font-weight: 800;
-    color: #111827;
+    font-weight: bold;
+    color: #000;
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     /* Adds "..." if the title is too long */
-}
-
-.header-text p {
-    color: #64748b;
-    margin: 0;
-    font-size: 0.9rem;
 }
 
 /* BUTTONS */
@@ -222,8 +236,7 @@ export default {
 /* DYNAMIC INFO PILLS */
 .info-pills-card {
     display: grid;
-    /* Automatically handles 1 or 2 columns based on zoom */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 24px;
     background: white;
     padding: 32px;
@@ -271,7 +284,57 @@ export default {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     padding: 32px;
-    margin-top: 24px;
+    margin-top: 12px;
+    min-height: 120px;
+}
+
+.section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #111827;
+}
+
+.btn-add-comment {
+    background: #eef2ff;
+    color: #4361ee;
+    border: 1px solid #e0e7ff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-add-comment:hover {
+    background: #4361ee;
+    color: white;
+}
+
+.check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: #374151;
+}
+
+.check-item i {
+    color: #93c5fd;
+    font-size: 1.2rem;
+    margin-top: 2px;
 }
 
 /* SIDEBAR */
@@ -281,6 +344,14 @@ export default {
     padding: 24px;
     border-radius: 12px;
     margin-bottom: 20px;
+}
+
+.side-card h4 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #111827;
 }
 
 /* MOBILE FIXES */

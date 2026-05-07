@@ -14,14 +14,30 @@
         <p class="logo-subtitle">MSUN Action Planning</p>
       </div>
 
-      <!-- Sign-in navigation link -->
-      <router-link to="/signin" class="sign-in-link">
-        Sign in
-      </router-link>
+      <div class="header-actions">
+        <router-link to="/calendar" class="sign-in-link" @click="setGuestRole">
+          Guest
+        </router-link>
+
+        <!-- Sign-in navigation link -->
+        <router-link to="/signin" class="sign-in-link">
+          Sign in
+        </router-link>
+      </div>
 
     </div>
   </header>
 </template>
+
+<script>
+export default {
+  methods: {
+    setGuestRole() {
+      localStorage.setItem('role', 'guest');
+    }
+  }
+}
+</script>
 
 <style scoped>
 /* Header base styling */
@@ -63,8 +79,8 @@
 
 /* Main logo text */
 .logo-title {
-  font-family: 'serif';
-  font-size: 2.2rem;
+  font-family: Arial, sans-serif;
+  font-size: 1.8rem;
   line-height: 1;
   margin: 0;
   font-weight: bold;
@@ -75,6 +91,12 @@
   font-size: 1.1rem;
   margin-top: 5px;
   color: #333;
+}
+
+.header-actions {
+  display: flex;
+  gap: 24px;
+  align-items: center;
 }
 
 /* Sign-in router link */

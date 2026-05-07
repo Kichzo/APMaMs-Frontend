@@ -94,12 +94,12 @@
 
 /* Individual footer column */
 .footer-column {
-    font-family: 'Judson', serif;
+    font-family: Arial, sans-serif;
 }
 
 /* Column heading */
 .footer-title {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 700;
     margin-bottom: 0.75rem;
 }
@@ -142,7 +142,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    font-family: 'Judson', serif;
+    font-family:Arial, sans-serif;
     font-size: 1rem;
 }
 

@@ -1,10 +1,10 @@
 <template>
   <div class="modal-overlay" @click.self="$emit('close')">
     <transition name="modal-scale">
-      <div class="add-card">
+      <div class="edit-card">
         <!-- HEADER -->
         <div class="card-header">
-          <span>Add Action Plan</span>
+          <span>Edit Action Plan</span>
           <button class="close-btn" @click="$emit('close')">
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -41,10 +41,16 @@
 
 <script>
 export default {
+  props: {
+    plan: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
-      title: '',
-      period: ''
+      title: this.plan.title || '',
+      period: this.plan.period || ''
     }
   },
   methods: {
@@ -52,16 +58,10 @@ export default {
       if (!this.title || !this.period) return
 
       this.$emit('save', {
-        id: Date.now(),
+        ...this.plan,
         title: this.title,
-        period: this.period,
-        status: 'Active',
-        progress: 0
+        period: this.period
       })
-
-      this.title = ''
-      this.period = ''
-      this.$emit('close')
     }
   }
 }
@@ -81,7 +81,7 @@ export default {
   z-index: 1000;
 }
 
-.add-card {
+.edit-card {
   width: 550px;
   background: #ffffff;
   border: 1px solid #999;

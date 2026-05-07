@@ -15,7 +15,7 @@
             <AccountHeader @back="goBack" />
 
             <div class="settings-layout">
-              <AccountProfileCard :user="userData" @edit="isEditing = true" @delete="isDeleteModalVisible = true" />
+              <AccountProfileCard :user="userData" @edit="isEditing = true" @logout="handleLogout" />
 
               <transition name="slide-fade">
                 <AccountForm v-if="isEditing" :user="userData" @cancel="isEditing = false"
@@ -35,13 +35,12 @@ import AppSidebar from '/src/components/SideBar.vue'
 import AccountHeader from '/src/components/Account/AccountHeader.vue'
 import AccountProfileCard from '/src/components/Account/AccountProfileCard.vue'
 import AccountForm from '/src/components/Account/AccountForm.vue'
-import AccountDelete from '/src/components/Account/AccountDelete.vue'
 import Toast from '/src/components/Toast.vue'
 
 export default {
   components: {
     AppHeader, AppSidebar, AccountHeader,
-    AccountProfileCard, AccountForm, AccountDelete, Toast
+    AccountProfileCard, AccountForm, Toast
   },
   data() {
     return {
@@ -65,6 +64,11 @@ export default {
   methods: {
     toggleSidebar() { this.isSidebarVisible = !this.isSidebarVisible },
     goBack() { this.$router.back() },
+
+    handleLogout() {
+      localStorage.removeItem('role');
+      this.$router.push('/');
+    },
 
     handleUpdateAccount(data) {
       // Update logic here...

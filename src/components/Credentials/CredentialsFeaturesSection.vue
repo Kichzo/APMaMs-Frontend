@@ -91,8 +91,8 @@ const features = [
 
 /* Section title */
 .features-title {
-    font-family: 'serif';
-    font-size: 3rem;
+    font-family: Arial, sans-serif;
+    font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
@@ -101,8 +101,8 @@ const features = [
 
 /* Supporting description text */
 .features-subtitle {
-    font-family: 'serif';
-    font-size: 1.25rem;
+    font-family: Arial,sans-serif;
+    font-size: 1.1rem;
     text-align: center;
     max-width: 800px;
     margin: 0 auto 80px;
@@ -154,8 +154,8 @@ const features = [
 
 /* Feature heading */
 .feature-title {
-    font-family: 'serif';
-    font-size: 1.8rem;
+    font-family: Arial,sans-serif;
+    font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 16px;
     color: #000;

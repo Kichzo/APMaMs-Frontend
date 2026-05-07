@@ -71,7 +71,7 @@ export default {
 }
 
 .card h3 {
-  font-family: serif;
+  font-family: Arial, sans-serif;
   font-size: 1.1rem;
   margin-bottom: 20px;
 }

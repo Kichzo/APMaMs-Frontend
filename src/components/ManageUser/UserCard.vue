@@ -23,9 +23,9 @@
     </div>
 
     <div class="card-actions">
-      <button class="action-btn edit"><i class="fas fa-pen"></i> Edit User</button>
-      <button class="action-btn view"><i class="fas fa-eye"></i> View Profile</button>
-      <button class="action-btn delete"><i class="fas fa-trash"></i> Delete User</button>
+      <button class="action-btn edit" @click="$emit('edit')"><i class="fas fa-pen"></i> Edit User</button>
+      <button class="action-btn view" @click="$emit('view')"><i class="fas fa-eye"></i> View Profile</button>
+      <button class="action-btn delete" @click="$emit('deactivate')"><i class="fas fa-trash"></i> Deactivate User</button>
     </div>
   </div>
 </template>
@@ -65,7 +65,7 @@
 }
 
 .user-info h3 {
-  font-family: serif;
+  font-family: Arial, sans-serif;
   font-size: 1.3rem;
   margin: 0 0 5px 0;
   color: #1a1a1a;

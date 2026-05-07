@@ -1,5 +1,6 @@
 <template>
   <div class="login-page">
+
     <!-- Back Arrow -->
     <div v-if="step === 1" class="top-nav">
       <button class="back-btn" @click="goBack">
@@ -158,7 +159,7 @@ export default {
           break;
         case "Adviser/Dean/Coordinator":
           localStorage.setItem("role", "adviser");
-          this.$router.push("/adviserdashboard");
+          this.$router.push("/admindashboard");
           break;
       }
     },
@@ -169,18 +170,21 @@ export default {
 <style scoped>
 .login-page {
   min-height: 100vh;
-  background: #ffffff;
+  background: #f8f9fa;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
   position: relative;
+  overflow: hidden;
 }
+
 
 .top-nav {
   position: absolute;
   top: 40px;
   left: 40px;
+  z-index: 10;
 }
 
 .back-btn {
@@ -206,6 +210,8 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  z-index: 10;
+  position: relative;
 }
 
 .roles-row {
@@ -238,7 +244,7 @@ export default {
   margin: 0;
   font-size: 19px;
   font-weight: 700;
-  font-family: "Times New Roman", Times, serif;
+  font-family: Arial, sans-serif;
   color: #111827;
 }
 
@@ -246,7 +252,7 @@ export default {
   margin-top: 8px;
   font-size: 13px;
   color: #6b7280;
-  font-family: "Times New Roman", Times, serif;
+  font-family: Arial, sans-serif;
 }
 
 /* Hover */
@@ -271,6 +277,8 @@ export default {
   border-radius: 14px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   border: 1px solid #e5e7eb;
+  z-index: 10;
+  position: relative;
 }
 
 .title {

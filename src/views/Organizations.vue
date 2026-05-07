@@ -16,10 +16,26 @@
 
           <OrgStats :stats="summaryStats" />
 
-          <OrgCards :organizations="organizations" />
+          <OrgCards 
+            :organizations="organizations" 
+            :show-manage="canManage"
+            :show-add-org="canAddOrg"
+            @view-profile="openProfileModal" 
+            @manage="openManageModal"
+            @add-org="showAddOrgModal = true"
+          />
         </div>
       </main>
     </div>
+
+    <!-- Modal overlay -->
+    <OrgProfileModal v-if="selectedOrg" :org="selectedOrg" @close="closeProfileModal" />
+
+    <!-- Manage Organization Modal -->
+    <OrgManage v-if="showOrgManage" :org="selectedOrgManage" @close="closeManageModal" />
+
+    <!-- Add Organization Modal -->
+    <AddOrg v-if="showAddOrgModal" @close="showAddOrgModal = false" />
   </div>
 </template>
 
@@ -28,18 +44,28 @@ import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
 import OrgStats from '/src/components/Organizations/OrgStats.vue';
 import OrgCards from '/src/components/Organizations/OrgCards.vue';
+import OrgProfileModal from '/src/components/Organizations/OrgProfileModal.vue';
+import OrgManage from '/src/components/Organizations/OrgManage.vue';
+import AddOrg from '/src/components/Organizations/AddOrg.vue';
 
 export default {
   components: {
     AppHeader,
     AppSidebar,
     OrgStats,
-    OrgCards
+    OrgCards,
+    OrgProfileModal,
+    OrgManage,
+    AddOrg
   },
   data() {
     return {
       isSidebarVisible: true,
       role: localStorage.getItem('role') || 'org',
+      selectedOrg: null,
+      showOrgManage: false,
+      showAddOrgModal: false,
+      selectedOrgManage: null,
       summaryStats: {
         totalOrgs: 8,
         activeOrgs: 8,
@@ -131,10 +157,32 @@ export default {
       ]
     }
   },
+  computed: {
+    canManage() {
+      return this.role === 'admin';
+    },
+    canAddOrg() {
+      return this.role === 'admin';
+    }
+  },
   methods: {
     toggleSidebar() {
       this.isSidebarVisible = !this.isSidebarVisible;
     },
+    openProfileModal(org) {
+      this.selectedOrg = org;
+    },
+    closeProfileModal() {
+      this.selectedOrg = null;
+    },
+    openManageModal(org) {
+      this.selectedOrgManage = org;
+      this.showOrgManage = true;
+    },
+    closeManageModal() {
+      this.selectedOrgManage = null;
+      this.showOrgManage = false;
+    }
   }
 
 }

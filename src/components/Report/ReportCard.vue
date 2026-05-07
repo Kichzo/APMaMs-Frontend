@@ -1,28 +1,25 @@
 <template>
   <div class="report-card">
-
-    <!-- Title -->
-    <h3 class="report-title">
-      {{ report.title }}
-    </h3>
-
-    <!-- Approval Section -->
-    <div class="approval-section">
-      <p class="section-label">
-        <i class="fas fa-check-circle"></i> Approval Status
-      </p>
-
-      <div class="approval-box">
-        {{ report.status }}
+    <div class="card-left">
+      <div class="icon-container">
+        <i class="far fa-file-alt"></i>
+      </div>
+      <div class="text-content">
+        <div class="title-row">
+          <h3 class="report-title">{{ report.title }}</h3>
+          <span v-if="report.status" class="status-badge" :class="report.status.toLowerCase()">
+            {{ report.status }}
+          </span>
+        </div>
+        <p class="report-subtitle">{{ report.subtitle }}</p>
       </div>
     </div>
 
-    <!-- Footer -->
-    <div class="card-footer">
-      <button class="btn-details">View Details</button>
-      <button class="btn-edit"><i class="fas fa-edit"></i>Edit</button>
+    <!-- Right side -->
+    <div class="card-right">
+      <button class="btn-details" @click="$emit('view-details', report)">View Details</button>
+      <button class="btn-edit" @click="$emit('edit-request', report)"><i class="fas fa-edit"></i> Edit</button>
     </div>
-
   </div>
 </template>
 
@@ -39,72 +36,106 @@ export default {
 
 <style scoped>
 .report-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
 }
 
-/* Title */
-.report-title {
-  font-family: serif;
-  font-size: 1.3rem;
-  margin-bottom: 16px;
-}
-
-/* Approval Section */
-.approval-section {
-  background: #f1f5f9;
-  padding: 16px;
-  border-radius: 10px;
-  margin-bottom: 16px;
-}
-
-.section-label {
-  font-family: serif;
-  font-weight: 600;
-  font-size: 0.85rem;
-  margin-bottom: 10px;
+.card-left {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 20px;
 }
 
-/* Waiting Box */
-.approval-box {
-  background: #e2e8f0;
-  border-radius: 10px;
-  padding: 30px;
-  text-align: center;
-  font-weight: 600;
-  color: #334155;
-  font-size: 1.1rem;
+.icon-container {
+  width: 44px;
+  height: 44px;
+  background-color: #e0e7ff;
+  color: #3b82f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  font-size: 1.5rem;
 }
 
-/* Footer */
-.card-footer {
+.text-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.report-title {
+  font-family: Arial,sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.status-badge {
+  font-family: Arial, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.status-badge.approved {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.report-subtitle {
+  font-family: Arial, sans-serif;
+  font-size: 0.85rem;
+  color: #475569;
+  margin: 4px 0 0 0;
+}
+
+.card-right {
   display: flex;
   gap: 10px;
 }
 
 .btn-details {
-  font-family: serif;
+  font-family: Arial, sans-serif;
   background: #0a21c0;
   color: #fff;
   border: none;
   padding: 8px 20px;
-  border-radius: 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
 }
 
 .btn-edit {
-  font-family: serif;
-  background: #e2e8f0;
+  font-family: Arial, sans-serif;
+  background: #cbd5e1;
   color: #334155;
   border: none;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-edit i {
+  font-size: 0.8rem;
 }
 </style>

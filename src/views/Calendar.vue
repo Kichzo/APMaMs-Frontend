@@ -69,12 +69,7 @@ export default {
 .app-container {
   display: flex;
   flex-direction: column;
-  /* Lock the container to the screen height */
   height: 100vh;
-  width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden;
-  /* Prevent the whole page from scrolling */
 }
 
 .dashboard-layout {
@@ -126,7 +121,7 @@ export default {
 }
 
 .title-block h1 {
-  font-family: serif;
+  font-family: Arial, sans-serif;
   font-size: 2.2rem;
   margin: 0;
 }

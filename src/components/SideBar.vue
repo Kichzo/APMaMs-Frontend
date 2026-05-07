@@ -54,12 +54,15 @@ export default {
         { label: 'Approvals', icon: 'fas fa-user-check', path: '/approvals' }
       ],
       adviser: [
-        { label: 'Dashboard', icon: 'fas fa-th-large', path: '/adviserdashboard' },
+        { label: 'Dashboard', icon: 'fas fa-th-large', path: '/admindashboard' },
         { label: 'Organizations', icon: 'fas fa-building', path: '/organizations' },
         { label: 'Action Plan', icon: 'fas fa-layer-group', path: '/actionplan' },
         { label: 'Activity', icon: 'fas fa-chart-line', path: '/activity' },
         { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' },
         { label: 'Approvals', icon: 'fas fa-user-check', path: '/approvals' }
+      ],
+      guest: [
+        { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' }
       ]
     }
 

@@ -195,9 +195,9 @@ export default {
 }
 
 .content h1 {
-    font-family: 'serif';
-    font-size: 3.5rem;
-    line-height: 1.1;
+    font-family: Arial, sans-serif;
+    font-size: 2.8rem;
+    line-height: 1.2;
     margin-bottom: 24px;
     color: #1a1a1a;
 }
@@ -299,7 +299,7 @@ export default {
 /* --- RESPONSIVE --- */
 @media (max-width: 1100px) {
     .content h1 {
-        font-size: 2.8rem;
+        font-size: 2.4rem;
     }
 
     .image-panel {
@@ -339,7 +339,7 @@ export default {
     }
 
     .content h1 {
-        font-size: 2.2rem;
+        font-size: 2.0rem;
     }
 
     .content p {

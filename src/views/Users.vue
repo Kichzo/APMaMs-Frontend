@@ -1,8 +1,8 @@
 <template>
     <div class="app-container">
-        <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
+        <AppHeader v-if="!showAddUser" @toggle-sidebar="toggleSidebar" :role="role" />
 
-        <div class="dashboard-layout">
+        <div v-if="!showAddUser" class="dashboard-layout">
             <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
             <main class="main-content">
                 <div class="page-header">
@@ -11,14 +11,44 @@
                 </div>
 
                 <div class="content-container">
-                    <UserTools />
+                    <UserTools @add-user="showAddUser = true" />
 
-                    <div class="user-list">
-                        <UserCard />
-                    </div>
+                        <div class="user-list">
+                            <UserCard 
+                                @edit="openEditUser(user)" 
+                                @view="openViewProfile(user)" 
+                                @deactivate="openDeactivateUser(user)" 
+                            />
+                        </div>
                 </div>
             </main>
         </div>
+
+        <AddUser v-else @back="showAddUser = false" @submit="handleUserAdded" />
+
+        <!-- Edit User Modal -->
+        <EditUser 
+            v-if="showEditUser" 
+            :user="selectedUser" 
+            @close="showEditUser = false" 
+            @save="handleUserUpdated" 
+        />
+
+        <!-- View Profile Modal -->
+        <ViewProfile 
+            v-if="showViewProfile" 
+            :user="selectedUser" 
+            @close="showViewProfile = false" 
+            @edit-profile="switchToEdit" 
+        />
+
+        <!-- Deactivate User Modal -->
+        <DeactivateUser 
+            v-if="showDeactivateUser" 
+            :user="selectedUser" 
+            @close="showDeactivateUser = false" 
+            @confirm="handleUserDeactivated" 
+        />
     </div>
 </template>
 
@@ -27,24 +57,84 @@ import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
 import UserTools from '/src/components/ManageUser/UserTools.vue';
 import UserCard from '/src/components/ManageUser/UserCard.vue';
+import AddUser from '/src/components/ManageUser/AddUser.vue';
+import EditUser from '/src/components/ManageUser/EditUser.vue';
+import ViewProfile from '/src/components/ManageUser/ViewProfile.vue';
+import DeactivateUser from '/src/components/ManageUser/DeactivateUser.vue';
 
 export default {
     data() {
         return {
             isSidebarVisible: true,
             role: localStorage.getItem('role') || 'org',
+            showAddUser: false,
+            showEditUser: false,
+            showViewProfile: false,
+            showDeactivateUser: false,
+            selectedUser: null
         }
     },
     components: {
         AppHeader,
         AppSidebar,
         UserTools,
-        UserCard
+        UserCard,
+        AddUser,
+        EditUser,
+        ViewProfile,
+        DeactivateUser
     },
     methods: {
         toggleSidebar() {
             this.isSidebarVisible = !this.isSidebarVisible;
         },
+        handleUserAdded(userData) {
+            console.log('User added:', userData);
+            this.showAddUser = false;
+            // Here you would typically refresh the user list
+        },
+        openEditUser(user) {
+            // For now using mock data as UserCard doesn't receive real props yet
+            this.selectedUser = user || {
+                firstName: 'Kian',
+                lastName: 'Estenzo',
+                email: 'kian.estenzo@msunaawan.edu.ph',
+                organization: 'College of Business and Information Technology',
+                role: 'President',
+                status: 'Active'
+            };
+            this.showEditUser = true;
+        },
+        handleUserUpdated(updatedData) {
+            console.log('User updated:', updatedData);
+            this.showEditUser = false;
+            // Handle update logic here
+        },
+        openViewProfile(user) {
+            this.selectedUser = user || {
+                firstName: 'Kian',
+                lastName: 'Estenzo',
+                email: 'kian.estenzo@msunaawan.edu.ph',
+                organization: 'College of Business and Information Technology',
+                role: 'President',
+                status: 'Active',
+                password: '1234'
+            };
+            this.showViewProfile = true;
+        },
+        switchToEdit() {
+            this.showViewProfile = false;
+            this.showEditUser = true;
+        },
+        openDeactivateUser(user) {
+            this.selectedUser = user || { firstName: 'Kian', lastName: 'Estenzo' };
+            this.showDeactivateUser = true;
+        },
+        handleUserDeactivated() {
+            console.log('User deactivated:', this.selectedUser);
+            this.showDeactivateUser = false;
+            // Handle deactivation logic here
+        }
     }
 }
 </script>
@@ -96,7 +186,7 @@ export default {
 }
 
 .page-header h1 {
-  font-family: serif;
+  font-family:Arial, sans-serif;
   font-size: 2.2rem;
   margin: 0;
 }

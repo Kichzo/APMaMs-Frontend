@@ -7,9 +7,14 @@
         <span class="status approved">{{ data.status }}</span>
       </div>
 
-      <button class="view-btn" @click="$emit('view', data)">
-        View Details
-      </button>
+      <div class="card-actions">
+        <button class="btn-action btn-download-small" @click.stop="$emit('download', data)">
+          <i class="fas fa-download"></i> Download
+        </button>
+        <button class="btn-action view-btn" @click="$emit('view', data)">
+          View Details
+        </button>
+      </div>
     </div>
 
     <div class="activity-meta">
@@ -34,7 +39,8 @@
 export default {
   name: "ActivityItemCard",
   props: {
-    data: Object
+    data: Object,
+    role: String
   }
 };
 </script>
@@ -71,21 +77,48 @@ export default {
   color: #15803d;
 }
 
-.activity-meta {
+.card-actions {
   display: flex;
-  gap: 25px;
-  margin-top: 12px;
-  font-size: 14px;
-  color: #475569;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-action {
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
 }
 
 .view-btn {
   background: #1d4ed8;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
+}
+
+.btn-download-small {
+  background: white;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+.btn-edit-small {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+.activity-meta {
+  display: flex;
+  gap: 25px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #475569;
 }
 
 .progress-section {

@@ -1,7 +1,7 @@
 <template>
   <div class="plan-item" :class="{ active }" @click="$emit('select')">
     <h4 class="title">{{ plan.title }}</h4>
-    <i class="fa-solid fa-trash delete-icon" title="Delete" @click.stop="$emit('delete', plan.id)"></i>
+    <i v-if="role === 'admin'" class="fa-solid fa-pen edit-icon" title="Edit" @click.stop="$emit('edit', plan)"></i>
   </div>
 </template>
 
@@ -9,7 +9,8 @@
 export default {
   props: {
     plan: Object,
-    active: Boolean
+    active: Boolean,
+    role: String
   }
 }
 </script>
@@ -44,15 +45,15 @@ export default {
   color: #ffffff;
 }
 
-.delete-icon {
-  color: #ef4444; /* Subtle red */
+.edit-icon {
+  color: #3b82f6; /* Blue icon for edit */
   font-size: 0.9rem;
   cursor: pointer;
   transition: color 0.2s;
   padding: 4px;
 }
 
-.delete-icon:hover {
-  color: #b91c1c; /* Darker red on hover */
+.edit-icon:hover {
+  color: #1d4ed8;
 }
 </style>

@@ -114,14 +114,14 @@ export default {
 
 .stat-right h2 {
   margin: 0;
-  font-family: Georgia, serif;
+  font-family: Arial, sans-serif;
   font-size: 2rem;
   font-weight: 700;
   color: #111827;
 }
 
 .stat-right p {
-  margin: 5px 0 0 0;
+  margin: 10px 0 0 0;
   font-size: 0.85rem;
   color: #6b7280;
 }

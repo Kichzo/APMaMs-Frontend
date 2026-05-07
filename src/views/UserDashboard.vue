@@ -119,7 +119,7 @@ export default {
 
 .page-title p {
   color: #64748b;
-  margin-top: 8px;
+  margin-top: 5px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 

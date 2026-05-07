@@ -42,55 +42,56 @@
 }
 
 .stat-card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 20px;
+ background: #ffffff;
+  border-radius: 14px;
+  padding: 20px 24px;
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
 }
 
 .icon-box {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 .blue {
-  background: #eff6ff;
-  color: #1e40af;
+  background: #e0f2fe;
+  color: #0284c7;
 }
 
 .green {
-  background: #f0fdf4;
-  color: #166534;
+  background: #dcfce7;
+  color: #16a34a;
 }
 
 .purple {
-  background: #faf5ff;
-  color: #6b21a8;
+  background: #f3e8ff;
+  color: #9333ea;
 }
 
 .red {
-  background: #fef2f2;
-  color: #991b1b;
+  background: #fee2e2;
+  color: #dc2626;
 }
 
 .stat-info h2 {
-  font-family: serif;
-  font-size: 1.8rem;
   margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
 }
 
 .stat-info p {
-  color: #64748b;
-  margin: 4px 0 0 0;
+  margin: 10px 0 0 0;
   font-size: 0.85rem;
+  color: #6b7280;
 }
 </style>

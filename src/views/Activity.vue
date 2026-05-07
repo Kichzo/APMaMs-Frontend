@@ -12,7 +12,7 @@
 
         <!-- 2. THE DETAIL VIEW -->
         <!-- We show this if an activity is selected and we aren't in the wizard -->
-        <ActivityDetailView v-else-if="selectedActivity" :data="selectedActivity" @back="selectedActivity = null"
+        <ActivityDetailView v-else-if="selectedActivity" :data="selectedActivity" :role="role" @back="selectedActivity = null"
           @open-report="showWizard = true" />
 
         <!-- 3. THE LIST VIEW -->
@@ -23,8 +23,8 @@
               <h1>Activity Management</h1>
               <p>Create, manage, and track all organizational activities and proposals</p>
             </div>
-            <!-- Trigger the wizard from the main button too -->
-            <button class="new-activity-btn" @click="showWizard = true">
+            <!-- Navigate to CreateActivity -->
+            <button v-if="role === 'org'" class="new-activity-btn" @click="$router.push({ name: 'CreateActivity' })">
               New Activity
             </button>
           </div>
@@ -42,7 +42,7 @@
 
             <div class="activity-items-wrapper">
               <ActivityItemCard v-for="activity in filteredActivities" :key="activity.id" :data="activity"
-                @view="selectedActivity = $event" />
+                :role="role" @view="selectedActivity = $event" />
             </div>
           </div>
         </div>
@@ -254,3 +254,4 @@ export default {
   background-color: #0a21c0;
 }
 </style>
+
