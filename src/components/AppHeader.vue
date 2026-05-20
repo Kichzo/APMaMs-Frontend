@@ -11,21 +11,26 @@
             </router-link>
         </div>
 
-        <router-link v-if="role !== 'guest'" to="/account" class="user-profile">
-            <div class="user-profile">
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
+        <div class="header-right">
+            <button v-if="role !== 'guest'" class="notification-btn">
+                <i class="fas fa-bell"></i>
+            </button>
+            
+            <router-link v-if="role !== 'guest'" to="/account" class="user-profile">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+
+                    <div class="user-info">
+                        <span class="user-name">{{ userName }}</span>
+                        <span class="user-role">{{ roleLabel }}</span>
+                    </div>
+
+                    <i class="fas fa-chevron-down dropdown-icon"></i>
                 </div>
-
-                <div class="user-info">
-                    <span class="user-name">{{ userName }}</span>
-                    <span class="user-role">{{ roleLabel }}</span>
-                </div>
-
-
-                <i class="fas fa-chevron-down dropdown-icon"></i>
-            </div>
-        </router-link>
+            </router-link>
+        </div>
 
     </header>
 </template>
@@ -146,4 +151,32 @@ export default {
     background: #333;
     display: block;
 }
+
+/* Header Right */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Notification Button */
+.notification-btn {
+    background: none;
+    border: none;
+    color: #475569;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.notification-btn:hover {
+    color: #0f172a;
+}
+
+
 </style>

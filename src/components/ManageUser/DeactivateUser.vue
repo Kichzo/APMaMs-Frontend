@@ -121,6 +121,7 @@
       </div>
 
       <div class="modal-actions">
+        <button class="btn-cancel" @click="$emit('close')">Cancel</button>
         <button class="btn-understand" @click="$emit('close')">I Understand</button>
       </div>
     </div>

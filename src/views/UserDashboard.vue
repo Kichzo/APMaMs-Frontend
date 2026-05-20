@@ -11,22 +11,14 @@
           <p>Welcome back! Here's what's happening with your organizations.</p>
         </div>
 
-        <div class="stats-grid">
-          <DashboardCard value="24" label="Total Activities" leftIcon="fa-solid fa-shapes" />
-          <DashboardCard value="5" label="Pending Approvals" leftIcon="fa-regular fa-clock" />
-          <DashboardCard value="12" label="Active Projects" leftIcon="fa-solid fa-check-double" />
-          <DashboardCard value="18" label="Completed Activities" leftIcon="fa-solid fa-list-check" />
-          <DashboardCard value="P450,000" label="Total Budget" leftIcon="fa-solid fa-coins" />
-          <DashboardCard value="P285,000" label="Budget Spent" leftIcon="fa-solid fa-money-bill-transfer" />
-        </div>
+        <div class="calendar-page">
+          <div class="calendar-layout">
+            <!-- We send 'currentViewMode' DOWN to the Grid -->
+            <CalendarView :viewMode="currentViewMode" :events="events" @org-change="selectedOrg = $event" />
 
-        <div class="dashboard-lower">
-          <div class="left-column">
-            <RecentActivities />
-          </div>
-          <div class="right-column">
-            <UpcomingEvents />
-            <QuickActions />
+            <!-- We send 'currentViewMode' DOWN and listen for 'change-view' UP -->
+            <CalendarUpcomingAct :currentView="currentViewMode" @change-view="currentViewMode = $event" :events="events"
+              :selectedOrg="selectedOrg" />
           </div>
         </div>
       </main>
@@ -37,24 +29,26 @@
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import DashboardCard from '/src/components/Dashboard/DashboardCard.vue'
-import RecentActivities from '/src/components/Dashboard/RecentActivities.vue'
-import UpcomingEvents from '/src/components/Dashboard/UpcomingEvents.vue'
-import QuickActions from '/src/components/Dashboard/QuickActions.vue'
+import CalendarView from '/src/components/Calendar/CalendarView.vue'
+import CalendarUpcomingAct from '/src/components/Calendar/CalendarUpcomingAct.vue'
 
 export default {
   components: {
     AppHeader,
     AppSidebar,
-    DashboardCard,
-    RecentActivities,
-    UpcomingEvents,
-    QuickActions
+    CalendarView,
+    CalendarUpcomingAct
   },
   data() {
     return {
       role: localStorage.getItem('role') || 'Student Organization',
-      isSidebarVisible: true
+      isSidebarVisible: true,
+      currentViewMode: 'month',
+      selectedOrg: 'All Organizations',
+      events: [
+        { id: 1, title: 'Leadership Training', day: 15, org: 'SSC', status: 'approved', date: 'Jan 15' },
+        { id: 2, title: 'Coding Bootcamp', day: 18, org: 'CBIT College', status: 'pending', date: 'Jan 18' }
+      ]
     }
   },
   methods: {
@@ -123,38 +117,15 @@ export default {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* --- Stats Grid Responsiveness --- */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
-/* Layout for lower dashboard */
-.dashboard-lower {
-  display: grid;
-  grid-template-columns: 2fr 1.2fr;
-  gap: 24px;
-}
-
-.right-column {
+.calendar-layout {
   display: flex;
-  flex-direction: column;
   gap: 24px;
+  margin-top: 20px;
+  /* Prevents sidebar in calendar from shrinking */
+  align-items: flex-start;
 }
 
 /* --- Media Queries for Mobile/Tablet --- */
-@media (max-width: 1100px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .dashboard-lower {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (max-width: 768px) {
   .content {
     padding: 20px;
@@ -164,9 +135,8 @@ export default {
     font-size: 1.8rem;
   }
 
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
+  .calendar-layout {
+    flex-direction: column;
   }
 
   :deep(.sidebar) {

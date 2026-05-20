@@ -58,7 +58,7 @@
                 </svg>
 
                 <span>
-                    2025 APMaMS – Mindanao State University at Naawan. All rights reserved.
+                    2026 APMaMS – Mindanao State University at Naawan. All rights reserved.
                 </span>
             </div>
 

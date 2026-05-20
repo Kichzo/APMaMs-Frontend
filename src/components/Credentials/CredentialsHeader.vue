@@ -16,7 +16,7 @@
 
       <div class="header-actions">
         <router-link to="/calendar" class="sign-in-link" @click="setGuestRole">
-          Guest
+          Calendar
         </router-link>
 
         <!-- Sign-in navigation link -->

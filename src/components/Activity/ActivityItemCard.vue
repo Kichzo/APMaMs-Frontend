@@ -1,37 +1,103 @@
 <template>
-  <div class="activity-card">
-
-    <div class="card-header">
-      <div>
+  <div class="activity-card" :class="{ 'expanded': isExpanded }">
+    <!-- Header Row -->
+    <div class="card-header-row">
+      <div class="card-left">
+        <div class="icon-container">
+          <i class="fa-regular fa-file-lines"></i>
+        </div>
         <h3>{{ data.title }}</h3>
-        <span class="status approved">{{ data.status }}</span>
       </div>
-
-      <div class="card-actions">
-        <button class="btn-action btn-download-small" @click.stop="$emit('download', data)">
-          <i class="fas fa-download"></i> Download
-        </button>
-        <button class="btn-action view-btn" @click="$emit('view', data)">
-          View Details
+      
+      <div class="card-right">
+        <button class="view-details-btn" @click="toggleExpand">
+          {{ isExpanded ? 'Collapse' : 'View Details' }} 
+          <i :class="isExpanded ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"></i>
         </button>
       </div>
     </div>
 
-    <div class="activity-meta">
-      <span><i class="fas fa-university"></i> {{ data.organization }}</span>
-      <span><i class="fas fa-calendar-alt"></i> {{ data.date }}</span>
-      <span><i class="fas fa-users"></i> {{ data.participants }} participants</span>
-      <span><i class="fas fa-coins"></i> {{ data.budget }}</span>
-    </div>
-
-    <div class="progress-section">
-      <label>Progress</label>
-      <div class="progress-bar">
-        <div class="progress-fill" :style="{ width: data.progress + '%' }"></div>
+    <!-- Expanded Timeline -->
+    <div v-if="isExpanded" class="card-expanded-content">
+      <div class="timeline-title">
+        <i class="fa-solid fa-certificate verified-icon"></i> Approval Timeline
       </div>
-      <span class="progress-percent">{{ data.progress }}%</span>
-    </div>
+      
+      <div class="timeline-scroll-area">
+        <div class="timeline-container">
+          <!-- Connecting Line -->
+          <div class="timeline-line"></div>
+          
+          <!-- Steps -->
+          <div class="timeline-step clickable-step" @click="$emit('view-design', data)">
+            <div class="timeline-icon"><i class="fa-regular fa-file-lines"></i></div>
+            <div class="timeline-text">
+              Detailed Activity Design
+              <span v-if="data.designCompleted" class="completed-text">Completed</span>
+            </div>
+          </div>
+          
+          <div class="timeline-step">
+            <div class="timeline-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="timeline-text">Submitted</div>
+          </div>
 
+          <!-- New Steps -->
+          <div class="timeline-step">
+            <div class="timeline-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="timeline-text">Reviewed by Adviser</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="timeline-text">Reviewed by OSD</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="timeline-text">Endorsed by the Vice Chancellor for Student Affairs and Services</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="timeline-text">Funds Cleared by Vice Chancellor for Administration and Finance</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="timeline-text">Approved by Chancellor</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="timeline-text">Recorded by Monitoring and Evaluation Personnel</div>
+          </div>
+
+          <div class="timeline-step clickable-step" @click="$emit('view-accomplishment', data)">
+            <div class="timeline-icon"><i class="fa-regular fa-file-lines"></i></div>
+            <div class="timeline-text">
+              Activity Accomplishment Report
+              <span v-if="data.reportCompleted" class="completed-text">Completed</span>
+            </div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="timeline-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="timeline-text">Reviewed by Adviser</div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="timeline-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="timeline-text">Evaluated by Monitoring and Evaluation Personnel</div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="timeline-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="timeline-text">Submitted</div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="timeline-icon"><i class="fa-solid fa-check"></i></div>
+            <div class="timeline-text">Approved</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -41,107 +107,207 @@ export default {
   props: {
     data: Object,
     role: String
+  },
+  data() {
+    return {
+      isExpanded: false
+    }
+  },
+  methods: {
+    toggleExpand() {
+      this.isExpanded = !this.isExpanded;
+    }
   }
 };
 </script>
 
 <style scoped>
 .activity-card {
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 18px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
   background: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
 }
 
-.card-header {
+.activity-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  border-color: #a0aec0;
+}
+
+.card-header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
-.card-header h3 {
-  margin: 0;
-  font-size: 18px;
+.activity-card.expanded .card-header-row {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #cbd5e0;
 }
 
-.status {
-  margin-left: 10px;
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 6px;
-}
-
-.status.approved {
-  background: #dcfce7;
-  color: #15803d;
-}
-
-.card-actions {
+.card-left {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 24px;
+}
+
+.icon-container {
+  width: 48px;
+  height: 48px;
+  background-color: #dbeafe;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.btn-action {
-  padding: 8px 16px;
-  border-radius: 6px;
+.icon-container i {
+  color: #1d4ed8;
+  font-size: 1.4rem;
+}
+
+.card-left h3 {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.35rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.view-details-btn {
+  background: none;
+  border: none;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 0.85rem;
+  padding: 0;
+  outline: none;
+}
+
+.view-details-btn i {
+  font-size: 0.8rem;
+}
+
+/* EXPANDED TIMELINE */
+.card-expanded-content {
+  width: 100%;
+  padding-top: 24px;
+  padding-bottom: 12px;
+}
+
+.timeline-title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000;
   display: flex;
   align-items: center;
   gap: 8px;
-  white-space: nowrap;
+  margin-bottom: 30px;
 }
 
-.view-btn {
-  background: #1d4ed8;
-  color: white;
-  border: none;
+.verified-icon {
+  font-size: 1.2rem;
+  color: #000;
 }
 
-.btn-download-small {
-  background: white;
-  border: 1px solid #d1d5db;
-  color: #374151;
+.timeline-scroll-area {
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
-.btn-edit-small {
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  color: #475569;
+/* Scrollbar styling for better look */
+.timeline-scroll-area::-webkit-scrollbar {
+  width: 6px;
+}
+.timeline-scroll-area::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 4px;
+}
+.timeline-scroll-area::-webkit-scrollbar-thumb {
+  background: #cbd5e0; 
+  border-radius: 4px;
+}
+.timeline-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0; 
 }
 
-.activity-meta {
-  display: flex;
-  gap: 25px;
-  margin-top: 12px;
-  font-size: 14px;
-  color: #475569;
-}
-
-.progress-section {
-  margin-top: 15px;
-}
-
-.progress-bar {
-  height: 6px;
-  background: #e2e8f0;
-  border-radius: 10px;
-  margin-top: 5px;
+.timeline-container {
   position: relative;
+  padding-left: 40px;
 }
 
-.progress-fill {
-  height: 6px;
-  background: #1d4ed8;
-  border-radius: 10px;
+/* The vertical connecting line */
+.timeline-line {
+  position: absolute;
+  left: 63px; /* 40px padding + 23px (half of 46px icon) */
+  top: 10px;
+  bottom: 30px;
+  width: 2px;
+  background-color: #cbd5e0;
+  z-index: 0;
 }
 
-.progress-percent {
-  float: right;
-  font-size: 12px;
-  color: #64748b;
+.timeline-step {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-step:last-child {
+  margin-bottom: 10px;
+}
+
+.timeline-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #cbd5e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  color: #000;
+}
+
+.timeline-icon i.fa-check {
+  font-size: 1.4rem;
+}
+
+.timeline-text {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: #000;
+  transition: color 0.2s;
+}
+
+.clickable-step {
+  cursor: pointer;
+}
+
+.clickable-step:hover .timeline-text {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.clickable-step:hover .timeline-icon {
+  border-color: #1d4ed8;
+  color: #1d4ed8;
 }
 </style>

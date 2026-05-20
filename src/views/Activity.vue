@@ -8,41 +8,63 @@
       <main class="content">
         <!-- 1. THE WIZARD VIEW -->
         <!-- We show this if showWizard is true, regardless of selectedActivity -->
-        <ActivityReportWizard v-if="showWizard" @close="showWizard = false" />
+        <ActivityReportWizard v-if="showWizard" @close="showWizard = false" @submit-design="onDesignSubmitted" />
 
-        <!-- 2. THE DETAIL VIEW -->
+        <!-- 2. THE ACCOMPLISHMENT WIZARD VIEW -->
+        <AccomReportWizard v-else-if="showAccomWizard" @cancel="showAccomWizard = false" />
+
+        <!-- 3. THE DETAIL VIEW -->
         <!-- We show this if an activity is selected and we aren't in the wizard -->
-        <ActivityDetailView v-else-if="selectedActivity" :data="selectedActivity" :role="role" @back="selectedActivity = null"
+        <ActivityDetailView v-else-if="selectedActivity && activeViewType === 'design'" :data="selectedActivity" :role="role" @back="selectedActivity = null"
           @open-report="showWizard = true" />
 
-        <!-- 3. THE LIST VIEW -->
-        <!-- We show this only if BOTH showWizard and selectedActivity are false -->
+        <!-- 4. THE ACCOMPLISHMENT VIEW -->
+        <ActivityAccomView v-else-if="selectedActivity && activeViewType === 'accomplishment'" :data="selectedActivity" :userRole="role" @back="selectedActivity = null" @open-accom-report="showAccomWizard = true" />
+
+        <!-- 5. THE LIST VIEW -->
+        <!-- We show this only if BOTH wizards and selectedActivity are false -->
         <div v-else>
           <div class="page-header">
             <div class="title-block">
               <h1>Activity Management</h1>
               <p>Create, manage, and track all organizational activities and proposals</p>
             </div>
-            <!-- Navigate to CreateActivity -->
-            <button v-if="role === 'org'" class="new-activity-btn" @click="$router.push({ name: 'CreateActivity' })">
-              New Activity
+            <button class="calendar-btn" @click="$router.push({ name: 'Calendar' })">
+              Calendar
             </button>
           </div>
 
-          <ActivityStats :activities="activities" />
-          <ActivityFilters />
+          <div class="filter-container">
+            <div class="search-input-wrapper">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" placeholder="Search activities, organizations, or activities" />
+            </div>
+            <div class="select-wrapper">
+              <select>
+                <option>All Organizations</option>
+                <option>SSC</option>
+                <option>CBIT</option>
+                <option>CESS</option>
+                <option>CELS</option>
+                <option>CMFS</option>
+                <option>KAABAG</option>
+                <option>TME</option>
+                <option>SenSo</option>
+              </select>
+            </div>
+          </div>
 
           <div class="activity-list-container">
             <nav class="tabs">
               <button v-for="tab in tabs" :key="tab.id" :class="{ active: currentTab === tab.id }"
                 @click="currentTab = tab.id">
-                {{ tab.label }} ({{ tab.count }})
+                {{ tab.label }}
               </button>
             </nav>
 
             <div class="activity-items-wrapper">
               <ActivityItemCard v-for="activity in filteredActivities" :key="activity.id" :data="activity"
-                :role="role" @view="selectedActivity = $event" />
+                @view-design="openDesign" @view-accomplishment="openAccomplishment" />
             </div>
           </div>
         </div>
@@ -52,32 +74,32 @@
 </template>
 
 <script>
-import ActivityStats from '/src/components/Activity/ActivityStats.vue';
-import ActivityFilters from '/src/components/Activity/ActivityFilters.vue';
 import ActivityItemCard from '/src/components/Activity/ActivityItemCard.vue';
 import ActivityDetailView from '/src/components/Activity/ActivityDetailView.vue';
 import ActivityReportWizard from '/src/components/Activity/ActivityReportWizard.vue';
+import ActivityAccomView from '/src/components/Activity/ActivityAccomView.vue';
+import AccomReportWizard from '/src/components/Activity/AccomReportWizard.vue';
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import CreateActivity from '/src/views/CreateActivity.vue';
 
 export default {
   name: 'Activity',
   components: {
-    CreateActivity,
     AppHeader,
     AppSidebar,
-    ActivityStats,
-    ActivityFilters,
     ActivityItemCard,
     ActivityReportWizard,
     ActivityDetailView,
+    ActivityAccomView,
+    AccomReportWizard
   },
   data() {
     return {
       selectedActivity: null,
+      activeViewType: null, // 'design' or 'accomplishment'
       isSidebarVisible: true,
       showWizard: false,
+      showAccomWizard: false,
       role: localStorage.getItem('role') || 'org',
       currentTab: 'all',
       activities: [
@@ -108,7 +130,7 @@ export default {
     // This replaces your static tabs array
     tabs() {
       return [
-        { id: 'all', label: 'All Activities', count: this.activities.length }
+        { id: 'all', label: 'All Activities' }
       ];
     },
     filteredActivities() {
@@ -120,11 +142,24 @@ export default {
     toggleSidebar() {
       this.isSidebarVisible = !this.isSidebarVisible;
     },
-    handleSearch(query) {
-      console.log("Searching for:", query);
+    onDesignSubmitted() {
+      this.showWizard = false;
+      if (this.selectedActivity) {
+        // Mark the activity as designCompleted
+        const activity = this.activities.find(a => a.id === this.selectedActivity.id);
+        if (activity) {
+          activity.designCompleted = true;
+        }
+        this.selectedActivity = null; // Go back to the list view
+      }
     },
-    handleFilter(filterData) {
-      console.log("Filtering by:", filterData);
+    openDesign(activity) {
+      this.selectedActivity = activity;
+      this.activeViewType = 'design';
+    },
+    openAccomplishment(activity) {
+      this.selectedActivity = activity;
+      this.activeViewType = 'accomplishment';
     }
   }
 };
@@ -134,12 +169,7 @@ export default {
 .app-container {
   display: flex;
   flex-direction: column;
-  /* Lock to viewport height */
   height: 100vh;
-  width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden;
-  /* Prevent page-level scrolling */
 }
 
 .dashboard-layout {
@@ -182,7 +212,6 @@ export default {
 }
 
 .title-block h1 {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 2.2rem;
   margin: 0;
 }
@@ -192,16 +221,71 @@ export default {
   margin-top: 5px;
 }
 
-.new-activity-btn {
-  background-color: #0a21c0;
+.calendar-btn {
+  background-color: #00129a;
   color: white;
   border: none;
-  padding: 12px 24px;
+  padding: 12px 30px;
   border-radius: 8px;
-  font-weight: 500;
+  font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
   white-space: nowrap;
-  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.calendar-btn:hover {
+  background-color: #000c66;
+}
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 4px solid #f1f5f9;
+  border-radius: 12px;
+  padding: 24px 30px;
+  margin: 20px 0;
+  gap: 16px;
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.search-input-wrapper i {
+  color: #a0aec0;
+  margin-right: 12px;
+}
+
+.search-input-wrapper input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.95rem;
+}
+
+.search-input-wrapper input::placeholder {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.select-wrapper select {
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  padding: 14px 30px 14px 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.95rem;
+  color: #000;
+  outline: none;
+  background: white;
+  min-width: 220px;
+  cursor: pointer;
 }
 
 .activity-list-container {
@@ -240,8 +324,8 @@ export default {
 }
 
 .tabs button.active {
-  color: #0a21c0;
-  font-weight: 600;
+  color: #3b59ff;
+  font-weight: bold;
 }
 
 .tabs button.active::after {
@@ -251,7 +335,7 @@ export default {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #0a21c0;
+  background-color: #3b59ff;
 }
 </style>
 

@@ -76,12 +76,26 @@
           <!-- Row 3: Role & Status -->
           <div class="form-group">
             <label for="role">Role</label>
-            <div class="input-with-icon">
+            <div class="input-with-icon custom-dropdown" v-click-outside="closeRoleDropdown">
               <i class="fas fa-users icon"></i>
-              <select id="role" v-model="formData.role" required>
-                <option value="" disabled selected>Member</option>
-                <option v-for="role in roles" :key="role" :value="role">{{ role }}</option>
-              </select>
+              <div 
+                class="dropdown-selected" 
+                :class="{ 'placeholder': !formData.role }"
+                @click="toggleRoleDropdown"
+              >
+                {{ formData.role || 'Member' }}
+              </div>
+              <div v-if="roleDropdownOpen" class="dropdown-options">
+                <div 
+                  v-for="role in roles" 
+                  :key="role" 
+                  class="dropdown-option"
+                  @click="selectRole(role)"
+                >
+                  {{ role }}
+                </div>
+              </div>
+              <i class="fas fa-chevron-down icon-right dropdown-arrow" :class="{ 'open': roleDropdownOpen }"></i>
             </div>
           </div>
           <div class="form-group">
@@ -177,8 +191,9 @@ export default {
         'The Marine Echo', 
         'Senior Student Society'
       ],
-      roles: ['Member', 'Officer', 'Adviser', 'Admin'],
-      dropdownOpen: false
+      roles: ['Student Officer', 'OSD', 'Adviser', 'Dean', 'Activity Coordinator','Offices'],
+      dropdownOpen: false,
+      roleDropdownOpen: false
     }
   },
   directives: {
@@ -206,6 +221,16 @@ export default {
     },
     closeDropdown() {
       this.dropdownOpen = false;
+    },
+    toggleRoleDropdown() {
+      this.roleDropdownOpen = !this.roleDropdownOpen;
+    },
+    selectRole(role) {
+      this.formData.role = role;
+      this.roleDropdownOpen = false;
+    },
+    closeRoleDropdown() {
+      this.roleDropdownOpen = false;
     },
     handleSubmit() {
       if (this.formData.password !== this.formData.confirmPassword) {

@@ -17,14 +17,7 @@
             </div>
             <div class="form-group">
               <label>Registration Number *</label>
-              <div class="select-wrapper">
-                <select>
-                  <option value="" disabled selected>Select category</option>
-                  <option>Academic</option>
-                  <option>Non-Academic</option>
-                </select>
-                <i class="fas fa-chevron-down"></i>
-              </div>
+              <input type="text" placeholder="Enter registration number" />
             </div>
           </div>
 
@@ -38,11 +31,10 @@
               <div class="select-wrapper">
                 <select>
                   <option value="" disabled selected>Select nature of organization</option>
-                  <option>Religious</option>
-                  <option>Cultural</option>
-                  <option>Social</option>
+                  <option>Academic</option>
+                  <option>Non-Academic</option>
                 </select>
-                <i class="fas fa-chevron-down"></i>
+                <i class="fas fa-chevron-down select-arrow"></i>
               </div>
             </div>
           </div>

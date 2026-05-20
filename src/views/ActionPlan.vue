@@ -6,30 +6,47 @@
       <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
 
       <main class="content">
-        <div class="title-block">
-          <h1>Action Plan</h1>
-          <p>Monitor and manage institutional strategic initiatives</p>
+        <div class="page-header">
+          <div class="title-block">
+            <h1>Action Plan</h1>
+            <p>Monitor and manage institutional strategic initiatives</p>
+          </div>
+          <button v-if="role === 'admin'" class="add-plan-btn" @click="showAddPlan = true">
+            Add Action Plan
+          </button>
         </div>
 
         <div class="action-grid">
 
           <!-- LEFT PANEL -->
-          <ActionPlanList :plans="plans" :activePlanId="selectedPlan?.id" :role="role" @select-plan="selectPlan"
-            @add-plan="showAddForm = true" @edit-plan="handleEditPlan" />
+          <div class="left-panel">
+            <div class="fiscal-year-display">
+              <span class="label">FISCAL YEAR 2026</span>
+            </div>
+            <div class="archive-dropdown-container">
+              <div class="archive-dropdown" @click="isArchiveOpen = !isArchiveOpen">
+                <span>View Archives</span>
+                <i class="fa-solid" :class="isArchiveOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              </div>
+              <ul v-if="isArchiveOpen" class="archive-list">
+                <li>Fiscal Year 2025</li>
+                <li>Fiscal Year 2024</li>
+                <li>Fiscal Year 2023</li>
+              </ul>
+            </div>
+          </div>
 
           <!-- RIGHT PANEL -->
           <div class="right-panel">
-
-            <div v-if="selectedPlan" class="details-panel">
+            <div class="details-panel">
                 <template v-if="!showFileData">
                   <div class="details-header">
                     <div class="header-left">
-                      <i class="fa-solid fa-arrow-left back-icon" @click="goBack"></i>
                       <div class="tab">Action Plan</div>
                     </div>
                     <div class="header-actions">
                       <router-link v-if="role === 'org'" :to="{ name: 'CreateActivity' }" class="add-activity-btn">
-                        <i class="fa-solid fa-plus"></i> Add Activity
+                        Add Activity
                       </router-link>
                       <button v-if="role === 'org'" class="import-btn" @click="handleImport">
                         <i class="fa-solid fa-download"></i> Import
@@ -56,86 +73,48 @@
                 <!-- FILE CONTENT VIEW (Full width) -->
                 <ActionPlanData v-else @back="showFileData = false" />
             </div>
-
-            <!-- EMPTY STATE (default) -->
-            <div v-else class="empty-placeholder">
-            </div>
-
           </div>
         </div>
       </main>
     </div>
 
-    <ActionPlanAdd v-if="showAddForm" @close="showAddForm = false" @save="handleSavePlan" />
-    <ActionPlanEdit v-if="showEditForm" :plan="editingPlan" @close="showEditForm = false" @save="handleUpdatePlan" />
+    <ActionPlanAdd v-if="showAddPlan" @close="showAddPlan = false" @save="handleSavePlan" />
   </div>
 </template>
 
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import ActionPlanCard from '../components/ActionPlan/ActionPlanCard.vue'
-import ActionPlanList from '../components/ActionPlan/ActionPlanList.vue'
-import ActionPlanAdd from '../components/ActionPlan/ActionPlanAdd.vue'
-import ActionPlanEdit from '../components/ActionPlan/ActionPlanEdit.vue'
 import ActionPlanData from '../components/ActionPlan/ActionPlanData.vue'
+import ActionPlanAdd from '../components/ActionPlan/ActionPlanAdd.vue'
 
 export default {
   components: {
     AppHeader,
     AppSidebar,
-    ActionPlanCard,
-    ActionPlanList,
-    ActionPlanAdd,
-    ActionPlanEdit,
-    ActionPlanData
+    ActionPlanData,
+    ActionPlanAdd
   },
   data() {
     return {
       isSidebarVisible: true,
       role: localStorage.getItem('role') || 'org',
-
-      plans: [
-        { id: 1, title: 'Fiscal Year 2025' },
-        { id: 2, title: 'Fiscal Year 2026' },
-        { id: 3, title: 'Fiscal Year 2027' }
-      ],
-
-      selectedPlan: null,
-      showAddForm: false,
-      showEditForm: false,
-      editingPlan: null,
       showImported: (localStorage.getItem('role') || 'org') !== 'org',
-      showFileData: false
+      showFileData: false,
+      isArchiveOpen: false,
+      showAddPlan: false
     }
   },
   methods: {
     toggleSidebar() {
       this.isSidebarVisible = !this.isSidebarVisible
     },
-    selectPlan(plan) {
-      this.selectedPlan = plan
-    },
-    goBack() {
-      this.selectedPlan = null
-    },
-    handleSavePlan(newPlan) {
-      this.plans.push(newPlan)
-    },
-    handleEditPlan(plan) {
-      this.editingPlan = plan
-      this.showEditForm = true
-    },
-    handleUpdatePlan(updatedPlan) {
-      const index = this.plans.findIndex(p => p.id === updatedPlan.id)
-      if (index !== -1) {
-        this.plans.splice(index, 1, updatedPlan)
-      }
-      this.showEditForm = false
-      this.editingPlan = null
-    },
     handleImport() {
       this.showImported = true
+    },
+    handleSavePlan(plan) {
+      console.log('Saved plan:', plan)
+      this.showAddPlan = false
     }
   }
 }
@@ -172,6 +151,32 @@ export default {
   margin-left: -260px;
 }
 
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-plan-btn {
+  background-color: #0026b9;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.add-plan-btn:hover {
+  background-color: #001a8c;
+}
+
 /* Title */
 .title-block h1 {
   font-family: Arial, sans-serif;
@@ -188,10 +193,79 @@ export default {
 /* Grid */
 .action-grid {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 200px 1fr;
   gap: 24px;
   align-items: start;
   margin-top: 20px;
+}
+
+/* Left Panel */
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+}
+
+.fiscal-year-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5rem;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #9e9e9e;
+  margin-bottom: 12px;
+}
+
+.fiscal-year-display .label {
+  font-weight: 500;
+}
+
+.fiscal-year-display .year {
+  font-weight: bold;
+}
+
+.archive-dropdown-container {
+  position: relative;
+}
+
+.archive-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+}
+
+.archive-dropdown:hover {
+  color: #3b82f6;
+}
+
+.archive-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  background: #ffffff;
+  border: 1px solid #9e9e9e;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.archive-list li {
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.archive-list li:hover {
+  background: #f1f5f9;
+  color: #3b82f6;
+}
+
+.archive-list li:not(:last-child) {
+  border-bottom: 1px solid #e2e8f0;
 }
 
 /* Right side container spacing */
@@ -230,17 +304,6 @@ export default {
   display: flex;
   align-items: center;
   height: 100%;
-  gap: 24px;
-}
-
-.back-icon {
-  cursor: pointer;
-  font-size: 1.2rem;
-  color: #000;
-}
-
-.back-icon:hover {
-  color: #3b82f6;
 }
 
 .tab {
@@ -264,8 +327,7 @@ export default {
 }
 
 .add-activity-btn {
-  background: #3b82f6;
-  /* Blue primary color */
+  background: #0026b9; /* Deep blue */
   color: #ffffff;
   font-family: Arial, sans-serif;
   font-size: 0.85rem;
@@ -278,6 +340,11 @@ export default {
   align-items: center;
   gap: 8px;
   text-decoration: none;
+  transition: background 0.2s;
+}
+
+.add-activity-btn:hover {
+  background: #001a8c;
 }
 
 .import-btn {

@@ -105,7 +105,7 @@ export default {
   data() {
     return {
       editedUser: { ...this.user },
-      roles: ['President', 'Vice President', 'Secretary', 'Treasurer', 'Member', 'Officer', 'Adviser', 'Admin']
+      roles: ['Student Officer', 'OSD', 'Adviser', 'Dean', 'Activity Coordinator','Offices']
     }
   },
   methods: {

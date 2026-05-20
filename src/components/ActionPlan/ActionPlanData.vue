@@ -3,12 +3,17 @@
     <div class="data-header">
       <div class="header-left">
         <i class="fa-solid fa-arrow-left back-icon" @click="$emit('back')"></i>
-        <h2 class="title">ACTION PLAN FOR THE FISCAL YEAR 2026</h2>
+        <h2 class="title">Supreme Student Council 2026</h2>
       </div>
-      <button class="download-btn">
-        <i class="fa-solid fa-download"></i>
-        Download
-      </button>
+      <div class="header-actions">
+        <button class="download-btn">
+          <i class="fa-solid fa-download"></i>
+          Download
+        </button>
+        <router-link v-if="role === 'org'" :to="{ name: 'CreateActivity' }" class="add-activity-btn">
+          Add Activity
+        </router-link>
+      </div>
     </div>
 
     <div class="table-container">
@@ -71,7 +76,8 @@ export default {
   name: 'ActionPlanData',
   data() {
     return {
-      currentPage: 1
+      currentPage: 1,
+      role: localStorage.getItem('role') || 'org'
     }
   },
   computed: {
@@ -186,10 +192,16 @@ export default {
   text-transform: uppercase;
 }
 
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
 .download-btn {
-  background: #0026b9; /* Deep blue from mockup */
-  color: #ffffff;
-  border: none;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #9e9e9e;
   border-radius: 6px;
   padding: 8px 20px;
   font-size: 0.9rem;
@@ -202,6 +214,25 @@ export default {
 }
 
 .download-btn:hover {
+  background: #f1f5f9;
+}
+
+.add-activity-btn {
+  background: #0026b9; /* Deep blue from mockup */
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+
+.add-activity-btn:hover {
   background: #001a8c;
 }
 

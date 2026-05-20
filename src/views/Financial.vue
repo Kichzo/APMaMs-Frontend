@@ -29,23 +29,13 @@
 
           <div class="nav-tabs">
             <button class="tab" :class="{ active: activeTab === 'Overview' }" @click="activeTab = 'Overview'">Overview</button>
-            <button class="tab" :class="{ active: activeTab === 'Transaction' }" @click="activeTab = 'Transaction'">Transaction</button>
-            <button class="tab" :class="{ active: activeTab === 'Budget Allocation' }" @click="activeTab = 'Budget Allocation'">Budget Allocation</button>
-            <button class="tab" :class="{ active: activeTab === 'Statistic' }" @click="activeTab = 'Statistic'">Statistic</button>
+            <button class="tab" :class="{ active: activeTab === 'Statistics' }" @click="activeTab = 'Statistics'">Statistics</button>
           </div>
 
-          <div class="content-grid" :class="{ 'full-width': isOrgSelected }" v-if="activeTab === 'Overview'">
-            <FinancialStatus @org-selected="isOrgSelected = $event" />
-
-            <FinancialSidebar v-if="!isOrgSelected" />
+          <div class="content-grid full-width" v-if="activeTab === 'Overview'">
+            <FinancialStatus :external-selected-org="selectedOrg" @update-org="selectedOrg = $event" @org-selected="isOrgSelected = $event" />
           </div>
-          <div v-else-if="activeTab === 'Transaction'">
-            <FinancialTransaction />
-          </div>
-          <div v-else-if="activeTab === 'Budget Allocation'">
-            <FinancialBudget />
-          </div>
-          <div v-else-if="activeTab === 'Statistic'">
+          <div v-else-if="activeTab === 'Statistics'">
             <FinancialStatistics />
           </div>
         </div>
@@ -57,24 +47,16 @@
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import FinancialQuickAct from '/src/components/Financial/FinancialQuickAct.vue'
 import FinancialStats from '/src/components/Financial/FinancialStats.vue'
 import FinancialStatus from '/src/components/Financial/FinancialStatus.vue'
-import FinancialSidebar from '/src/components/Financial/FinancialSidebar.vue'
-import FinancialTransaction from '/src/components/Financial/FinancialTransaction.vue'
-import FinancialBudget from '/src/components/Financial/FinancialBudget.vue'
 import FinancialStatistics from '/src/components/Financial/FinancialStatistics.vue'
 
 export default {
   components: {
     AppHeader,
     AppSidebar,
-    FinancialQuickAct,
     FinancialStats,
     FinancialStatus,
-    FinancialSidebar,
-    FinancialTransaction,
-    FinancialBudget,
     FinancialStatistics,
   },
   data() {
@@ -170,32 +152,40 @@ export default {
 
 .nav-tabs {
   display: flex;
-  gap: 12px;
+  gap: 30px;
+  border-bottom: 1px solid #e2e8f0;
+  width: 100%;
 }
 
 .tab {
-  padding: 10px 24px;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  background: white;
+  background: none;
+  border: none;
+  padding: 15px 10px;
   cursor: pointer;
-  font-weight: 500;
-  color: #1a1a1a;
+  color: #64748b;
   font-family: Arial, sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  position: relative;
 }
 
 .tab.active {
-  background: #001ba0;
-  color: white;
-  border-color: #001ba0;
-  font-weight: 600;
+  color: #3b59ff;
+  font-weight: bold;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #3b59ff;
 }
 
 .content-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  /* 2/3 for Main, 1/3 for Sidebar */
+  grid-template-columns: 1fr;
   gap: 24px;
 }
 

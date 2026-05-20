@@ -19,7 +19,7 @@
             </div>
           </div>
 
-          <ReportAccomplishment v-else :userRole="role" @back="showReportAccomplishment = false" />
+          <ActivityAccomView v-else :userRole="role" @back="showReportAccomplishment = false" />
         </div>
 
       </main>
@@ -31,7 +31,7 @@
 import ApprovalCard from '/src/components/Approval/ApprovalCard.vue';
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import ReportAccomplishment from '/src/components/Report/ReportAccomplishment.vue'
+import ActivityAccomView from '/src/components/Activity/ActivityAccomView.vue'
 
 export default {
   name: 'Activity',
@@ -39,7 +39,7 @@ export default {
     AppHeader,
     AppSidebar,
     ApprovalCard,
-    ReportAccomplishment
+    ActivityAccomView
   },
   data() {
     return {

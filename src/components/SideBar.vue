@@ -38,28 +38,21 @@ export default {
         { label: 'Dashboard', icon: 'fas fa-th-large', path: '/admindashboard' },
         { label: 'Users', icon: 'fas fa-users', path: '/users' },
         { label: 'Organizations', icon: 'fas fa-building', path: '/organizations' },
-        { label: 'Action Plan', icon: 'fas fa-layer-group', path: '/actionplan' },
-        { label: 'Activity', icon: 'fas fa-chart-line', path: '/activity' },
-        { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' },
-        { label: 'Approvals', icon: 'fas fa-user-check', path: '/approvals' }
+        { label: 'Action Plan', icon: 'fas fa-layer-group', path: '/actionplan' }
       ],
       org: [
         { label: 'Dashboard', icon: 'fas fa-th-large', path: '/userdashboard' },
         { label: 'Action Plan', icon: 'fas fa-layer-group', path: '/actionplan' },
         { label: 'Activity', icon: 'fas fa-chart-line', path: '/activity' },
-        { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' },
         { label: 'Financial', icon: 'fas fa-coins', path: '/financial' },
-        { label: 'Organizations', icon: 'fas fa-users', path: '/organizations' },
-        { label: 'Report', icon: 'fas fa-file-alt', path: '/report' },
-        { label: 'Approvals', icon: 'fas fa-user-check', path: '/approvals' }
+        { label: 'Organizations', icon: 'fas fa-users', path: '/organizations' }
       ],
       adviser: [
         { label: 'Dashboard', icon: 'fas fa-th-large', path: '/admindashboard' },
-        { label: 'Organizations', icon: 'fas fa-building', path: '/organizations' },
         { label: 'Action Plan', icon: 'fas fa-layer-group', path: '/actionplan' },
-        { label: 'Activity', icon: 'fas fa-chart-line', path: '/activity' },
-        { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' },
-        { label: 'Approvals', icon: 'fas fa-user-check', path: '/approvals' }
+        { label: 'Approvals', icon: 'fas fa-user-check', path: '/approvals' },
+        { label: 'Financial', icon: 'fas fa-coins', path: '/financial' },
+        { label: 'Organizations', icon: 'fas fa-building', path: '/organizations' }
       ],
       guest: [
         { label: 'Calendar', icon: 'fas fa-calendar-alt', path: '/calendar' }

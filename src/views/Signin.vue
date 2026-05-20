@@ -33,10 +33,10 @@
 
         <div
           class="role-box"
-          :class="{ active: selectedRole === 'OSD Admin' }"
-          @click="selectRole('OSD Admin')"
+          :class="{ active: selectedRole === 'System Administrator' }"
+          @click="selectRole('System Administrator')"
         >
-          <h3>OSD Admin</h3>
+          <h3>System Administrator</h3>
           <p>System administration and oversight</p>
         </div>
 
@@ -45,7 +45,7 @@
           :class="{ active: selectedRole === 'Adviser/Dean/Coordinator' }"
           @click="selectRole('Adviser/Dean/Coordinator')"
         >
-          <h3>Adviser/Dean/Coordinator</h3>
+          <h3>OSD/Adviser/Dean/Coordinator</h3>
           <p>Review and approve activities</p>
         </div>
       </div>
