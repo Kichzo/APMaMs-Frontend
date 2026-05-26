@@ -2,7 +2,7 @@
   <div class="login-page">
 
     <!-- Back Arrow -->
-    <div v-if="step === 1" class="top-nav">
+    <div class="top-nav">
       <button class="back-btn" @click="goBack">
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -10,55 +10,13 @@
         </svg>
       </button>
     </div>
-    <div v-if="step === 2" class="top-nav">
-      <button class="back-btn" @click="step = 1">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-      </button>
-    </div>
 
-    <!-- STEP 1: ROLE SELECTION -->
-    <div v-if="step === 1" class="role-selection-wrapper">
-      <div class="roles-row">
-        <div
-          class="role-box"
-          :class="{ active: selectedRole === 'Student Organization' }"
-          @click="selectRole('Student Organization')"
-        >
-          <h3>Student Organization</h3>
-          <p>Manage activities and action plans</p>
-        </div>
-
-        <div
-          class="role-box"
-          :class="{ active: selectedRole === 'System Administrator' }"
-          @click="selectRole('System Administrator')"
-        >
-          <h3>System Administrator</h3>
-          <p>System administration and oversight</p>
-        </div>
-
-        <div
-          class="role-box"
-          :class="{ active: selectedRole === 'Adviser/Dean/Coordinator' }"
-          @click="selectRole('Adviser/Dean/Coordinator')"
-        >
-          <h3>OSD/Adviser/Dean/Coordinator</h3>
-          <p>Review and approve activities</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 2: LOGIN FORM -->
-    <div v-if="step === 2" class="login-card">
+    <!-- LOGIN FORM -->
+    <div class="login-card">
       <h2 class="title">Action Plan Monitoring System</h2>
       <p class="subtitle">Sign in to your account</p>
 
-      <p class="selected-role">
-        Selected Role: <strong>{{ selectedRole }}</strong>
-      </p>
+      <div v-if="authStore.error" class="error-msg">{{ authStore.error }}</div>
 
       <form @submit.prevent="handleLogin">
         <div class="form-group">
@@ -89,8 +47,8 @@
           <a href="#">Forgot password?</a>
         </div>
 
-        <button type="submit" class="signin-btn">
-          Sign In
+        <button type="submit" class="signin-btn" :disabled="authStore.isLoading">
+          {{ authStore.isLoading ? 'Signing in...' : 'Sign In' }}
         </button>
       </form>
     </div>
@@ -98,69 +56,46 @@
 </template>
 
 <script>
+import { useAuthStore } from '/src/stores/authStore'
+
 export default {
   name: "LoginView",
-
   data() {
     return {
       email: "",
       password: "",
-      selectedRole: "",
       rememberMe: false,
-      step: 1, //controls UI
     };
   },
-
+  setup() {
+    const authStore = useAuthStore();
+    return { authStore };
+  },
   methods: {
     goBack() {
       this.$router.replace({ name: 'Credentials' });
     },
-
-    selectRole(role) {
-      this.selectedRole = role;
-
-      // add a very brief timeout so the active state is seen
-      setTimeout(() => {
-        this.step = 2; // move to login form
-      }, 150);
-    },
-
-    goToLogin() {
-      if (!this.selectedRole) {
-        alert("Please select a role first.");
-        return;
-      }
-      this.step = 2; // move to login form
-    },
-
-    validateForm() {
+    async handleLogin() {
       if (!this.email || !this.password) {
         alert("Please complete all fields.");
-        return false;
+        return;
       }
-      return true;
-    },
-
-    handleLogin() {
-      if (!this.validateForm()) return;
-
       if (this.rememberMe) {
         localStorage.setItem("email", this.email);
       }
 
-      switch (this.selectedRole) {
-        case "Student Organization":
-          localStorage.setItem("role", "org");
+      try {
+        const role = await this.authStore.signIn(this.email, this.password);
+        
+        if (role === 'admin' || role === 'System Administrator') {
+          this.$router.push("/admindashboard");
+        } else if (role === 'adviser' || role === 'Adviser/Dean/Coordinator') {
+          this.$router.push("/adviserdashboard");
+        } else {
           this.$router.push("/userdashboard");
-          break;
-        case "OSD Admin":
-          localStorage.setItem("role", "admin");
-          this.$router.push("/admindashboard");
-          break;
-        case "Adviser/Dean/Coordinator":
-          localStorage.setItem("role", "adviser");
-          this.$router.push("/admindashboard");
-          break;
+        }
+      } catch (e) {
+        console.error("Login failed", e);
       }
     },
   }
@@ -178,7 +113,6 @@ export default {
   position: relative;
   overflow: hidden;
 }
-
 
 .top-nav {
   position: absolute;
@@ -204,71 +138,7 @@ export default {
   background-color: #f3f4f6;
 }
 
-/* Role Selection Wrapper */
-.role-selection-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  z-index: 10;
-  position: relative;
-}
-
-.roles-row {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap; /* responsive */
-}
-
-/* Card style */
-.role-box {
-  width: 320px;
-  height: 160px;
-  background: #ffffff;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  text-align: center;
-  padding: 0 20px;
-}
-
-/* Text */
-.role-box h3 {
-  margin: 0;
-  font-size: 19px;
-  font-weight: 700;
-  font-family: Arial, sans-serif;
-  color: #111827;
-}
-
-.role-box p {
-  margin-top: 8px;
-  font-size: 13px;
-  color: #6b7280;
-  font-family: Arial, sans-serif;
-}
-
-/* Hover */
-.role-box:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-/* Active (selected) */
-.role-box.active {
-  border: 1.5px solid #2563eb;
-  background: #eef2ff;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
-}
-
-/* Login Card (Step 2) */
+/* Login Card */
 .login-card {
   width: 100%;
   max-width: 420px;
@@ -294,13 +164,14 @@ export default {
   margin-bottom: 20px;
 }
 
-.selected-role {
-  text-align: center;
-  font-size: 14px;
-  margin-bottom: 20px;
-  background: #f3f4f6;
+.error-msg {
+  color: #dc2626;
+  background: #fee2e2;
   padding: 10px;
   border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
 }
 
 .form-group {
@@ -367,8 +238,12 @@ export default {
   transition: background-color 0.2s;
 }
 
-.signin-btn:hover {
+.signin-btn:hover:not(:disabled) {
   background: #1d4ed8;
 }
-</style>
 
+.signin-btn:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
+</style>

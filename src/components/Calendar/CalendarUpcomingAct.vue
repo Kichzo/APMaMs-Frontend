@@ -19,6 +19,9 @@
         <a href="#" class="view-all">View All →</a>
       </div>
       <div class="activity-stack">
+        <div v-if="upcoming.length === 0" class="empty-state">
+          No activities this month
+        </div>
         <div v-for="act in upcoming" :key="act.title" class="mini-activity">
           <p class="mini-title">{{ act.title }}</p>
           <p class="mini-date">{{ act.date }}</p>
@@ -38,17 +41,21 @@
 
 <script>
 export default {
-  // Add props so the sidebar knows which button to highlight
-  props: ['currentView'],
-  data() {
-    return {
-      upcoming: [
-        { title: 'Community Outreach Program', date: 'Jan 10, 2025' },
-        { title: 'Leadership Training Workshop', date: 'Jan 15, 2025' },
-        { title: 'Coding Bootcamp', date: 'Jan 18, 2025' },
-        { title: 'Tech Innovation Summit', date: 'Jan 20, 2025' },
-        { title: 'Business Seminar Program', date: 'Jan 25, 2025' }
-      ]
+  props: {
+    currentView: String,
+    events: {
+      type: Array,
+      default: () => []
+    }
+  },
+  computed: {
+    upcoming() {
+      if (!this.events) return [];
+      // Just take the first 5 events for upcoming (can add sorting logic if needed)
+      return this.events.slice(0, 5).map(e => ({
+        title: e.title,
+        date: e.date // Assuming date format is string. Alternatively format it.
+      }));
     }
   }
 }
@@ -175,5 +182,15 @@ export default {
 
 .grey {
   background: #94a3b8;
+}
+
+.empty-state {
+  padding: 15px;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.9rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px dashed #cbd5e1;
 }
 </style>

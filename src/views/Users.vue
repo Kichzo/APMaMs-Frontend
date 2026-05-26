@@ -13,8 +13,14 @@
                 <div class="content-container">
                     <UserTools @add-user="showAddUser = true" />
 
-                        <div class="user-list">
+                        <div v-if="users && users.length === 0" class="empty-state">
+                            <p>No users registered yet.</p>
+                        </div>
+                        <div v-else class="user-list">
                             <UserCard 
+                                v-for="user in users" 
+                                :key="user.id" 
+                                :user="user"
                                 @edit="openEditUser(user)" 
                                 @view="openViewProfile(user)" 
                                 @deactivate="openDeactivateUser(user)" 
@@ -61,6 +67,8 @@ import AddUser from '/src/components/ManageUser/AddUser.vue';
 import EditUser from '/src/components/ManageUser/EditUser.vue';
 import ViewProfile from '/src/components/ManageUser/ViewProfile.vue';
 import DeactivateUser from '/src/components/ManageUser/DeactivateUser.vue';
+import { mapState, mapActions } from 'pinia';
+import { useUserStore } from '/src/stores/userStore';
 
 export default {
     data() {
@@ -74,6 +82,12 @@ export default {
             selectedUser: null
         }
     },
+    async mounted() {
+        await this.fetchUsers();
+    },
+    computed: {
+        ...mapState(useUserStore, ['users', 'isLoading'])
+    },
     components: {
         AppHeader,
         AppSidebar,
@@ -85,41 +99,36 @@ export default {
         DeactivateUser
     },
     methods: {
+        ...mapActions(useUserStore, ['fetchUsers', 'updateUser', 'addUser']),
         toggleSidebar() {
             this.isSidebarVisible = !this.isSidebarVisible;
         },
-        handleUserAdded(userData) {
-            console.log('User added:', userData);
-            this.showAddUser = false;
-            // Here you would typically refresh the user list
+        async handleUserAdded(userData) {
+            try {
+                await this.addUser(userData);
+                this.showAddUser = false;
+                alert("User added successfully!");
+            } catch (err) {
+                alert("Failed to add user: " + err.message);
+            }
         },
         openEditUser(user) {
-            // For now using mock data as UserCard doesn't receive real props yet
-            this.selectedUser = user || {
-                firstName: 'Kian',
-                lastName: 'Estenzo',
-                email: 'kian.estenzo@msunaawan.edu.ph',
-                organization: 'College of Business and Information Technology',
-                role: 'President',
-                status: 'Active'
-            };
+            this.selectedUser = user;
             this.showEditUser = true;
         },
-        handleUserUpdated(updatedData) {
-            console.log('User updated:', updatedData);
-            this.showEditUser = false;
-            // Handle update logic here
+        async handleUserUpdated(updatedData) {
+            try {
+                // Ensure we pass only properties that exist in DB
+                const { id, first_name, last_name, email, role, status, organization } = updatedData;
+                await this.updateUser(id, { first_name, last_name, email, role, status });
+                this.showEditUser = false;
+                alert("User updated successfully!");
+            } catch (err) {
+                alert("Failed to update user: " + err.message);
+            }
         },
         openViewProfile(user) {
-            this.selectedUser = user || {
-                firstName: 'Kian',
-                lastName: 'Estenzo',
-                email: 'kian.estenzo@msunaawan.edu.ph',
-                organization: 'College of Business and Information Technology',
-                role: 'President',
-                status: 'Active',
-                password: '1234'
-            };
+            this.selectedUser = user;
             this.showViewProfile = true;
         },
         switchToEdit() {
@@ -127,13 +136,17 @@ export default {
             this.showEditUser = true;
         },
         openDeactivateUser(user) {
-            this.selectedUser = user || { firstName: 'Kian', lastName: 'Estenzo' };
+            this.selectedUser = user;
             this.showDeactivateUser = true;
         },
-        handleUserDeactivated() {
-            console.log('User deactivated:', this.selectedUser);
-            this.showDeactivateUser = false;
-            // Handle deactivation logic here
+        async handleUserDeactivated() {
+            try {
+                await this.updateUser(this.selectedUser.id, { status: 'Inactive' });
+                this.showDeactivateUser = false;
+                alert("User deactivated successfully!");
+            } catch (err) {
+                alert("Failed to deactivate user: " + err.message);
+            }
         }
     }
 }
@@ -209,5 +222,19 @@ export default {
     display: flex;
     flex-wrap: wrap;
     gap: 25px;
+}
+
+.empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 100%;
+    color: #64748b;
+    font-size: 1.1rem;
+    font-style: italic;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
 }
 </style>

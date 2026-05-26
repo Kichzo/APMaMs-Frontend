@@ -47,6 +47,8 @@ import OrgCards from '/src/components/Organizations/OrgCards.vue';
 import OrgProfileModal from '/src/components/Organizations/OrgProfileModal.vue';
 import OrgManage from '/src/components/Organizations/OrgManage.vue';
 import AddOrg from '/src/components/Organizations/AddOrg.vue';
+import { mapState, mapActions } from 'pinia';
+import { useOrgStore } from '/src/stores/orgStore';
 
 export default {
   components: {
@@ -65,99 +67,22 @@ export default {
       selectedOrg: null,
       showOrgManage: false,
       showAddOrgModal: false,
-      selectedOrgManage: null,
-      summaryStats: {
-        totalOrgs: 8,
-        activeOrgs: 8,
-        totalMembers: 1111,
-        totalActivities: 6
-      },
-      organizations: [
-        {
-          id: 1,
-          name: 'Supreme Student Council',
-          type: 'Governance',
-          regNumber: '1239768',
-          members: 45,
-          attachments: 5,
-          headerColor: '#2563eb', // Blue
-          icon: 'fas fa-university'
-        },
-        {
-          id: 2,
-          name: 'College of Business and Information Technology',
-          type: 'College',
-          regNumber: '1239768',
-          members: 45,
-          attachments: 5,
-          headerColor: '#eab308', // Yellow
-          icon: 'fas fa-briefcase'
-        },
-        {
-          id: 3,
-          name: 'College of Environmental and Life Sciences',
-          type: 'College',
-          regNumber: '1239768',
-          members: 45,
-          attachments: 5,
-          headerColor: '#16a34a', // Green
-          icon: 'fas fa-leaf'
-        },
-        {
-          id: 4,
-          name: 'College of Education and Social Sciences',
-          type: 'College',
-          regNumber: '1239768',
-          members: 45,
-          attachments: 5,
-          headerColor: '#7600bc', // Violet
-          icon: 'fas fa-book'
-        },
-        {
-          id: 5,
-          name: 'College of Marine and Fisheries Sciences',
-          type: 'College',
-          regNumber: '1239768',
-          members: 45,
-          attachments: 5,
-          headerColor: '#00CCFF', // Sky Blue
-          icon: 'fas fa-fish'
-        },
-        {
-          id: 6,
-          name: 'KAABAG',
-          type: 'Social Welfare',
-          regNumber: '1239768',
-          members: 45,
-          attachments: 5,
-          headerColor: '#06402B', // Dark Green
-          icon: 'fas fa-hands-helping'
-        },
-        {
-          id: 7,
-          name: 'The Marine Echo',
-          type: 'Publication',
-          regNumber: '1239768',
-          members: 45,
-          attachments: 5,
-          headerColor: '#00008B', // Dark Blue
-          icon: 'fas fa-newspaper'
-        },
-        {
-          id: 8,
-          name: 'Senior Student Society',
-          type: 'Senior Officer',
-          regNumber: '1239768',
-          members: 45,
-          attachments: 5,
-          headerColor: '#800000', // Maroon
-          icon: 'fas fa-user-graduate'
-        },
-        // Add more organization objects here...
-      ]
+      selectedOrgManage: null
     }
   },
+  async mounted() {
+    await this.fetchOrganizations();
+  },
   computed: {
+    ...mapState(useOrgStore, ['organizations', 'isLoading']),
+    summaryStats() {
+      return {
+        totalOrgs: this.organizations.length,
+        activeOrgs: this.organizations.length, // Placeholder logic
+        totalMembers: 0,
+        totalActivities: 0
+      }
+    },
     canManage() {
       return this.role === 'admin';
     },
@@ -166,6 +91,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useOrgStore, ['fetchOrganizations']),
     toggleSidebar() {
       this.isSidebarVisible = !this.isSidebarVisible;
     },

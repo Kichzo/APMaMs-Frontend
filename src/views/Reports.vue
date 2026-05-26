@@ -59,9 +59,11 @@ import CreateNewReport from '/src/components/Report/CreateNewReport.vue'
 import CreateReport from '/src/components/Report/CreateReport.vue'
 import ReportDetails from '/src/components/Report/ReportDetails.vue'
 import ReportAccomplishment from '/src/components/Report/ReportAccomplishment.vue'
+import { mapState, mapActions } from 'pinia';
+import { useReportStore } from '/src/stores/reportStore';
 
 export default {
-  name: 'Activity',
+  name: 'Reports',
   components: {
     AppHeader,
     AppSidebar,
@@ -80,24 +82,17 @@ export default {
     showCreateForm: false,
     showReportDetails: false,
     showReportAccomplishment: false,
-    isEditModalVisible: false,
-    reports: [
-      {
-        id: 1,
-        title: "First SSC Regular Meeting",
-        status: "Approved",
-        subtitle: "Detailed Activity Design"
-      },
-      {
-        id: 2,
-        title: "First SSC Regular Meeting",
-        status: "",
-        subtitle: "Accomplishment Report"
-      }
-    ]
+    isEditModalVisible: false
   }
 }, 
- methods: {
+  async mounted() {
+    await this.fetchReports();
+  },
+  computed: {
+    ...mapState(useReportStore, ['reports', 'isLoading'])
+  },
+  methods: {
+    ...mapActions(useReportStore, ['fetchReports']),
     toggleSidebar() {
       this.isSidebarVisible = !this.isSidebarVisible;
     },

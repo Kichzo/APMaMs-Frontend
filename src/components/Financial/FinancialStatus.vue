@@ -144,6 +144,10 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'pinia';
+import { useFinancialStore } from '/src/stores/financialStore';
+import { useOrgStore } from '/src/stores/orgStore';
+
 export default {
   props: {
     externalSelectedOrg: {
@@ -187,34 +191,31 @@ export default {
     return {
       selectedOrg: null,
       selectedDoc: null,
-      organizations: [
-        { name: 'Supreme Student Council', percentage: 45, color: '#22c55e', allocated: '250,000', spent: '112,000', remaining: '137,500' },
-        { name: 'College of Business and Information Technology', percentage: 60, color: '#22c55e', allocated: '85,000', spent: '51,000', remaining: '34,000' },
-        { name: 'College of Environmental Sciences', percentage: 30, color: '#22c55e', allocated: '180,000', spent: '54,000', remaining: '126,000' },
-        { name: 'KAABAG', percentage: 70, color: '#f59e0b', allocated: '200,000', spent: '140,000', remaining: '60,000' }
-      ],
       orgDocuments: [
         'First SSC Regular Meeting',
         'SSC Legislative Meeting',
         'Coordination in the conduct of National Art Month',
         'FEMSUSSCO General Assembly'
       ],
-      allTransactions: [
-        { date: 'May 13, 2025', activity: 'Leadership Summit', category: 'Venue Rental', amount: '-P15,000', type: 'expense' },
-        { date: 'May 12, 2025', activity: 'Tech Workshop', category: 'Equipment', amount: '-P8,500', type: 'expense' },
-        { date: 'May 11, 2025', activity: 'Cultural Festival', category: 'Materials', amount: '-P12,000', type: 'expense' },
-        { date: 'May 10, 2025', activity: 'Sports Tournament', category: 'Prizes', amount: '-P18,000', type: 'expense' },
-        { date: 'May 9, 2025', activity: 'Sponsorship', category: 'Income', amount: '+P25,000', type: 'income' },
-        { date: 'May 8, 2025', activity: 'Blood Donation', category: 'Supplies', amount: '-P4,500', type: 'expense' },
-        { date: 'May 7, 2025', activity: 'Career Seminar', category: 'Speaker Fee', amount: '-P10,000', type: 'expense' },
-        { date: 'May 6, 2025', activity: 'Environmental Campaign', category: 'Transportation', amount: '-P6,000', type: 'expense' }
-      ],
       budgetAllocations: [
         { activity: 'Palakasan 2024', currentBudget: 'P120,000', totalAmount: 'P150,000', status: 'Pending' }
       ]
     }
   },
+  async mounted() {
+    await this.fetchOrganizations();
+    await this.fetchTransactions();
+  },
+  computed: {
+    ...mapState(useOrgStore, ['organizations']),
+    ...mapState(useFinancialStore, {
+      allTransactions: 'transactions',
+      isLoading: 'isLoading'
+    })
+  },
   methods: {
+    ...mapActions(useOrgStore, ['fetchOrganizations']),
+    ...mapActions(useFinancialStore, ['fetchTransactions']),
     selectOrg(org) {
       this.selectedOrg = org;
       this.$emit('org-selected', true);

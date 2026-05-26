@@ -53,8 +53,8 @@
           </tr>
         </tbody>
       </table>
-      <div v-else class="no-data">
-        No data found.
+      <div v-else class="empty-state">
+        <p>No data available for this action plan.</p>
       </div>
     </div>
 
@@ -72,6 +72,9 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'pinia';
+import { useActionPlanStore } from '/src/stores/actionPlanStore';
+
 export default {
   name: 'ActionPlanData',
   data() {
@@ -81,59 +84,16 @@ export default {
     }
   },
   computed: {
-    tableData() {
-      return [
-        {
-          timeframe: 'January 1st week',
-          activities: 'First Regular SSC Meeting',
-          objectives: "To evaluate the previous year's output and prepare for the 2nd semester's student general assembly and Arts Month Celebration",
-          output: 'Efficient implementation of planned activities/ accomplishment report/ attendance sheet',
-          office: 'OSD-SSC',
-          lineItemBudget: 'snacks for 50 persons @ P75 each',
-          amount: '5,000',
-          totalBudget: '5,000',
-          fundSource: 'OSSD 05- LEADERSHIP AND SKILLS DEVELOPMENT TRAINING'
-        },
-        {
-          timeframe: 'February 1st week',
-          activities: 'SSC Legislative Meeting',
-          objectives: 'To conduct regular scrutiny and updates of the SSC Constitution and By-Laws and craft resolution proposals for FEMSUSSCO',
-          output: 'Enhanced student policies/ accomplishment report/ attendance sheet/approved legislations and proposals',
-          office: 'OSD-SSC',
-          lineItemBudget: 'snacks for 50 persons @ P75 each',
-          amount: '5,000',
-          totalBudget: '5,000',
-          fundSource: 'SSC CONTRIBUTION'
-        },
-        {
-          timeframe: 'Whole Month of February',
-          activities: 'Coordination in the conduct of the National Arts Month Celebration',
-          objectives: 'To enhance the aesthetic skills, creativity, and cultural sensitivity of MSUN students through various arts activities and cultural performances',
-          output: 'Development of Creativity and Cultural sensitivity skills/ accomplishment report/ attendance sheet',
-          office: 'OSD-SSC',
-          lineItemBudget: 'snacks for 100 persons @ P75 each',
-          amount: '7,500',
-          totalBudget: '7,500',
-          fundSource: 'OSSD 05- ARTS MONTH'
-        },
-        {
-          timeframe: 'February 3rd week',
-          activities: 'FEMSUSSCO general assembly',
-          objectives: "To provide MSUN SSC officers the avenue of collaborating with other MSU system student leaders and implement policies that improve students' academic performance and alleviate students' lived experiences in college",
-          output: 'Enhanced Student leadership skills/accomplishment report/ attendance sheet',
-          office: 'OSD-SSC',
-          lineItemBudget: 'Registration fee of P3,500 X 3\n\nPer diem\n\nTransportation',
-          amount: '10,500\n\n5,900\n\n3,000',
-          totalBudget: '19,400',
-          fundSource: 'OSSD 05-FEMSUSSCO'
-        }
-      ]
-    }
+    ...mapState(useActionPlanStore, {
+      tableData: 'actionPlans'
+    })
   },
-  mounted() {
+  async mounted() {
+    await this.fetchActionPlans();
     console.log('ActionPlanData mounted', this.tableData);
   },
   methods: {
+    ...mapActions(useActionPlanStore, ['fetchActionPlans']),
     togglePage(e) {
       const track = e.currentTarget;
       const clickX = e.clientX - track.getBoundingClientRect().left;
@@ -268,11 +228,19 @@ export default {
   background-color: #ffffff; /* Explicit background */
 }
 
-.no-data {
-  padding: 40px;
-  text-align: center;
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 100%;
   color: #64748b;
+  font-size: 1.1rem;
   font-style: italic;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  margin-top: 20px;
 }
 
 /* Page 1 Widths */

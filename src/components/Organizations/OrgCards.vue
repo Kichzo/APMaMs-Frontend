@@ -15,7 +15,10 @@
     </div>
 
     <!-- Cards Grid -->
-    <div class="cards-grid">
+    <div v-if="organizations.length === 0" class="empty-state">
+      <p>No organizations found.</p>
+    </div>
+    <div v-else class="cards-grid">
       <div v-for="org in organizations" :key="org.id" class="org-card">
 
         <!-- Header -->
@@ -227,5 +230,19 @@ export default {
   padding: 12px;
   border-radius: 8px;
   font-weight: 600;
+}
+
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 100%;
+  color: #64748b;
+  font-size: 1.1rem;
+  font-style: italic;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
 }
 </style>

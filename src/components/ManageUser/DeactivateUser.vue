@@ -43,7 +43,7 @@
 
       <div class="modal-actions">
         <button class="btn-cancel" @click="$emit('close')">Cancel</button>
-        <button class="btn-deactivate" @click="currentStep = 2">Continue to Deactivate</button>
+        <button class="btn-deactivate" @click="$emit('confirm')">Deactivate User</button>
       </div>
     </div>
 

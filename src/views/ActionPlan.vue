@@ -55,16 +55,21 @@
                   </div>
                   <div class="details-content">
                     <!-- LIST OF IMPORTED FILES -->
-                    <div v-if="showImported" class="imported-file-card">
-                      <div class="file-info" @click="showFileData = true">
-                        <div class="file-icon-box">
-                          <i class="fa-regular fa-file-lines"></i>
+                    <div v-if="actionPlans && actionPlans.length === 0" class="empty-state">
+                      <p>No action plans have been added yet.</p>
+                    </div>
+                    <div v-else class="plans-list">
+                      <div v-for="plan in actionPlans" :key="plan.id" class="imported-file-card">
+                        <div class="file-info" @click="openPlanData(plan)">
+                          <div class="file-icon-box">
+                            <i class="fa-regular fa-file-lines"></i>
+                          </div>
+                          <span class="file-name clickable">{{ plan.name || 'Action Plan Document' }}</span>
                         </div>
-                        <span class="file-name clickable">Supreme Student Council 2026</span>
-                      </div>
-                      <div class="file-actions">
-                        <i class="fa-solid fa-download download-btn" title="Download"></i>
-                        <i class="fa-solid fa-trash-can delete-btn" title="Delete" @click.stop="showImported = false"></i>
+                        <div class="file-actions">
+                          <i class="fa-solid fa-download download-btn" title="Download"></i>
+                          <i v-if="role === 'admin'" class="fa-solid fa-trash-can delete-btn" title="Delete"></i>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -87,6 +92,8 @@ import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
 import ActionPlanData from '../components/ActionPlan/ActionPlanData.vue'
 import ActionPlanAdd from '../components/ActionPlan/ActionPlanAdd.vue'
+import { mapState, mapActions } from 'pinia';
+import { useActionPlanStore } from '/src/stores/actionPlanStore';
 
 export default {
   components: {
@@ -99,18 +106,29 @@ export default {
     return {
       isSidebarVisible: true,
       role: localStorage.getItem('role') || 'org',
-      showImported: (localStorage.getItem('role') || 'org') !== 'org',
       showFileData: false,
       isArchiveOpen: false,
-      showAddPlan: false
+      showAddPlan: false,
+      selectedPlan: null
     }
   },
+  computed: {
+    ...mapState(useActionPlanStore, ['actionPlans', 'isLoading'])
+  },
+  async mounted() {
+    await this.fetchActionPlans();
+  },
   methods: {
+    ...mapActions(useActionPlanStore, ['fetchActionPlans']),
     toggleSidebar() {
       this.isSidebarVisible = !this.isSidebarVisible
     },
+    openPlanData(plan) {
+      this.selectedPlan = plan;
+      this.showFileData = true;
+    },
     handleImport() {
-      this.showImported = true
+      // Mock import trigger
     },
     handleSavePlan(plan) {
       console.log('Saved plan:', plan)
@@ -434,5 +452,25 @@ export default {
 
 .delete-btn:hover {
   color: #ef4444;
+}
+
+.plans-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 100%;
+  color: #64748b;
+  font-size: 1.1rem;
+  font-style: italic;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
 }
 </style>

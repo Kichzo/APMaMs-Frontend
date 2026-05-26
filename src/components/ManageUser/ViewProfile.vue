@@ -10,27 +10,23 @@
 
       <div class="profile-content">
         <div class="profile-header">
-          <div class="avatar-large">KE</div>
-          <h1 class="user-name">Kian Estenzo</h1>
-          <p class="user-email">kian.estenzo@msunaawan.edu.ph</p>
+          <div class="avatar-large">{{ initials }}</div>
+          <h1 class="user-name">{{ user.first_name }} {{ user.last_name }}</h1>
+          <p class="user-email">{{ user.email }}</p>
         </div>
 
         <div class="profile-details">
           <div class="detail-row">
             <div class="detail-label">Role</div>
-            <div class="detail-value">President</div>
+            <div class="detail-value">{{ user.role || 'User' }}</div>
           </div>
           <div class="detail-row">
             <div class="detail-label">Organization</div>
-            <div class="detail-value">College of Business and Information Technology</div>
+            <div class="detail-value">{{ user.organization || (user.organizations ? user.organizations.name : 'None') }}</div>
           </div>
           <div class="detail-row">
             <div class="detail-label">Account Status</div>
-            <div class="detail-value status-active">Active</div>
-          </div>
-          <div class="detail-row">
-            <div class="detail-label">Password</div>
-            <div class="detail-value">1234</div>
+            <div class="detail-value" :class="statusClass">{{ user.status || 'Active' }}</div>
           </div>
         </div>
 
@@ -49,16 +45,18 @@ export default {
   props: {
     user: {
       type: Object,
-      required: true,
-      default: () => ({
-        firstName: 'Kian',
-        lastName: 'Estenzo',
-        email: 'kian.estenzo@msunaawan.edu.ph',
-        organization: 'College of Business and Information Technology',
-        role: 'President',
-        status: 'Active',
-        password: '1234'
-      })
+      required: true
+    }
+  },
+  computed: {
+    initials() {
+      const f = this.user.first_name ? this.user.first_name[0] : '';
+      const l = this.user.last_name ? this.user.last_name[0] : '';
+      return (f + l).toUpperCase() || 'U';
+    },
+    statusClass() {
+      const status = (this.user.status || 'Active').toLowerCase();
+      return status === 'active' ? 'status-active' : 'status-inactive';
     }
   }
 }
