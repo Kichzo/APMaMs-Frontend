@@ -81,6 +81,8 @@ import ActivityAccomView from '/src/components/Activity/ActivityAccomView.vue';
 import AccomReportWizard from '/src/components/Activity/AccomReportWizard.vue';
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
+import { mapState, mapActions } from 'pinia'
+import { useActivityStore } from '/src/stores/activityStore'
 
 export default {
   name: 'Activity',
@@ -101,32 +103,14 @@ export default {
       showWizard: false,
       showAccomWizard: false,
       role: localStorage.getItem('role') || 'org',
-      currentTab: 'all',
-      activities: [
-        {
-          id: 1,
-          title: 'First SSC Regular Meeting',
-          status: 'Approved',
-          organization: 'Supreme Student Council',
-          date: '05/01/2026 - 09/01/2026',
-          participants: 50,
-          progress: 0,
-          budget: '5,000'
-        },
-        {
-          id: 2,
-          title: 'SSC Legislative Meeting',
-          status: 'Approved',
-          organization: 'Supreme Student Council',
-          date: '02/02/2026 - 06/02/2026',
-          participants: 50,
-          progress: 0,
-          budget: '5,000'
-        }
-      ]
+      currentTab: 'all'
     }
   },
+  async mounted() {
+    await this.fetchActivities();
+  },
   computed: {
+    ...mapState(useActivityStore, ['activities', 'isLoading']),
     // This replaces your static tabs array
     tabs() {
       return [
@@ -135,10 +119,11 @@ export default {
     },
     filteredActivities() {
       if (this.currentTab === 'all') return this.activities;
-      return this.activities.filter(a => a.status.toLowerCase() === this.currentTab);
+      return this.activities.filter(a => a.status && a.status.toLowerCase() === this.currentTab);
     }
   },
   methods: {
+    ...mapActions(useActivityStore, ['fetchActivities']),
     toggleSidebar() {
       this.isSidebarVisible = !this.isSidebarVisible;
     },

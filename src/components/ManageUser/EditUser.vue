@@ -12,7 +12,7 @@
             <input 
               type="text" 
               id="firstName" 
-              v-model="editedUser.firstName" 
+              v-model="editedUser.first_name" 
               placeholder="First Name"
               required
             />
@@ -22,7 +22,7 @@
             <input 
               type="text" 
               id="lastName" 
-              v-model="editedUser.lastName" 
+              v-model="editedUser.last_name" 
               placeholder="Last Name"
               required
             />
@@ -88,15 +88,7 @@ export default {
   props: {
     user: {
       type: Object,
-      required: true,
-      default: () => ({
-        firstName: 'Kian',
-        lastName: 'Estenzo',
-        email: 'kian.estenzo@msunaawan.edu.ph',
-        organization: 'College of Business and Information Technology',
-        role: 'President',
-        status: 'Active'
-      })
+      required: true
     }
   },
   data() {

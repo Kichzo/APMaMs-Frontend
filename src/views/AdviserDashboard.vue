@@ -123,12 +123,18 @@
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
+import CalendarView from '/src/components/Calendar/CalendarView.vue'
+import CalendarUpcomingAct from '/src/components/Calendar/CalendarUpcomingAct.vue'
+import { mapState, mapActions } from 'pinia';
+import { useActivityStore } from '/src/stores/activityStore';
 import FinancialStatistics from '/src/components/Financial/FinancialStatistics.vue'
 
 export default {
   components: {
     AppHeader,
     AppSidebar,
+    CalendarView,
+    CalendarUpcomingAct,
     FinancialStatistics
   },
   data() {

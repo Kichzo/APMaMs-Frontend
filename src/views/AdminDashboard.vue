@@ -108,6 +108,8 @@ import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
 import CalendarView from '/src/components/Calendar/CalendarView.vue'
 import CalendarUpcomingAct from '/src/components/Calendar/CalendarUpcomingAct.vue'
+import { mapState, mapActions } from 'pinia';
+import { useActivityStore } from '/src/stores/activityStore';
 
 export default {
   components: {
@@ -123,6 +125,7 @@ export default {
       showCalendarModal: false,
       currentViewMode: 'month',
       selectedOrg: 'All Organizations',
+<<<<<<< HEAD
       stats: {
         awaiting: 4,
         approved: 12,
@@ -162,9 +165,27 @@ export default {
         { id: 1, title: 'Leadership Training', day: 15, org: 'SSC', status: 'approved', date: 'Jan 15' },
         { id: 2, title: 'Coding Bootcamp', day: 18, org: 'CBIT College', status: 'pending', date: 'Jan 18' }
       ]
+=======
+    }
+  },
+  async mounted() {
+    await this.fetchActivities();
+  },
+  computed: {
+    ...mapState(useActivityStore, ['activities']),
+    events() {
+      return this.activities.map(a => ({
+        id: a.id,
+        title: a.title,
+        org: a.organizations ? a.organizations.name : 'Unknown',
+        status: a.status ? a.status.toLowerCase() : 'pending',
+        date: a.start_date
+      }));
+>>>>>>> dc74d2cfd2aae0eb6234ad2d3c70d6e22d64f5c5
     }
   },
   methods: {
+    ...mapActions(useActivityStore, ['fetchActivities']),
     toggleSidebar() {
       this.isSidebarVisible = !this.isSidebarVisible
     }

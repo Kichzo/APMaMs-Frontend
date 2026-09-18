@@ -2,23 +2,23 @@
   <div class="user-card">
     <div class="card-header">
       <div class="avatar-section">
-        <div class="avatar">KE</div>
+        <div class="avatar">{{ initials }}</div>
         <div class="user-info">
-          <h3>Kian Estenzo</h3>
-          <p>kian.estenzo@msunaawan.edu.ph</p>
+          <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+          <p>{{ user.email }}</p>
         </div>
       </div>
-      <div class="status-badge active">Active</div>
+      <div :class="['status-badge', (user.status || 'Active').toLowerCase()]">{{ user.status || 'Active' }}</div>
     </div>
 
     <div class="card-details">
       <div class="detail-group">
         <label>Role</label>
-        <p>President</p>
+        <p>{{ user.role || 'User' }}</p>
       </div>
       <div class="detail-group">
         <label>Organization</label>
-        <p>College of Business and Information Technology</p>
+        <p>{{ user.organization || (user.organizations ? user.organizations.name : 'None') }}</p>
       </div>
     </div>
 
@@ -29,6 +29,24 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    user: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    initials() {
+      const f = this.user.first_name ? this.user.first_name[0] : '';
+      const l = this.user.last_name ? this.user.last_name[0] : '';
+      return (f + l).toUpperCase() || 'U';
+    }
+  }
+}
+</script>
 
 <style scoped>
 .user-card {
@@ -87,6 +105,11 @@
 .status-badge.active {
   background-color: #dcfce7;
   color: #166534;
+}
+
+.status-badge.inactive {
+  background-color: #f1f5f9;
+  color: #64748b;
 }
 
 .detail-group {

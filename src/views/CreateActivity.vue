@@ -128,6 +128,8 @@
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
+import { mapActions } from 'pinia';
+import { useActivityStore } from '/src/stores/activityStore';
 
 export default {
   components: { AppHeader, AppSidebar },
@@ -173,10 +175,23 @@ export default {
       });
       this.formData.totalBudget = total > 0 ? total.toString() : '';
     },
-    saveActivity() {
-      // Save logic
-      console.log('Saved data:', this.formData);
-      this.$router.push('/activity');
+    ...mapActions(useActivityStore, ['addActivity']),
+    async saveActivity() {
+      try {
+        const activityPayload = {
+          title: this.formData.programs.join(', ') || 'New Activity',
+          description: this.formData.objectives.join(', '),
+          budget: this.formData.totalBudget ? parseFloat(this.formData.totalBudget) : 0,
+          // Since it's a test, we will hardcode the organization_id for now or leave it empty if schema allows
+          status: 'Pending'
+        };
+        await this.addActivity(activityPayload);
+        console.log('Saved data to Supabase:', activityPayload);
+        this.$router.push('/activity');
+      } catch (error) {
+        console.error('Failed to save activity:', error);
+        alert('Failed to save activity');
+      }
     }
   }
 }

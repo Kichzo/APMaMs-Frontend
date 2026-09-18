@@ -32,9 +32,11 @@ import ApprovalCard from '/src/components/Approval/ApprovalCard.vue';
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
 import ActivityAccomView from '/src/components/Activity/ActivityAccomView.vue'
+import { mapState, mapActions } from 'pinia';
+import { useApprovalStore } from '/src/stores/approvalStore';
 
 export default {
-  name: 'Activity',
+  name: 'Approvals',
   components: {
     AppHeader,
     AppSidebar,
@@ -46,25 +48,20 @@ export default {
       role: localStorage.getItem('role') || 'org',
       isSidebarVisible: true,
       activeTab: 'Pending',
-      showReportAccomplishment: false,
-      requests: [
-        {
-          id: 1,
-          title: "First SSC Regular Meeting",
-          type: "Accomplishment Report",
-          date: "31/12/2025",
-          approvers: [
-            { role: "Adviser", name: "Prof. Lisa Garcia", status: "Approved", date: "2025-01-16" },
-            { role: "Director", name: "Dr. Juan dela Cruz", status: "Approved", date: "2025-01-17" },
-            { role: "Coordinator", name: "Maria Santos", status: "Approved", date: "2025-01-18" },
-            { role: "Dean", name: "Dr. Ana Reyes", status: "Approved", date: "2025-01-19" },
-            { role: "OVCSAS", name: "Dr. Roberto Mendoza", status: "Approved", date: "2025-01-20" }
-          ]
-        }
-      ]
+      showReportAccomplishment: false
     };
   },
+  async mounted() {
+    await this.fetchApprovals();
+  },
+  computed: {
+    ...mapState(useApprovalStore, {
+      requests: 'approvals',
+      isLoading: 'isLoading'
+    })
+  },
   methods: {
+    ...mapActions(useApprovalStore, ['fetchApprovals']),
     toggleSidebar() {
       this.isSidebarVisible = !this.isSidebarVisible;
     },
