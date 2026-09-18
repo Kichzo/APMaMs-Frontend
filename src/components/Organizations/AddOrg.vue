@@ -179,6 +179,7 @@ export default {
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   font-size: 0.95rem;
+  font-family: Arial, sans-serif;
   outline: none;
   transition: border-color 0.2s;
 }
@@ -186,6 +187,11 @@ export default {
 .form-group textarea {
   min-height: 120px;
   resize: vertical;
+  font-family: Arial, sans-serif;
+}
+
+.form-group textarea::placeholder {
+  font-family: Arial, sans-serif;
 }
 
 .char-count {

@@ -3,15 +3,15 @@
 
     <!-- Top Controls -->
     <div class="top-bar">
+      <button v-if="showAddOrg" class="add-org-btn" @click="$emit('add-org')">
+        <i class="fas fa-plus"></i>
+        Create Organization
+      </button>
+
       <div class="search-wrapper">
         <i class="fas fa-search"></i>
         <input type="text" placeholder="Search organization" />
       </div>
-
-      <button v-if="showAddOrg" class="add-org-btn" @click="$emit('add-org')">
-        <i class="fas fa-plus"></i>
-        Add Organization
-      </button>
     </div>
 
     <!-- Cards Grid -->
@@ -114,6 +114,10 @@ export default {
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .cards-grid {

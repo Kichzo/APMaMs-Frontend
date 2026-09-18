@@ -1,30 +1,36 @@
 <template>
     <div class="app-container">
-        <AppHeader v-if="!showAddUser" @toggle-sidebar="toggleSidebar" :role="role" />
+        <AppHeader @toggle-sidebar="toggleSidebar" :role="role" />
 
-        <div v-if="!showAddUser" class="dashboard-layout">
+        <div class="dashboard-layout">
             <AppSidebar :class="{ 'sidebar-hidden': !isSidebarVisible }" />
             <main class="main-content">
                 <div class="page-header">
-                    <h1>User & Access Management</h1>
+                    <h1>Accounts Management</h1>
                     <p>Manage user accounts, roles, and permissions across the system</p>
                 </div>
 
                 <div class="content-container">
                     <UserTools @add-user="showAddUser = true" />
 
-                        <div class="user-list">
-                            <UserCard 
-                                @edit="openEditUser(user)" 
-                                @view="openViewProfile(user)" 
-                                @deactivate="openDeactivateUser(user)" 
-                            />
-                        </div>
+                    <div class="user-list">
+                        <UserCard 
+                            @edit="openEditUser(user)" 
+                            @view="openViewProfile(user)" 
+                            @deactivate="openDeactivateUser(user)" 
+                        />
+                    </div>
                 </div>
             </main>
         </div>
 
-        <AddUser v-else @back="showAddUser = false" @submit="handleUserAdded" />
+        <!-- Add User Modal -->
+        <AddUser 
+            v-if="showAddUser" 
+            @close="showAddUser = false" 
+            @back="showAddUser = false" 
+            @submit="handleUserAdded" 
+        />
 
         <!-- Edit User Modal -->
         <EditUser 

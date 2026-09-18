@@ -12,9 +12,6 @@
             <p>This action cannot be undone</p>
           </div>
         </div>
-        <button class="close-btn" @click="$emit('close')">
-          <i class="fas fa-times"></i>
-        </button>
       </div>
 
       <div class="modal-body">
@@ -223,20 +220,6 @@ export default {
   color: #64748b;
 }
 
-.close-btn {
-  background: none;
-  border: none;
-  color: #64748b;
-  font-size: 1.25rem;
-  cursor: pointer;
-  padding: 4px;
-  transition: color 0.2s;
-}
-
-.close-btn:hover {
-  color: #1e293b;
-}
-
 .modal-body {
   padding: 32px;
   display: flex;
@@ -393,34 +376,42 @@ export default {
 .modal-actions {
   padding: 24px 32px 32px;
   display: flex;
-  justify-content: flex-end;
   gap: 16px;
+  width: 100%;
   border-top: 1px solid #f1f5f9;
+  box-sizing: border-box;
 }
 
 .btn-cancel {
-  padding: 12px 32px;
+  flex: 1;
+  padding: 12px;
+  text-align: center;
   background: white;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   color: #1e293b;
   font-weight: 600;
   cursor: pointer;
-  min-width: 120px;
+  box-sizing: border-box;
 }
 
 .btn-deactivate {
-  padding: 12px 32px;
+  flex: 1;
+  padding: 12px;
+  text-align: center;
   background-color: #c22910;
   border: none;
   border-radius: 8px;
   color: white;
   font-weight: 600;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .btn-understand {
-  padding: 14px 48px;
+  flex: 1;
+  padding: 12px;
+  text-align: center;
   background-color: #001fcc;
   border: none;
   border-radius: 8px;
@@ -428,6 +419,7 @@ export default {
   font-weight: 700;
   cursor: pointer;
   font-size: 1rem;
+  box-sizing: border-box;
 }
 
 .btn-understand:hover { background-color: #0019a3; }

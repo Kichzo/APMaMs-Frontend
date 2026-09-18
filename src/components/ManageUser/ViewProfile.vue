@@ -3,9 +3,6 @@
     <div class="view-profile-modal">
       <div class="modal-header">
         <h2>User Profile</h2>
-        <button class="close-btn" @click="$emit('close')">
-          <i class="fas fa-times"></i>
-        </button>
       </div>
 
       <div class="profile-content">
@@ -110,20 +107,6 @@ export default {
   color: #1e293b;
 }
 
-.close-btn {
-  background: none;
-  border: none;
-  color: #64748b;
-  font-size: 1.25rem;
-  cursor: pointer;
-  padding: 4px;
-  transition: color 0.2s;
-}
-
-.close-btn:hover {
-  color: #1e293b;
-}
-
 .profile-content {
   padding: 40px 32px;
   display: flex;
@@ -212,13 +195,15 @@ export default {
 
 .modal-actions {
   display: flex;
-  justify-content: flex-end;
   gap: 16px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .btn-close {
-  padding: 12px 32px;
+  flex: 1;
+  padding: 12px;
+  text-align: center;
   background: white;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
@@ -226,7 +211,7 @@ export default {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
-  min-width: 120px;
+  box-sizing: border-box;
 }
 
 .btn-close:hover {
@@ -234,7 +219,9 @@ export default {
 }
 
 .btn-edit {
-  padding: 12px 32px;
+  flex: 1;
+  padding: 12px;
+  text-align: center;
   background-color: #001fcc;
   border: none;
   border-radius: 8px;
@@ -242,7 +229,7 @@ export default {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
-  min-width: 140px;
+  box-sizing: border-box;
 }
 
 .btn-edit:hover {

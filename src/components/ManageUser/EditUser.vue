@@ -2,10 +2,7 @@
   <div class="modal-overlay" @click.self="$emit('close')">
     <div class="edit-user-modal">
       <div class="modal-header">
-        <h2>Edit User</h2>
-        <button class="close-btn" @click="$emit('close')">
-          <i class="fas fa-times"></i>
-        </button>
+        <h2>Edit User Account</h2>
       </div>
 
       <form @submit.prevent="handleSave" class="edit-form">
@@ -162,20 +159,6 @@ export default {
   color: #1e293b;
 }
 
-.close-btn {
-  background: none;
-  border: none;
-  color: #64748b;
-  font-size: 1.25rem;
-  cursor: pointer;
-  padding: 4px;
-  transition: color 0.2s;
-}
-
-.close-btn:hover {
-  color: #1e293b;
-}
-
 .edit-form {
   padding: 32px;
   display: flex;
@@ -240,13 +223,16 @@ export default {
 
 .modal-actions {
   display: flex;
-  justify-content: flex-end;
   gap: 16px;
+  width: 100%;
   margin-top: 12px;
+  box-sizing: border-box;
 }
 
 .btn-cancel {
-  padding: 12px 24px;
+  flex: 1;
+  padding: 12px;
+  text-align: center;
   background: white;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
@@ -254,6 +240,7 @@ export default {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
+  box-sizing: border-box;
 }
 
 .btn-cancel:hover {
@@ -261,7 +248,9 @@ export default {
 }
 
 .btn-save {
-  padding: 12px 32px;
+  flex: 1;
+  padding: 12px;
+  text-align: center;
   background-color: #001fcc;
   border: none;
   border-radius: 8px;
@@ -269,6 +258,7 @@ export default {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
+  box-sizing: border-box;
 }
 
 .btn-save:hover {

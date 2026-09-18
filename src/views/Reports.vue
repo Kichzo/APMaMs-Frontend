@@ -27,7 +27,7 @@
 
           <CreateReport v-else-if="showCreateForm" @cancel="showCreateForm = false" />
           
-          <ReportDetails v-else-if="showReportDetails" @back="showReportDetails = false" />
+          <ReportDetails v-else-if="showReportDetails" @back="showReportDetails = false" :userRole="role" />
           
           <ReportAccomplishment v-else-if="showReportAccomplishment" @back="showReportAccomplishment = false" :userRole="role" />
         </div>

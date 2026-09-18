@@ -1,12 +1,12 @@
 <template>
     <div class="tools-header">
+        <button class="add-user-btn" @click="$emit('add-user')">
+            <i class="fas fa-user-plus"></i> Create Account
+        </button>
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
             <input type="text" placeholder="Search by name or organization" class="search-input" />
         </div>
-        <button class="add-user-btn" @click="$emit('add-user')">
-            <i class="fas fa-user-plus"></i> Add New User
-        </button>
     </div>
 </template>
 
@@ -17,12 +17,15 @@
     align-items: center;
     margin-bottom: 30px;
     gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .search-container {
     position: relative;
     flex: 1;
-    max-width: 830px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .search-icon {
@@ -35,6 +38,7 @@
 
 .search-input {
     width: 100%;
+    box-sizing: border-box;
     padding: 12px 15px 12px 45px;
     border: 1px solid #cbced2;
     border-radius: 8px;
@@ -58,5 +62,6 @@
     align-items: center;
     gap: 10px;
     white-space: nowrap;
+    box-sizing: border-box;
 }
 </style>

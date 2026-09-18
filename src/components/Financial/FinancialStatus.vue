@@ -1,5 +1,5 @@
 <template>
-  <div class="budget-panel">
+  <div class="budget-panel" :class="{ 'flat-panel': hideHeader }">
     <template v-if="!selectedOrg">
       <h3 class="panel-title">Organization Budget Status</h3>
 
@@ -34,7 +34,7 @@
     
     <template v-else-if="selectedOrg && !selectedDoc">
       <div class="org-detail-view">
-        <div class="detail-header">
+        <div class="detail-header" v-if="!hideHeader">
           <i class="fas fa-arrow-left back-btn" @click="clearOrg"></i>
           <h3 class="detail-title">{{ selectedOrg.name }}</h3>
         </div>
@@ -149,6 +149,10 @@ export default {
     externalSelectedOrg: {
       type: String,
       default: 'All Organization'
+    },
+    hideHeader: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
@@ -248,6 +252,13 @@ export default {
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 24px;
+}
+
+.budget-panel.flat-panel {
+  border: none;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .panel-title {

@@ -133,11 +133,6 @@ export default {
   padding: 16px 24px;
 }
 
-.activity-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-  border-color: #a0aec0;
-}
-
 .card-header-row {
   display: flex;
   justify-content: space-between;

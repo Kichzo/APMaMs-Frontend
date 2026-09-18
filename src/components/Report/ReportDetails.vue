@@ -13,7 +13,7 @@
       </div>
       <div class="header-right">
         <button class="btn-download"><i class="fas fa-download"></i> Download</button>
-        <button class="btn-edit" @click="isEditModalVisible = true">Edit Activity</button>
+        <button v-if="userRole === 'org'" class="btn-edit" @click="isEditModalVisible = true">Edit Activity</button>
       </div>
     </div>
 
@@ -216,6 +216,14 @@
 
       </div>
     </div>
+
+    <!-- Bottom Actions Bar -->
+    <div class="bottom-actions-bar">
+      <button class="btn-reject" @click="handleReject"><i class="fas fa-times-circle"></i> Disapprove</button>
+      <button class="btn-revise" @click="handleRevise"><i class="fas fa-edit"></i> Revise</button>
+      <button class="btn-approve" @click="handleApprove"><i class="fas fa-check-circle"></i> Approve</button>
+    </div>
+
     <!-- Edit Request Modal -->
     <div class="modal-overlay" v-if="isEditModalVisible">
       <div class="edit-modal">
@@ -226,15 +234,55 @@
         </div>
       </div>
     </div>
+
+    <!-- Revise Modal -->
+    <ReviseModal 
+      v-if="showReviseModal" 
+      @close="showReviseModal = false" 
+      @submit="handleReviseSubmit"
+    />
+
+    <!-- Signature Modal -->
+    <SignatureModal 
+      v-if="showSignatureModal" 
+      @close="showSignatureModal = false" 
+      @submit="handleSignatureSubmit"
+    />
+
+    <!-- Reject Modal -->
+    <RejectModal 
+      v-if="showRejectModal" 
+      @close="showRejectModal = false" 
+      @submit="handleRejectSubmit"
+    />
+
   </div>
 </template>
 
 <script>
+import SignatureModal from '/src/components/Approval/SignatureModal.vue';
+import RejectModal from '/src/components/Approval/RejectModal.vue';
+import ReviseModal from '/src/components/Approval/ReviseModal.vue';
+
 export default {
   name: 'ReportDetails',
+  components: {
+    SignatureModal,
+    RejectModal,
+    ReviseModal
+  },
+  props: {
+    userRole: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
-      isEditModalVisible: false
+      isEditModalVisible: false,
+      showSignatureModal: false,
+      showRejectModal: false,
+      showReviseModal: false
     }
   },
   methods: {
@@ -242,6 +290,30 @@ export default {
       // Add send logic here
       this.isEditModalVisible = false;
       alert('Edit request sent!');
+    },
+    handleRevise() {
+      this.showReviseModal = true;
+    },
+    handleReviseSubmit(data) {
+      console.log('Revision submitted:', data);
+      this.showReviseModal = false;
+      alert('Revision request submitted successfully!');
+    },
+    handleApprove() {
+      this.showSignatureModal = true;
+    },
+    handleSignatureSubmit(data) {
+      console.log('Signature submitted:', data);
+      this.showSignatureModal = false;
+      alert('Report Approved successfully!');
+    },
+    handleReject() {
+      this.showRejectModal = true;
+    },
+    handleRejectSubmit(data) {
+      console.log('Rejection submitted:', data);
+      this.showRejectModal = false;
+      alert('Report Rejected!');
     }
   }
 }
@@ -709,5 +781,102 @@ export default {
 
 .btn-send-edit:hover {
   background: #081a99;
+}
+
+.btn-approve {
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 6px;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.btn-approve:hover {
+  background: #16a34a;
+}
+
+.btn-reject {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 6px;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.btn-reject:hover {
+  background: #dc2626;
+}
+
+.bottom-actions-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8f0;
+  width: 100%;
+}
+
+.bottom-actions-bar button {
+  min-width: 150px;
+  justify-content: center;
+  padding: 10px 24px;
+}
+
+.btn-revise {
+  background: #BA7517;
+  color: #fff;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 6px;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.btn-revise:hover {
+  background: #9e6212;
+}
+
+.modal-subtitle {
+  font-family: Arial, sans-serif;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: -20px 0 16px 0;
+}
+
+.revision-textarea {
+  width: 100%;
+  height: 90px;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+  resize: vertical;
+  box-sizing: border-box;
 }
 </style>

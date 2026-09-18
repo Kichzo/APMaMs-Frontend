@@ -23,9 +23,9 @@
     </div>
 
     <div class="card-actions">
-      <button class="action-btn edit" @click="$emit('edit')"><i class="fas fa-pen"></i> Edit User</button>
-      <button class="action-btn view" @click="$emit('view')"><i class="fas fa-eye"></i> View Profile</button>
-      <button class="action-btn delete" @click="$emit('deactivate')"><i class="fas fa-trash"></i> Deactivate User</button>
+      <button class="action-btn edit" @click="$emit('edit')"><i class="fas fa-pen"></i> Edit </button>
+      <button class="action-btn view" @click="$emit('view')"><i class="fas fa-eye"></i> View </button>
+      <button class="action-btn delete" @click="$emit('deactivate')"><i class="fas fa-trash"></i> Deactivate </button>
     </div>
   </div>
 </template>
@@ -108,7 +108,7 @@
 
 .card-actions {
   display: flex;
-  gap: 20px;
+  gap: 80px;
   margin-top: 25px;
   padding-top: 20px;
   border-top: 1px solid #f1f5f9;

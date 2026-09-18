@@ -5,9 +5,6 @@
       <!-- Header -->
       <div class="modal-header">
         <h2>Signature Required</h2>
-        <button class="btn-close" @click="$emit('close')">
-          <i class="fas fa-times"></i>
-        </button>
       </div>
       
       <div class="modal-body">
@@ -39,6 +36,7 @@
 
       <!-- Footer Action -->
       <div class="modal-footer">
+        <button class="btn-cancel" @click="$emit('close')">Cancel</button>
         <button class="btn-complete" @click="handleSubmit">Complete Approval</button>
       </div>
 
@@ -175,10 +173,33 @@ export default {
 .modal-footer {
   padding: 20px 30px;
   border-top: 1px solid #e2e8f0;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.modal-footer button {
+  flex: 1;
+}
+
+.btn-cancel {
+  background-color: #e5e7eb;
+  color: #0f172a;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-cancel:hover {
+  background-color: #d1d5db;
 }
 
 .btn-complete {
-  width: 100%;
   background-color: #0a21c0;
   color: white;
   border: none;

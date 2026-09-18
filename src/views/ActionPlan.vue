@@ -10,70 +10,48 @@
           <div class="title-block">
             <h1>Action Plan</h1>
             <p>Monitor and manage institutional strategic initiatives</p>
+            <button v-if="role === 'admin'" class="add-plan-btn" @click="showAddPlan = true">
+              Create Action Plan
+            </button>
           </div>
-          <button v-if="role === 'admin'" class="add-plan-btn" @click="showAddPlan = true">
-            Add Action Plan
-          </button>
         </div>
 
-        <div class="action-grid">
+        <div class="fiscal-year-section">
+          <div class="fiscal-year-display">
+            <span class="label">Fiscal Year 2026</span>
+          </div>
+        </div>
 
-          <!-- LEFT PANEL -->
-          <div class="left-panel">
-            <div class="fiscal-year-display">
-              <span class="label">FISCAL YEAR 2026</span>
-            </div>
-            <div class="archive-dropdown-container">
-              <div class="archive-dropdown" @click="isArchiveOpen = !isArchiveOpen">
-                <span>View Archives</span>
-                <i class="fa-solid" :class="isArchiveOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+        <div class="details-panel">
+            <template v-if="!showFileData">
+              <div class="details-header">
+                <div class="header-left">
+                  <div class="tab">Action Plan</div>
+                </div>
+                <div class="header-actions">
+                  <router-link v-if="role === 'org'" :to="{ name: 'CreateActivity' }" class="add-activity-btn">
+                    Add Activity
+                  </router-link>
+                  <button v-if="role === 'org'" class="import-btn" @click="handleImport">
+                    <i class="fa-solid fa-download"></i> Import
+                  </button>
+                </div>
               </div>
-              <ul v-if="isArchiveOpen" class="archive-list">
-                <li>Fiscal Year 2025</li>
-                <li>Fiscal Year 2024</li>
-                <li>Fiscal Year 2023</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- RIGHT PANEL -->
-          <div class="right-panel">
-            <div class="details-panel">
-                <template v-if="!showFileData">
-                  <div class="details-header">
-                    <div class="header-left">
-                      <div class="tab">Action Plan</div>
+              <div class="details-content">
+                <!-- LIST OF IMPORTED FILES -->
+                <div v-if="showImported" class="imported-file-card">
+                  <div class="file-info" @click="showFileData = true">
+                    <div class="file-icon-box">
+                      <i class="fa-regular fa-file-lines"></i>
                     </div>
-                    <div class="header-actions">
-                      <router-link v-if="role === 'org'" :to="{ name: 'CreateActivity' }" class="add-activity-btn">
-                        Add Activity
-                      </router-link>
-                      <button v-if="role === 'org'" class="import-btn" @click="handleImport">
-                        <i class="fa-solid fa-download"></i> Import
-                      </button>
-                    </div>
+                    <span class="file-name clickable">Supreme Student Council 2026</span>
                   </div>
-                  <div class="details-content">
-                    <!-- LIST OF IMPORTED FILES -->
-                    <div v-if="showImported" class="imported-file-card">
-                      <div class="file-info" @click="showFileData = true">
-                        <div class="file-icon-box">
-                          <i class="fa-regular fa-file-lines"></i>
-                        </div>
-                        <span class="file-name clickable">Supreme Student Council 2026</span>
-                      </div>
-                      <div class="file-actions">
-                        <i class="fa-solid fa-download download-btn" title="Download"></i>
-                        <i class="fa-solid fa-trash-can delete-btn" title="Delete" @click.stop="showImported = false"></i>
-                      </div>
-                    </div>
-                  </div>
-                </template>
+                </div>
+              </div>
+            </template>
 
-                <!-- FILE CONTENT VIEW (Full width) -->
-                <ActionPlanData v-else @back="showFileData = false" />
-            </div>
-          </div>
+            <!-- FILE CONTENT VIEW (Full width) -->
+            <ActionPlanData v-else @back="showFileData = false" />
         </div>
       </main>
     </div>
@@ -167,9 +145,10 @@ export default {
   border-radius: 8px;
   padding: 10px 20px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
+  margin-top: 14px;
   transition: background 0.2s;
 }
 
@@ -190,92 +169,41 @@ export default {
   margin-top: 5px;
 }
 
-/* Grid */
-.action-grid {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 24px;
-  align-items: start;
-  margin-top: 20px;
-}
-
-/* Left Panel */
-.left-panel {
-  display: flex;
-  flex-direction: column;
-  padding-top: 10px;
+/* Fiscal Year Header */
+.fiscal-year-section {
+  margin-top: 25px;
+  margin-bottom: 20px;
+  max-width: 240px;
 }
 
 .fiscal-year-display {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 1.5rem;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #9e9e9e;
-  margin-bottom: 12px;
+  font-size: 1.70rem;
+  font-family: Arial, sans-serif;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #cbd5e1;
 }
 
 .fiscal-year-display .label {
-  font-weight: 500;
+  font-weight: normal;
+  color: #0f172a;
 }
 
-.fiscal-year-display .year {
-  font-weight: bold;
-}
-
-.archive-dropdown-container {
-  position: relative;
-}
-
-.archive-dropdown {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  cursor: pointer;
-  user-select: none;
-}
-
-.archive-dropdown:hover {
-  color: #3b82f6;
-}
-
-.archive-list {
-  list-style: none;
-  padding: 0;
-  margin: 8px 0 0 0;
+/* Main Details Container */
+.details-panel {
   background: #ffffff;
-  border: 1px solid #9e9e9e;
-  border-radius: 6px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.archive-list li {
-  padding: 10px 16px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-
-.archive-list li:hover {
-  background: #f1f5f9;
-  color: #3b82f6;
-}
-
-.archive-list li:not(:last-child) {
-  border-bottom: 1px solid #e2e8f0;
-}
-
-/* Right side container spacing */
-.right-panel {
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  width: 100%;
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
 }
 
+/* Empty Placeholder */
 .empty-placeholder {
   width: 100%;
   height: 350px;
@@ -413,12 +341,6 @@ export default {
 
 .file-name.clickable {
   cursor: pointer;
-}
-
-.file-actions {
-  display: flex;
-  align-items: center;
-  gap: 24px;
 }
 
 .download-btn, .delete-btn {

@@ -6,12 +6,12 @@
       <div class="modal-header">
         <div class="header-icon">
           <div class="icon-circle">
-            <i class="fas fa-exclamation"></i>
+            <i class="fas fa-edit"></i>
           </div>
         </div>
         <div class="header-text">
-          <h2>Disapprove Activity</h2>
-          <p>You are about to reject: <strong>{{ activityTitle }}</strong></p>
+          <h2>Request Revision</h2>
+          <p>You are requesting revision for: <strong>{{ activityTitle }}</strong></p>
         </div>
       </div>
       
@@ -20,10 +20,10 @@
       <!-- Body -->
       <div class="modal-body">
         <div class="form-group">
-          <label>Reason for Disapproval <span class="required">*</span></label>
+          <label>Reason for Revision <span class="required">*</span></label>
           <textarea 
             v-model="reason" 
-            placeholder="Please provide a detailed reason for disapproval"
+            placeholder="Please provide detailed instructions or reasons for revision"
             maxlength="500"
             rows="6"
           ></textarea>
@@ -31,8 +31,8 @@
         </div>
 
         <div class="form-group inline-group">
-          <label>Rejected By:</label>
-          <input type="text" v-model="rejectedBy" placeholder="Enter name" />
+          <label>Requested By:</label>
+          <input type="text" v-model="requestedBy" placeholder="Enter name" />
         </div>
       </div>
 
@@ -41,7 +41,7 @@
       <!-- Footer -->
       <div class="modal-footer">
         <button class="btn-cancel" @click="$emit('close')">Cancel</button>
-        <button class="btn-confirm" @click="handleConfirm">Disapprove</button>
+        <button class="btn-confirm" @click="handleConfirm">Submit Revision</button>
       </div>
 
     </div>
@@ -50,7 +50,7 @@
 
 <script>
 export default {
-  name: 'RejectModal',
+  name: 'ReviseModal',
   props: {
     activityTitle: {
       type: String,
@@ -60,22 +60,22 @@ export default {
   data() {
     return {
       reason: '',
-      rejectedBy: ''
+      requestedBy: ''
     }
   },
   methods: {
     handleConfirm() {
       if (!this.reason.trim()) {
-        alert("Please provide a reason for rejection.");
+        alert("Please provide a reason for revision.");
         return;
       }
-      if (!this.rejectedBy.trim()) {
-        alert("Please enter the name of the person rejecting.");
+      if (!this.requestedBy.trim()) {
+        alert("Please enter the name of the person requesting revision.");
         return;
       }
       this.$emit('submit', {
         reason: this.reason,
-        rejectedBy: this.rejectedBy
+        requestedBy: this.requestedBy
       });
     }
   }
@@ -117,7 +117,7 @@ export default {
 }
 
 .header-icon {
-  background-color: #fca5a5; /* Light red */
+  background-color: #fef3c7; /* Light amber */
   border-radius: 12px;
   width: 56px;
   height: 56px;
@@ -128,16 +128,16 @@ export default {
 }
 
 .icon-circle {
-  border: 2px solid #991b1b; /* Dark red border */
+  border: 2px solid #b45309; /* Dark amber border */
   border-radius: 50%;
   width: 32px;
   height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #991b1b;
+  color: #b45309;
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .header-text h2 {
@@ -198,8 +198,8 @@ textarea {
 
 textarea:focus {
   outline: none;
-  border-color: #94a3b8;
-  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.2);
+  border-color: #BA7517;
+  box-shadow: 0 0 0 2px rgba(186, 117, 23, 0.2);
 }
 
 textarea::placeholder {
@@ -215,7 +215,7 @@ textarea::placeholder {
   font-weight: 600;
 }
 
-/* Inline Group for Rejected By */
+/* Inline Group */
 .inline-group {
   display: flex;
   align-items: center;
@@ -243,8 +243,8 @@ textarea::placeholder {
 
 .inline-group input:focus {
   outline: none;
-  border-color: #94a3b8;
-  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.2);
+  border-color: #BA7517;
+  box-shadow: 0 0 0 2px rgba(186, 117, 23, 0.2);
 }
 
 /* Footer */
@@ -277,11 +277,11 @@ textarea::placeholder {
 }
 
 .btn-confirm {
-  background-color: #c23321;
+  background-color: #BA7517;
   color: white;
 }
 
 .btn-confirm:hover {
-  background-color: #a02a1b;
+  background-color: #9e6212;
 }
 </style>

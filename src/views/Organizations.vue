@@ -14,8 +14,6 @@
             </div>
           </div>
 
-          <OrgStats :stats="summaryStats" />
-
           <OrgCards 
             :organizations="organizations" 
             :show-manage="canManage"
@@ -42,7 +40,6 @@
 <script>
 import AppHeader from '/src/components/AppHeader.vue'
 import AppSidebar from '/src/components/SideBar.vue'
-import OrgStats from '/src/components/Organizations/OrgStats.vue';
 import OrgCards from '/src/components/Organizations/OrgCards.vue';
 import OrgProfileModal from '/src/components/Organizations/OrgProfileModal.vue';
 import OrgManage from '/src/components/Organizations/OrgManage.vue';
@@ -52,7 +49,6 @@ export default {
   components: {
     AppHeader,
     AppSidebar,
-    OrgStats,
     OrgCards,
     OrgProfileModal,
     OrgManage,

@@ -16,7 +16,6 @@
     <div class="sidebar-card">
       <div class="card-header">
         <h3 class="card-title">Upcoming Activities</h3>
-        <a href="#" class="view-all">View All →</a>
       </div>
       <div class="activity-stack">
         <div v-for="act in upcoming" :key="act.title" class="mini-activity">
@@ -71,7 +70,7 @@ export default {
 
 .card-title {
   font-family: Arial, sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   margin: 0 0 15px 0;
 }
@@ -107,6 +106,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 1rem;
   margin-bottom: 15px;
 }
 

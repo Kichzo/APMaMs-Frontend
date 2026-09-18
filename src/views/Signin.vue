@@ -153,7 +153,7 @@ export default {
           localStorage.setItem("role", "org");
           this.$router.push("/userdashboard");
           break;
-        case "OSD Admin":
+        case "System Administrator":
           localStorage.setItem("role", "admin");
           this.$router.push("/admindashboard");
           break;

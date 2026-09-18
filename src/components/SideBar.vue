@@ -36,7 +36,7 @@ export default {
     const menus = {
       admin: [
         { label: 'Dashboard', icon: 'fas fa-th-large', path: '/admindashboard' },
-        { label: 'Users', icon: 'fas fa-users', path: '/users' },
+        { label: 'Accounts', icon: 'fas fa-users', path: '/accounts' },
         { label: 'Organizations', icon: 'fas fa-building', path: '/organizations' },
         { label: 'Action Plan', icon: 'fas fa-layer-group', path: '/actionplan' }
       ],

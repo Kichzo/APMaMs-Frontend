@@ -30,8 +30,9 @@
             />
           </div>
 
-          <div class="actions">
-            <button class="save-btn" @click="savePlan">Save</button>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" @click="$emit('close')">Cancel</button>
+            <button type="button" class="btn-save" @click="savePlan">Save</button>
           </div>
         </div>
       </div>
@@ -74,7 +75,8 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,10 +86,9 @@ export default {
 .add-card {
   width: 550px;
   background: #ffffff;
-  border: 1px solid #999;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .card-header {
@@ -95,14 +96,14 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .card-header span {
   font-family: Arial, sans-serif;
   font-size: 1.25rem;
-  font-weight: 500;
-  color: #000;
+  font-weight: bold;
+  color: #1e293b;
 }
 
 .close-btn {
@@ -110,7 +111,12 @@ export default {
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
-  color: #000;
+  color: #64748b;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #1e293b;
 }
 
 .form-content {
@@ -125,47 +131,80 @@ label {
   display: block;
   margin-bottom: 12px;
   font-family: Arial, sans-serif;
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #000;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1e293b;
 }
 
 input {
   width: 100%;
-  padding: 16px 20px;
-  border: 1px solid #c5c5c5;
-  border-radius: 14px;
+  padding: 14px 18px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
   background: #ffffff;
   font-family: Arial, sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   outline: none;
   box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #001fcc;
 }
 
 input::placeholder {
   color: #a0a0a0;
 }
 
-.actions {
-  text-align: right;
+.modal-actions {
+  display: flex;
+  gap: 16px;
+  width: 100%;
   margin-top: 32px;
+  box-sizing: border-box;
 }
 
-.save-btn {
-  background: #001b94;
-  color: white;
-  border: none;
-  padding: 12px 48px;
-  border-radius: 12px;
-  font-family: Arial, sans-serif;
-  font-size: 1.1rem;
-  font-weight: bold;
+.btn-cancel {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 0.2s;
+  box-sizing: border-box;
 }
 
-.save-btn:hover {
-  background: #001575;
+.btn-cancel:hover {
+  background-color: #f8fafc;
+}
+
+.btn-save {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background-color: #001fcc;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  box-sizing: border-box;
+}
+
+.btn-save:hover {
+  background-color: #0019a3;
+}
+
+.btn-save:active {
+  transform: translateY(1px);
 }
 
 /* ANIMATION */

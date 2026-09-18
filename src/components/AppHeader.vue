@@ -60,7 +60,7 @@ export default {
 
 <style scoped>
 .header {
-    background: #edf4ff;
+    background: hsl(217, 100%, 96%);
     display: flex;
     justify-content: space-between;
     align-items: center;

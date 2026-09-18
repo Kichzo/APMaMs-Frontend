@@ -1,25 +1,20 @@
 <template>
-  <div class="add-user-page">
-    <button class="back-button" @click="$emit('back')">
-      <i class="fas fa-arrow-left"></i>
-    </button>
-
-    <div class="form-container">
-      <div class="form-header">
-        <h1>New User</h1>
-        <p>Join your student organization on APMaMS</p>
+  <div class="modal-overlay" @click.self="$emit('close')">
+    <div class="add-user-modal">
+      <div class="modal-header">
+        <h2>Create User Account</h2>
       </div>
 
       <form @submit.prevent="handleSubmit" class="user-form">
         <div class="form-grid">
           <!-- Row 1: Full Name & Last Name -->
           <div class="form-group">
-            <label for="fullName">Full Name</label>
+            <label for="fullName">First Name</label>
             <input 
               type="text" 
               id="fullName" 
               v-model="formData.fullName" 
-              placeholder="Kian"
+              placeholder="First Name"
               required
             />
           </div>
@@ -29,16 +24,15 @@
               type="text" 
               id="lastName" 
               v-model="formData.lastName" 
-              placeholder="Estenzo"
+              placeholder="Last Name"
               required
             />
           </div>
 
-          <!-- Row 2: Email Address & Organization -->
-          <div class="form-group">
+          <!-- Row 2: Email Address -->
+          <div class="form-group full-width">
             <label for="email">Email Address</label>
             <div class="input-with-icon">
-              <i class="far fa-envelope icon"></i>
               <input 
                 type="email" 
                 id="email" 
@@ -48,10 +42,11 @@
               />
             </div>
           </div>
-          <div class="form-group">
+
+          <!-- Row 3: Organization -->
+          <div class="form-group full-width">
             <label for="organization">Organization</label>
             <div class="input-with-icon custom-dropdown" v-click-outside="closeDropdown">
-              <i class="fas fa-graduation-cap icon"></i>
               <div 
                 class="dropdown-selected" 
                 :class="{ 'placeholder': !formData.organization }"
@@ -73,17 +68,16 @@
             </div>
           </div>
 
-          <!-- Row 3: Role & Status -->
+          <!-- Row 4: Role & Status -->
           <div class="form-group">
             <label for="role">Role</label>
             <div class="input-with-icon custom-dropdown" v-click-outside="closeRoleDropdown">
-              <i class="fas fa-users icon"></i>
               <div 
                 class="dropdown-selected" 
                 :class="{ 'placeholder': !formData.role }"
                 @click="toggleRoleDropdown"
               >
-                {{ formData.role || 'Member' }}
+                {{ formData.role || 'Select Role' }}
               </div>
               <div v-if="roleDropdownOpen" class="dropdown-options">
                 <div 
@@ -100,16 +94,17 @@
           </div>
           <div class="form-group">
             <label for="status">Status</label>
-            <div class="input-with-icon">
+            <div class="select-wrapper">
               <select id="status" v-model="formData.status" required>
                 <option value="" disabled selected>Active</option>
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>
               </select>
+              <i class="fas fa-chevron-down select-arrow"></i>
             </div>
           </div>
 
-          <!-- Row 4: Password & Confirm Password -->
+          <!-- Row 5: Password & Confirm Password -->
           <div class="form-group">
             <label for="password">Password</label>
             <div class="input-with-icon">
@@ -153,12 +148,11 @@
           </label>
         </div>
 
-        <button type="submit" class="submit-button">Create Account</button>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" @click="$emit('close')">Cancel</button>
+          <button type="submit" class="btn-save">Create Account</button>
+        </div>
       </form>
-    </div>
-
-    <div class="page-footer">
-      Mindanao State University at Naawan
     </div>
   </div>
 </template>
@@ -244,97 +238,92 @@ export default {
 </script>
 
 <style scoped>
-.add-user-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Changed from center to allow scrolling from top */
-  height: 100%;
-  overflow-y: auto;
-  background-color: #fcfcfc;
-  font-family: Arial, sans-serif;
-  padding: 80px 20px; /* Increased top padding for better spacing when scrolled */
-  position: relative;
-}
-
-.back-button {
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #000;
-  cursor: pointer;
-  padding: 10px;
-  transition: transform 0.2s;
-}
-
-.back-button:hover {
-  transform: translateX(-5px);
-}
-
-.form-container {
-  background-color: #ffffff;
-  border-radius: 24px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 650px;
-  padding: 48px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.form-header {
-  margin-bottom: 40px;
+.add-user-modal {
+  background: white;
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: modalScale 0.3s ease-out;
 }
 
-.form-header h1 {
+@keyframes modalScale {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
   font-family: Arial, sans-serif;
-  font-size: 2.25rem;
-  margin: 0;
-  color: #000;
+  font-size: 1.5rem;
   font-weight: 700;
-}
-
-.form-header p {
-  color: #666;
-  font-size: 1.1rem;
-  margin-top: 8px;
+  margin: 0;
+  color: #1e293b;
 }
 
 .user-form {
+  padding: 28px 32px 32px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px 24px;
+  gap: 16px 20px;
+}
+
+.full-width {
+  grid-column: span 2;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .form-group label {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  color: #000;
+  color: #1e293b;
 }
 
 .form-group input,
 .form-group select {
-  background-color: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 14px 16px;
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
   font-size: 0.95rem;
-  color: #1a1a1a;
+  color: #1e293b;
   outline: none;
-  transition: all 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group input::placeholder {
@@ -343,28 +332,16 @@ export default {
 
 .form-group input:focus,
 .form-group select:focus {
-  background-color: #fff;
   border-color: #2563eb;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .input-with-icon {
   position: relative;
   display: flex;
   align-items: center;
-}
-
-.input-with-icon .icon {
-  position: absolute;
-  left: 16px;
-  color: #9ca3af;
-  font-size: 1.1rem;
-}
-
-.input-with-icon input,
-.input-with-icon select {
-  padding-left: 48px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .input-with-icon .icon-right {
@@ -380,24 +357,22 @@ export default {
   color: #374151;
 }
 
-/* Custom select styling to hide default arrow in some cases or position icon */
-/* Custom Dropdown Styles */
 .custom-dropdown {
   cursor: pointer;
   user-select: none;
 }
 
 .dropdown-selected {
-  background-color: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 14px 16px 14px 48px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px 16px;
   font-size: 0.95rem;
-  color: #1a1a1a;
+  color: #1e293b;
   width: 100%;
   box-sizing: border-box;
   transition: all 0.2s;
-  min-height: 50px;
+  min-height: 45px;
   display: flex;
   align-items: center;
 }
@@ -406,28 +381,24 @@ export default {
   color: #9ca3af;
 }
 
-.custom-dropdown:hover .dropdown-selected {
-  border-color: #d1d5db;
-}
-
 .dropdown-options {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 4px);
   left: 0;
   right: 0;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   z-index: 100;
-  max-height: 200px;
+  max-height: 180px;
   overflow-y: auto;
-  padding: 8px;
+  padding: 6px;
 }
 
 .dropdown-option {
-  padding: 12px 16px;
-  border-radius: 8px;
+  padding: 10px 14px;
+  border-radius: 6px;
   font-size: 0.9rem;
   color: #374151;
   transition: all 0.2s;
@@ -447,42 +418,36 @@ export default {
   transform: translateY(-50%) rotate(180deg);
 }
 
-/* Custom Scrollbar for dropdown */
-.dropdown-options::-webkit-scrollbar {
-  width: 6px;
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
-.dropdown-options::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.dropdown-options::-webkit-scrollbar-thumb {
-  background: #e5e7eb;
-  border-radius: 10px;
-}
-
-.dropdown-options::-webkit-scrollbar-thumb:hover {
-  background: #d1d5db;
-}
-
-select {
+.select-wrapper select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  background-size: 16px;
+  padding-right: 40px;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 16px;
+  color: #64748b;
+  pointer-events: none;
+  font-size: 0.8rem;
 }
 
 .terms-checkbox {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  margin-top: 8px;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 .terms-checkbox input {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   margin-top: 2px;
   cursor: pointer;
   accent-color: #001fcc;
@@ -490,58 +455,70 @@ select {
 
 .terms-checkbox label {
   font-size: 0.8rem;
-  color: #374151;
+  color: #475569;
   line-height: 1.4;
 }
 
-.submit-button {
-  background-color: #001fcc;
-  color: #ffffff;
-  border: none;
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: all 0.2s;
-  box-shadow: 0 4px 12px rgba(0, 31, 204, 0.2);
+.modal-actions {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  margin-top: 12px;
+  box-sizing: border-box;
 }
 
-.submit-button:hover {
-  background-color: #0019a3;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 31, 204, 0.3);
-}
-
-.submit-button:active {
-  transform: translateY(0);
-}
-
-.page-footer {
-  margin-top: 40px;
-  color: #9ca3af;
+.btn-cancel {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #1e293b;
+  font-weight: 600;
   font-size: 0.95rem;
-  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-sizing: border-box;
 }
 
-/* Responsive adjustments */
+.btn-cancel:hover {
+  background-color: #f8fafc;
+}
+
+.btn-save {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background-color: #001fcc;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  box-sizing: border-box;
+}
+
+.btn-save:hover {
+  background-color: #0019a3;
+}
+
+.btn-save:active {
+  transform: translateY(1px);
+}
+
 @media (max-width: 640px) {
   .form-grid {
     grid-template-columns: 1fr;
   }
-  
-  .form-container {
-    padding: 30px 24px;
+  .full-width {
+    grid-column: span 1;
   }
-  
-  .back-button {
-    top: 20px;
-    left: 20px;
-  }
-  
-  .form-header h1 {
-    font-size: 1.75rem;
+  .add-user-modal {
+    width: calc(100% - 32px);
+    margin: 16px;
   }
 }
 </style>
